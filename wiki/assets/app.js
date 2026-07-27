@@ -37,7 +37,9 @@ var BOOTH_LORE = window.BOOTH_LORE || { curse: [], carnac: [], upsideDown: [] };
 var DRIVER_DOSSIERS = window.DRIVER_DOSSIERS || {};
 var DRIVER_CARSHOTS = window.DRIVER_CARSHOTS || {};
 var DRIVER_ART = window.DRIVER_ART || { drivers: {}, count: 0, policy: "" };
+var OWNER_DRIVER_IMAGES = window.OWNER_DRIVER_IMAGES || { drivers: {}, policy: "" };
 var CURRENT_ROSTER = window.CURRENT_ROSTER || { members: [], sources: [], appearanceDistribution: {} };
+var SEASON_RULES = window.SEASON_RULES || {};
 var RECEIPT_MATRIX = window.RECEIPT_MATRIX || [];
 var HOT100 = window.HOT100 || { entries: [], method: {}, deferrals: [] };
 var ENTITY_REGISTRY = window.ENTITY_REGISTRY || { aliases: [], collisions: [], corrections: [], pronunciations: {} };
@@ -476,6 +478,10 @@ function carshotOf(slug) {
   var shot = (DRIVER_CARSHOTS.drivers || DRIVER_CARSHOTS)[slug] || null;
   return shot && (!shot.reviewStatus || shot.reviewStatus === "approved") ? shot : null;
 }
+function ownerDriverImageOf(slug) {
+  var image = (OWNER_DRIVER_IMAGES.drivers || {})[slug] || null;
+  return image && image.reviewStatus === "owner-approved-identity-art" ? image : null;
+}
 function driverArtOf(slug) {
   var art = (DRIVER_ART.drivers || {})[slug] || null;
   return art && art.vehicle === "truck" && art.reviewStatus === "placeholder-number-matched" ? art : null;
@@ -491,17 +497,26 @@ function shotSrc(shot) {
 }
 function driverVisual(d, extraClass) {
   var dossier = dossierOf(d.id) || {};
+  var ownerImage = ownerDriverImageOf(d.id);
   var art = driverArtOf(d.id);
   var shot = carshotOf(d.id);
   var number = dossier.primaryNumber;
   if (art && number && numberSortValue(art.number) !== numberSortValue(number)) art = null;
-  var src = art ? art.path : shotSrc(shot);
+  var src = ownerImage ? ownerImage.path : art ? art.path : shotSrc(shot);
   if (src) {
-    return '<div class="driver-visual has-shot ' + (art ? "has-library-art " : "") + (extraClass || "") + '"' +
-      (art ? ' title="' + esc(art.matchBasis) + '"' : "") + '>' +
-      '<img loading="lazy" src="' + esc(src) + '" alt="' + (art ? "Historical number-matched truck placeholder for " : "Approved official-tape frame associated with ") + esc(d.name) + '">' +
-      (number ? '<span class="dv-number">#' + esc(number) + '</span>' : "") +
-      '<span class="dv-proof">' + (art ? "PAINT LIBRARY · PLACEHOLDER" : "OFFICIAL TAPE FRAME") + '</span></div>';
+    var imageNumber = (ownerImage && ownerImage.number) || number;
+    var proof = ownerImage
+      ? "OWNER SELECTED" + (ownerImage.currentSeasonSchemeCertified ? " · CURRENT SCHEME" : " · IDENTITY ART")
+      : art ? "PAINT LIBRARY · PLACEHOLDER" : "OFFICIAL TAPE FRAME";
+    var altPrefix = ownerImage
+      ? "League-owner-selected truck image for "
+      : art ? "Historical number-matched truck placeholder for " : "Approved official-tape frame associated with ";
+    return '<div class="driver-visual has-shot ' + (ownerImage ? "has-owner-art " : "") +
+      (art ? "has-library-art " : "") + (extraClass || "") + '"' +
+      ((ownerImage || art) ? ' title="' + esc((ownerImage || art).matchBasis) + '"' : "") + '>' +
+      '<img loading="lazy" src="' + esc(src) + '" alt="' + altPrefix + esc(d.name) + '">' +
+      (imageNumber ? '<span class="dv-number">#' + esc(imageNumber) + '</span>' : "") +
+      '<span class="dv-proof">' + proof + '</span></div>';
   }
   return '<div class="driver-visual number-card ' + (extraClass || "") + '">' +
     (number ? '<span class="dv-hash">#</span><b>' + esc(number) + '</b>' : '<b class="dv-initials">' + esc(initials(d.name)) + '</b>') +
@@ -1182,7 +1197,7 @@ function vHome() {
 
   html += '<section class="hero"><div class="wrap">' +
     '<div class="hero-logo"><img src="' + esc(SHOW.brand.seriesLogo || SHOW.brand.logo) + '" alt="VRL Premiere Series logo"></div>' +
-    "<div>" +
+    '<div class="hero-command">' +
     '<div class="kicker">' + esc(SHOW.product) + " PRESENTS · A LIVING WIKI</div>" +
     "<h1>Vigilante <span class=\"r\">Racing</span> League</h1>" +
     '<p class="tag">' + esc(SHOW.tagline || "") + "</p>" +
@@ -1194,7 +1209,12 @@ function vHome() {
     '<div class="stat"><b>' + Math.round(hours / 3600) + "</b><span>Hours of tape</span></div>" +
     '<div class="stat"><b>' + DRIVERS.length + "</b><span>Driver dossiers</span></div>" +
     (moms.length ? '<div class="stat"><b>' + moms.length + "</b><span>Logged moments</span></div>" : "") +
-    "</div></div></div></section>";
+    '</div></div><nav class="hero-pitwall" aria-label="Primary archive routes"><span>PIT WALL</span>' +
+    '<a href="#/watch"><b>01</b><strong>WATCH</strong><em>Find tonight&rsquo;s race</em></a>' +
+    '<a href="#/drivers/current"><b>02</b><strong>GRID</strong><em>Meet Season 15</em></a>' +
+    '<a href="#/tape"><b>03</b><strong>ASK</strong><em>Question the tape</em></a>' +
+    '<a href="#/scene"><b>04</b><strong>SCENE</strong><em>Read race week</em></a>' +
+    '</nav></div></section>';
 
   html += '<div class="wrap">' + partnerBand();
 
@@ -1837,11 +1857,26 @@ function vSeason(label) {
     var reel = highlightOf(race.id);
     return sum + ((reel && reel.fastRecap && reel.fastRecap.editDurationSeconds) || 0);
   }, 0);
+  var rules = SEASON_RULES[label] || null;
+  var rulesHtml = rules ? '<section class="season-rulebook" aria-labelledby="seasonRulebookTitle"><header><span>RACE CONTROL / OWNER-SUPPLIED RULEBOOK</span><h2 id="seasonRulebookTitle">' +
+    esc(label.toUpperCase()) + ' COMPETITION FORMAT</h2><p>Published as league-owner guidance, separate from inferred broadcast facts and from the official results ledger.</p></header><div class="season-rulebook-tower"><div><b>' +
+    rules.schedule.totalWeeks + '</b><span>WEEK SEASON</span></div><div><b>' +
+    rules.schedule.regularSeasonRaces + '</b><span>REGULAR</span></div><div><b>' +
+    rules.schedule.chaseRaces + '</b><span>CHASE</span></div><div><b>' +
+    rules.drops.count + '</b><span>DROP WEEKS / R1–R12</span></div></div><div class="season-rulebook-lines"><article><span>QUALIFICATION</span><b>' +
+    esc(rules.qualification.label.toUpperCase()) + '</b><p>' + esc(rules.qualification.context) +
+    '</p></article>' + rules.bonuses.map(function (bonus) {
+      return '<article><span>BONUS</span><b>+' + bonus.points + ' / ' + esc(bonus.label.toUpperCase()) +
+        '</b><p>' + esc(bonus.condition) + '</p></article>';
+    }).join("") + '</div><details><summary>RULEBOOK EVIDENCE BOUNDARY</summary><ul>' +
+    rules.limitations.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join("") +
+    '</ul></details></section>' : "";
   var html = '<div class="wrap">' +
     '<div class="crumb"><a href="#/seasons">SEASONS</a> / ' + esc(label).toUpperCase() + "</div>" +
     '<h2 class="page">' + esc(label) + '</h2>' +
     '<p class="page-sub">' + s.races.length + " canonical events · Called by " + esc(e.name) +
     (winners.length ? " · " + winners.length + " receipt-verified winners" : "") + "</p>" +
+    rulesHtml +
     (annual
       ? '<a class="season-publication-cta flashback" href="#/flashback/' +
         annual.seasonNumber + '"><span>THE COMPLETE YEAR IN REVIEW</span><b>OPEN VIGILANTE FLASHBACK SEASON ' +
@@ -4151,6 +4186,7 @@ function vHallDossiers() {
 function currentRosterCard(member) {
   var d = driverById(member.driverId);
   if (!d) return "";
+  var ownerImage = ownerDriverImageOf(member.driverId);
   var libraryArt = driverArtOf(member.driverId);
   var rawShot = (DRIVER_CARSHOTS.drivers || {})[member.driverId] || null;
   var shotPath = rawShot && shotSrc(rawShot);
@@ -4160,11 +4196,16 @@ function currentRosterCard(member) {
     var position = +appearance.position;
     return isFinite(position) && position > 0 && position <= 10;
   });
-  var visualStatus = approved && shotPath ? "approved"
+  var visualStatus = ownerImage ? "owner-approved"
+    : approved && shotPath ? "approved"
     : libraryArt ? "owner"
     : shotPath ? "candidate"
     : "missing";
-  var visual = approved && shotPath
+  var visual = ownerImage
+    ? '<div class="roster-shot owner-approved"><img loading="lazy" src="' +
+      esc(ownerImage.path) + '" alt="League-owner-selected truck image for ' + esc(member.name) + '">' +
+      '<span>OWNER SELECTED / ' + esc(ownerImage.eraLabel || "IDENTITY ART") + '</span></div>'
+    : approved && shotPath
     ? '<div class="roster-shot approved"><img loading="lazy" src="' +
       esc(shotPath) + '" alt="Approved official broadcast frame associated with ' + esc(member.name) + '">' +
       '<span>OFFICIAL TAPE FRAME</span></div>'
@@ -4190,7 +4231,9 @@ function currentRosterCard(member) {
     esc(member.driverId) + '">OPEN DOSSIER</a><button onclick="__playReceipt(\'' +
     esc(latest.sourceId) + '\',' + (latest.t || 0) + ',' + (latest.end || 0) +
     ',\'SEASON 15 RESULTS\')">PLAY LATEST RESULT</button></div>' +
-    (!approved && libraryArt ? '<small>Historical number-matched truck art from the owner paint library; it is not certified as this driver&rsquo;s current Season 15 scheme.</small>' :
+    (ownerImage ? '<small>' + esc(ownerImage.matchBasis) + ' ' +
+      (ownerImage.currentSeasonSchemeCertified ? "Certified as the current scheme." : "Identity-approved; not certified as the current Season 15 livery.") + '</small>' :
+    !approved && libraryArt ? '<small>Historical number-matched truck art from the owner paint library; it is not certified as this driver&rsquo;s current Season 15 scheme.</small>' :
     rawShot && !approved ? '<small>Vehicle identity is a human-review candidate from official VRL tape, not an automated identification claim. <button onclick="__play(\'' +
       esc(rawShot.raceId) + '\',' + (rawShot.t || 0) + ')">REVIEW FRAME SOURCE</button></small>' : '') +
     '</div></article>';

@@ -2635,3 +2635,215 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   .driver-press-grid { grid-template-columns: 1fr; }
   .driver-press-card { grid-template-rows: 135px 1fr; min-height: 275px; }
 }
+
+/* ------------------------------------------------------ RACE CONTROL V33 */
+/* Hard-edged racing geometry: timing tower, pit wall and scoring sheet. */
+:where(.card,.recap,.season-film,.dossier-ledger,.driver-dossier-hero,.current-driver-card,.ranking-entry,.race-fact) {
+  border-radius: 2px;
+}
+.card,.current-driver-card,.ranking-entry {
+  clip-path: polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,0 100%);
+}
+.driver-visual.has-owner-art {
+  border-color: rgba(244,196,48,.7);
+  background: #08090c;
+}
+.driver-visual.has-owner-art:before {
+  content: "OWNER SELECTED";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 0;
+  padding: 5px 9px;
+  background: var(--gold);
+  color: #090a0d;
+  font: 800 8px var(--mono);
+  letter-spacing: 1px;
+}
+.driver-visual.has-owner-art img { filter: saturate(1.05) contrast(1.06); }
+.roster-shot.owner-approved { border-bottom: 4px solid var(--gold); }
+.roster-shot.owner-approved span { background: rgba(9,10,13,.9); color: var(--gold); }
+
+.season-rulebook {
+  position: relative;
+  margin: 28px 0;
+  border: 1px solid #465064;
+  border-left: 8px solid var(--gold);
+  background:
+    linear-gradient(90deg,rgba(244,196,48,.07),transparent 32%),
+    repeating-linear-gradient(0deg,transparent 0 42px,rgba(255,255,255,.025) 42px 43px),
+    #10141c;
+  box-shadow: 12px 12px 0 #07080a;
+}
+.season-rulebook:before {
+  content: "15";
+  position: absolute;
+  right: 18px;
+  top: -30px;
+  color: rgba(255,255,255,.04);
+  font: 180px/.9 var(--disp);
+  pointer-events: none;
+}
+.season-rulebook>header { position: relative; padding: 24px 28px 18px; border-bottom: 1px solid #394253; }
+.season-rulebook>header span { color: var(--gold); font: 800 9px var(--mono); letter-spacing: 2px; }
+.season-rulebook h2 { margin: 5px 0 2px; font: clamp(32px,5vw,54px)/.95 var(--disp); letter-spacing: 1px; }
+.season-rulebook>header p { max-width: 720px; margin: 8px 0 0; color: #aab2bf; }
+.season-rulebook-tower { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid #394253; }
+.season-rulebook-tower>div { padding: 16px 22px; border-right: 1px solid #394253; }
+.season-rulebook-tower>div:last-child { border-right: 0; }
+.season-rulebook-tower b { display: block; color: #fff; font: 42px/.9 var(--disp); }
+.season-rulebook-tower span { color: #8f99a8; font: 800 8px var(--mono); letter-spacing: 1px; }
+.season-rulebook-lines { display: grid; grid-template-columns: repeat(3,1fr); }
+.season-rulebook-lines article { padding: 19px 22px; border-right: 1px solid #394253; }
+.season-rulebook-lines article:last-child { border-right: 0; }
+.season-rulebook-lines span { color: var(--red-hot); font: 800 8px var(--mono); letter-spacing: 2px; }
+.season-rulebook-lines b { display: block; margin: 4px 0; font: 25px/1 var(--disp); }
+.season-rulebook-lines p { margin: 6px 0 0; color: #aab2bf; font-size: 13px; }
+.season-rulebook details { padding: 13px 22px; border-top: 1px solid #394253; color: #9da6b3; }
+.season-rulebook summary { cursor: pointer; color: #d8dde5; font: 800 9px var(--mono); letter-spacing: 1px; }
+.season-rulebook li { margin: 5px 0; }
+
+.hero {
+  min-height: 575px;
+  padding: 74px 0 52px;
+  border-bottom: 1px solid #303747;
+  background:
+    linear-gradient(90deg,rgba(5,6,8,.96),rgba(8,10,14,.68) 54%,rgba(5,6,8,.96)),
+    repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.018) 79px 80px);
+}
+.hero:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  height: 4px;
+  background: linear-gradient(90deg,var(--red) 0 26%,transparent 26% 28%,var(--blue-lt) 28% 74%,transparent 74% 76%,var(--gold) 76%);
+  opacity: .8;
+}
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 210px minmax(0,1fr) 210px;
+  gap: clamp(24px,4vw,58px);
+  align-items: stretch;
+  max-width: 1400px;
+}
+.hero-logo {
+  display: grid;
+  align-content: start;
+  padding-top: 42px;
+  border-right: 1px solid #333a4b;
+}
+.hero-logo img { width: 170px; }
+.hero-command { align-self: center; min-width: 0; }
+.hero-command h1 { max-width: 760px; font-size: clamp(58px,7.2vw,106px); }
+.hero-command .stat-row {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 0;
+  margin-top: 26px;
+  border-top: 1px solid #3a4254;
+  border-bottom: 1px solid #3a4254;
+}
+.hero-command .stat { min-height: 74px; padding: 11px 14px; border-right: 1px solid #3a4254; border-bottom: 1px solid #252b38; }
+.hero-command .stat:nth-child(3n) { border-right: 0; }
+.hero-command .stat:nth-last-child(-n+3) { border-bottom: 0; }
+.hero-command .stat b { font-size: 34px; }
+.hero-pitwall {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  border-top: 5px solid var(--red);
+  border-bottom: 5px solid var(--blue);
+  background: #0d1017;
+  box-shadow: 10px 10px 0 #050608;
+}
+.hero-pitwall>span { padding: 10px 12px; color: var(--gold); font: 800 9px var(--mono); letter-spacing: 2px; }
+.hero-pitwall>a {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 0 8px;
+  min-height: 70px;
+  padding: 12px;
+  border-top: 1px solid #333a49;
+  color: #fff;
+}
+.hero-pitwall>a:hover { background: var(--red); color: #fff; }
+.hero-pitwall b { grid-row: 1/3; color: var(--gold); font: 26px var(--disp); }
+.hero-pitwall strong { font: 23px/1 var(--disp); letter-spacing: 1px; }
+.hero-pitwall em { color: #8992a0; font-size: 11px; font-style: normal; }
+.hero-pitwall>a:hover b,.hero-pitwall>a:hover em { color: #fff; }
+
+.driver-dossier-hero {
+  position: relative;
+  border-radius: 0;
+  border-left: 8px solid var(--red);
+  background:
+    linear-gradient(90deg,rgba(232,48,42,.12),transparent 35%),
+    repeating-linear-gradient(0deg,transparent 0 55px,rgba(255,255,255,.025) 55px 56px),
+    #10141d;
+  clip-path: polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%);
+}
+.driver-dossier-hero:before {
+  content: "GARAGE  /  IDENTITY BAY";
+  position: absolute;
+  right: 30px;
+  top: 12px;
+  color: rgba(255,255,255,.08);
+  font: 800 8px var(--mono);
+  letter-spacing: 3px;
+}
+.dd-art .hero-shot { border-radius: 0; }
+.career-gauge>div { border-radius: 0; transform: skew(-4deg); }
+.career-gauge>div>* { transform: skew(4deg); }
+.dossier-ledger {
+  gap: 0;
+  border-top: 1px solid #3b4354;
+  border-bottom: 1px solid #3b4354;
+}
+.dossier-ledger>div { border-radius: 0; border: 0; border-right: 1px solid #3b4354; background: #0d1017; }
+.dossier-ledger>div:last-child { border-right: 0; }
+
+.ranking-field .ranking-entry:not(.podium) {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #343b4b;
+  border-left: 5px solid var(--rank-accent);
+  border-radius: 0;
+  background: linear-gradient(90deg,color-mix(in srgb,var(--rank-accent) 7%,transparent),transparent 34%);
+  clip-path: none;
+}
+.ranking-field .ranking-entry:not(.podium):hover { background-color: rgba(255,255,255,.025); }
+
+@media (max-width: 760px) {
+  .hero { min-height: 0; padding: 28px 0 30px; }
+  .hero .wrap { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+  .hero-command { display: contents; }
+  .hero-logo { order: 0; padding: 0; border-right: 0; }
+  .hero-command>.kicker { order: 1; }
+  .hero-command>h1 { order: 2; }
+  .hero-command>.tag { order: 3; }
+  .hero-command>.bigsearch { order: 4; }
+  .hero-pitwall { order: 5; }
+  .hero-command>.stat-row { order: 6; }
+  .hero-logo img { width: 92px; }
+  .hero-command h1 { font-size: clamp(44px,15vw,66px); }
+  .hero-command .bigsearch { margin-left: 0; margin-right: 0; }
+  .hero-command .stat-row { grid-template-columns: repeat(2,1fr); }
+  .hero-command .stat:nth-child(3n) { border-right: 1px solid #3a4254; }
+  .hero-command .stat:nth-child(2n) { border-right: 0; }
+  .hero-command .stat:nth-last-child(-n+3) { border-bottom: 1px solid #252b38; }
+  .hero-command .stat:nth-last-child(-n+2) { border-bottom: 0; }
+  .hero-pitwall { width: 100%; box-shadow: 6px 6px 0 #050608; }
+  .nav-logo,.nav-toggle,.home-toolbelt a,.btn { min-height: 44px; }
+  .season-rulebook { box-shadow: 6px 6px 0 #07080a; }
+  .season-rulebook>header { padding: 20px 18px 14px; }
+  .season-rulebook-tower { grid-template-columns: repeat(2,1fr); }
+  .season-rulebook-tower>div:nth-child(2) { border-right: 0; }
+  .season-rulebook-tower>div:nth-child(-n+2) { border-bottom: 1px solid #394253; }
+  .season-rulebook-lines { grid-template-columns: 1fr; }
+  .season-rulebook-lines article { border-right: 0; border-bottom: 1px solid #394253; }
+  .driver-dossier-hero { border-left-width: 5px; }
+  .career-gauge>div { transform: none; }
+  .career-gauge>div>* { transform: none; }
+  .dossier-ledger>div { border-right: 0; border-bottom: 1px solid #3b4354; }
+}
