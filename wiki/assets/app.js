@@ -1614,6 +1614,25 @@ function vSceneIndex() {
   $app.innerHTML = html;
 }
 
+function scenePhotoDesk(issue) {
+  var frames = issue.photoEssay || [];
+  if (!frames.length) return "";
+  return '<section class="scene-photo-desk"><header><div><span>THE BROADCAST CONTACT SHEET</span>' +
+    '<h2>THREE FRAMES THAT EXPLAIN THE NIGHT</h2></div><p>Each still comes from the eligible official broadcast at the exact time shown. Captions describe visible graphics and action; league certification remains pending.</p></header>' +
+    '<div class="scene-photo-grid">' + frames.map(function (frame, index) {
+      return '<figure class="scene-photo-frame frame-' + (index + 1) + '"><a target="_blank" rel="noopener noreferrer" href="' +
+        esc(frame.exactUrl) + '"><img loading="lazy" src="' + esc(frame.path) + '" alt="' +
+        esc(frame.alt || frame.title) + '"><span>FRAME ' + String(index + 1).padStart(2, "0") +
+        ' / ' + fmtT(frame.t) + ' / OFFICIAL TAPE</span></a><figcaption><div><b>' +
+        esc(frame.title) + '</b><p>' + esc(frame.description) + '</p><small>' +
+        esc(frame.visualBasis || "literal broadcast graphics visible") + ' / ' +
+        esc(frame.identityStatus || "identity not asserted") +
+        '</small></div><button onclick="__play(\'' + esc(frame.sourceId) + '\',' +
+        Number(frame.t || 0) + ')">&#9654; PLAY FROM THIS FRAME</button></figcaption></figure>';
+    }).join("") + '</div><footer><b>PHOTO DESK STATUS</b><span>MACHINE-VISUAL-REVIEWED</span>' +
+    '<em>LEAGUE CERTIFICATION PENDING</em><small>Exact frame does not establish incident fault or causality.</small></footer></section>';
+}
+
 function vSceneIssue(value) {
   var issue = sceneIssueById(value);
   if (!issue) {
@@ -1624,6 +1643,7 @@ function vSceneIssue(value) {
   var previous = position > 0 ? issues[position - 1] : null;
   var next = position < issues.length - 1 ? issues[position + 1] : null;
   var reel = highlightOf(issue.eventId);
+  var heroFrame = (issue.photoEssay || [])[Number(issue.heroFrameIndex || 0)] || null;
   var html = '<div class="scene-paper"><div class="wrap"><div class="crumb scene-crumb"><a href="#/scene">VIGILANTE SCENE</a> / ISSUE ' +
     String(issue.issueNumber).padStart(2, "0") + '</div><header class="scene-masthead"><div><span>THE WEEKLY RECORD OF THE WEDNESDAY NIGHT WARS</span>' +
     '<h1>VIGILANTE <i>SCENE</i></h1></div><section><b>' + esc(fmtDate(issue.date).toUpperCase()) +
@@ -1632,10 +1652,14 @@ function vSceneIssue(value) {
     ' FEATURED RECEIPTS</small></section></header>' +
     '<div class="scene-rule"><span>' + esc(issue.track || "TRACK UNCONFIRMED") + '</span><b>' +
     esc(issue.raceTitle) + '</b><em>RESULTS AND STORY CLAIMS ROUTED TO OFFICIAL TAPE</em></div>' +
-    '<section class="scene-splash"><img src="' + esc(issue.heroImage) + '" alt="Official broadcast thumbnail for ' +
-    esc(issue.raceTitle) + '"><div><span>' + esc(issue.cover.coverLine) + '</span><h2>' +
+    '<section class="scene-splash">' + (heroFrame ? '<a class="scene-splash-media" target="_blank" rel="noopener noreferrer" href="' +
+    esc(heroFrame.exactUrl) + '"><img src="' + esc(issue.heroImage) + '" alt="' +
+    esc(heroFrame.alt || ("Official broadcast frame for " + issue.raceTitle)) + '"><span>EXACT BROADCAST FRAME / ' +
+    fmtT(heroFrame.t) + ' / OPEN SOURCE &#8599;</span></a>' : '<img src="' + esc(issue.heroImage) +
+    '" alt="Official broadcast thumbnail for ' + esc(issue.raceTitle) + '">') +
+    '<div><span>' + esc(issue.cover.coverLine) + '</span><h2>' +
     esc(issue.cover.headline) + '</h2><p>' + esc(issue.cover.deck) +
-    '</p><small>Official-source broadcast image / not a driver-identification claim</small></div></section>' +
+    '</p><small>Exact official-source broadcast still / visual labels are not league certification</small></div></section>' +
     '<div class="scene-story-grid"><main><div class="scene-byline"><span>RACE NIGHT LEAD</span><b>BY ' +
     esc(issue.leadStory.byline.toUpperCase()) + '</b></div><h2>' + esc(issue.leadStory.headline) + '</h2>' +
     issue.leadStory.paragraphs.map(function (paragraph, index) {
@@ -1656,6 +1680,7 @@ function vSceneIssue(value) {
       '\',\'fast\')"><span>&#9654;</span><b>WATCH THE FAST RECAP</b><small>' +
       fmtT((reel.fastRecap || {}).editDurationSeconds) + ' / exact-source edit</small></button>' : '') +
     '<a class="scene-file-link" href="#/race/' + esc(issue.eventId) + '">OPEN COMPLETE RACE FILE &rarr;</a></aside></div>' +
+    scenePhotoDesk(issue) +
     '<section class="scene-notebook"><header><span>FROM THE GARAGE</span><h2>THE RACE NOTEBOOK</h2></header><div>' +
     (issue.notebook || []).map(function (note) {
       return '<article><h3>' + esc(note.headline) + '</h3><p>' + esc(note.body) + '</p>' +
