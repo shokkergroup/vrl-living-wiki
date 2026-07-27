@@ -2805,7 +2805,7 @@ function vFiredUp() {
 }
 
 /* ---------------------------------------------------------------- WINNERS */
-function vWinners() {
+function vWinnersLegacy() {
   var SHOTS = window.WINNERSHOTS || [];
   var shotSet = {};
   SHOTS.forEach(function (v) { shotSet[v] = 1; });
@@ -2846,6 +2846,80 @@ function vWinners() {
 
   if (!winners.length) html += '<div class="note">Winners appear as races get distilled.</div>';
   html += "</div>";
+  $app.innerHTML = html;
+}
+
+function vWinners() {
+  var byWinner = {};
+  CANONICAL_RACES.forEach(function (race) {
+    var result = verifiedOrdinaryEventWinner(race);
+    if (result) (byWinner[result.name] = byWinner[result.name] || []).push(race);
+  });
+  var winners = Object.keys(byWinner).map(function (name) {
+    return { name: name, races: byWinner[name] };
+  }).sort(function (a, b) {
+    return b.races.length - a.races.length || a.name.localeCompare(b.name);
+  });
+  var totalWins = winners.reduce(function (sum, winner) { return sum + winner.races.length; }, 0);
+  var championCount = winners.filter(function (winner) {
+    return (TITLES[winner.name] || []).length;
+  }).length;
+  var html = '<div class="winners-page"><section class="victory-lane-hero"><div class="wrap"><div><span>THE RECEIPT-VERIFIED WIN LEDGER</span><h1>VICTORY<br><em>LANE</em></h1><p>Every listed win has bounded, position-specific P1 language on eligible official tape. The order below is archive win count, not an official points table or a claim about unevidenced starts.</p></div><div class="victory-lane-tower"><div><b>' +
+    winners.length + '</b><span>SUPPORTED<br>WINNERS</span></div><div><b>' + totalWins +
+    '</b><span>SUPPORTED<br>VICTORIES</span></div><div><b>' + championCount +
+    '</b><span>TITLE-WINNING<br>DRIVERS</span></div><a href="#/results"><b>R</b><span>OPEN RESULTS<br>ROOM &rarr;</span></a></div></div></section><div class="wrap"><div class="winner-pylon">';
+
+  winners.forEach(function (winner, index) {
+    var driver = driverForResultName(winner.name);
+    var dossier = driver && dossierOf(driver.id) || {};
+    var titles = TITLES[winner.name] || [];
+    var orderedWins = winner.races.slice().sort(function (a, b) {
+      return (b.ts || 0) - (a.ts || 0);
+    });
+    var newest = orderedWins[0];
+    var quickWins = orderedWins.slice(0, 3).map(function (race) {
+      var result = verifiedOrdinaryEventWinner(race);
+      if (!result || !result.receipt) return "";
+      return '<button class="winner-quick-win" onclick="__playReceipt(\'' +
+        esc(result.sourceId) + '\',' + result.receipt.t + ',' + result.receipt.end +
+        ',\'SUPPORTED P1 RECEIPT\')"><span>' + esc((race.seasonLabel || "VRL").toUpperCase()) +
+        ' / ' + esc(fmtDate(race.date).toUpperCase()) + '</span><b>' +
+        esc(race.name || race.title) + '</b><small>&#9654; P1 PROOF / ' +
+        fmtT(result.receipt.t) + '</small></button>';
+    }).join("");
+    var completeLedger = orderedWins.map(function (race) {
+      var result = verifiedOrdinaryEventWinner(race);
+      if (!result || !result.receipt) return "";
+      return '<div class="winner-ledger-row"><a href="#/race/' + esc(race.id) +
+        '"><span>' + esc((race.seasonLabel || "VRL").toUpperCase()) + ' / ' +
+        esc(fmtDate(race.date).toUpperCase()) + '</span><b>' +
+        esc(race.name || race.title) + '</b></a><button onclick="__playReceipt(\'' +
+        esc(result.sourceId) + '\',' + result.receipt.t + ',' + result.receipt.end +
+        ',\'SUPPORTED P1 RECEIPT\')">&#9654; PLAY ' + fmtT(result.receipt.t) +
+        '</button></div>';
+    }).join("");
+    html += '<article class="winner-pylon-row"><div class="winner-pylon-rank"><span>ARCHIVE<br>WIN RANK</span><b>' +
+      String(index + 1).padStart(2, "0") + '</b></div><div class="winner-pylon-visual">' +
+      (driver ? driverVisual(driver, "winner-driver-shot")
+        : '<div class="winner-identity-fallback"><b>' + esc(initials(winner.name)) +
+          '</b><span>CANONICAL DRIVER ART PENDING</span></div>') +
+      '</div><div class="winner-pylon-copy"><span>VICTORY FILE / ' +
+      esc(dossier.primaryNumber ? "#" + dossier.primaryNumber : "NUMBER DEVELOPING") +
+      (newest ? ' / LATEST ' + esc(fmtDate(newest.date).toUpperCase()) : "") +
+      '</span><h2>' + (driver ? '<a href="#/driver/' + esc(driver.id) + '">' +
+      esc(winner.name) + '</a>' : esc(winner.name)) + '</h2>' +
+      (titles.length ? '<div class="winner-title-strip">VRL CHAMPION / ' +
+        titles.map(esc).join(" / ") + '</div>' : "") +
+      '<p><b>' + winner.races.length + '</b> receipt-verified ' +
+      (winner.races.length === 1 ? "victory" : "victories") +
+      ' in the eligible Wednesday championship archive.</p><div class="winner-quick-strip">' +
+      quickWins + '</div><details class="winner-complete-ledger"><summary><span>COMPLETE SCORING SHEET</span><b>OPEN ALL ' +
+      winner.races.length + ' WIN RECEIPTS</b></summary><div>' + completeLedger +
+      '</div></details></div><div class="winner-pylon-count"><b>' +
+      winner.races.length + '</b><span>SUPPORTED<br>P1 CALLS</span></div></article>';
+  });
+  if (!winners.length) html += '<div class="empty">No position-bound winner receipts are published yet.</div>';
+  html += '</div><aside class="winner-evidence-boundary"><b>VICTORY LANE DOES NOT GUESS</b><p>Driver images are separately labeled owner-selected identity art, historical paint placeholders, or approved official-tape frames. An image does not prove a win; the exact bounded P1 receipt beside each race does. Qualifying races and excluded Monday, Friday, or crossover material do not enter this ordinary-event win count.</p></aside></div></div>';
   $app.innerHTML = html;
 }
 
