@@ -62,12 +62,18 @@ var $foot = document.getElementById("foot");
 var DEEP_ARCHIVE_URL = "assets/showcase.js?v=26";
 var RACE_DOSSIERS_URL = "assets/source-dossiers.js?v=26";
 var DRIVER_DOSSIERS_URL = "assets/driver-dossiers.js?v=26";
+var FULL_RESULTS_URL = "assets/full-results-boards.js?v=41a";
+var DRIVER_RANKINGS_URL = "assets/driver-rankings.js?v=26";
 var deepArchivePromise = null;
 var deepArchiveScript = null;
 var raceDossiersPromise = null;
 var raceDossiersScript = null;
 var driverDossiersPromise = null;
 var driverDossiersScript = null;
+var fullResultsPromise = null;
+var fullResultsScript = null;
+var driverRankingsPromise = null;
+var driverRankingsScript = null;
 var routeRequest = 0;
 
 function syncDeepArchiveGlobals() {
@@ -88,6 +94,12 @@ function routeNeedsDriverDossiers(hash) {
   return /^#\/(?:tape|rankings)(?:\/|$)/.test(hash) ||
     /^#\/(?:race|driver|season)\//.test(hash) ||
     /^#\/(?:hall|drivers|visual-garage|winners|records)$/.test(hash);
+}
+function routeNeedsFullResults(hash) {
+  return /^#\/(?:results|race)(?:\/|$)/.test(hash);
+}
+function routeNeedsDriverRankings(hash) {
+  return /^#\/rankings(?:\/|$)/.test(hash) || /^#\/driver\//.test(hash);
 }
 function deepArchiveReady() {
   return !!(window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH);
@@ -158,11 +170,57 @@ function loadDriverDossiers() {
   });
   return driverDossiersPromise;
 }
-function deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers) {
+function loadFullResults() {
+  if (window.FULL_RESULTS_BOARDS) {
+    FULL_RESULTS_BOARDS = window.FULL_RESULTS_BOARDS;
+    return Promise.resolve();
+  }
+  if (fullResultsPromise) return fullResultsPromise;
+  fullResultsPromise = new Promise(function (resolve, reject) {
+    fullResultsScript = document.createElement("script");
+    fullResultsScript.src = FULL_RESULTS_URL;
+    fullResultsScript.async = true;
+    fullResultsScript.dataset.vrlFullResults = "true";
+    fullResultsScript.onload = function () {
+      FULL_RESULTS_BOARDS = window.FULL_RESULTS_BOARDS || { boards: [], summary: {}, methodology: {} };
+      resolve();
+    };
+    fullResultsScript.onerror = function () {
+      reject(new Error("The reviewed full-results boards could not be loaded."));
+    };
+    document.head.appendChild(fullResultsScript);
+  });
+  return fullResultsPromise;
+}
+function loadDriverRankings() {
+  if (window.DRIVER_RANKINGS) {
+    DRIVER_RANKINGS = window.DRIVER_RANKINGS;
+    return Promise.resolve();
+  }
+  if (driverRankingsPromise) return driverRankingsPromise;
+  driverRankingsPromise = new Promise(function (resolve, reject) {
+    driverRankingsScript = document.createElement("script");
+    driverRankingsScript.src = DRIVER_RANKINGS_URL;
+    driverRankingsScript.async = true;
+    driverRankingsScript.dataset.vrlDriverRankings = "true";
+    driverRankingsScript.onload = function () {
+      DRIVER_RANKINGS = window.DRIVER_RANKINGS || { categoryOrder: [], categories: {}, snapshot: {} };
+      resolve();
+    };
+    driverRankingsScript.onerror = function () {
+      reject(new Error("The empirical driver rankings could not be loaded."));
+    };
+    document.head.appendChild(driverRankingsScript);
+  });
+  return driverRankingsPromise;
+}
+function deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers, needsFullResults, needsDriverRankings) {
   var systems = [];
   if (needsDeep) systems.push("Time Machine, Driver DNA, Ghost Telemetry, and Lore Galaxy");
   if (needsRaceDossiers) systems.push("race source dossiers");
   if (needsDriverDossiers) systems.push("driver identity and career files");
+  if (needsFullResults) systems.push("reviewed field-result boards");
+  if (needsDriverRankings) systems.push("empirical Top 25 scorecards");
   return '<div class="archive-ignition route-ignition" role="status" aria-live="polite">' +
     '<div class="archive-ignition-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
     '<span>DEEP ARCHIVE / LOADING EXACT TAPE INTELLIGENCE</span><h1>OPENING THE INNER GARAGE</h1><p>Wiring ' +
@@ -183,6 +241,12 @@ window.__retryDeepArchive = function () {
   driverDossiersPromise = null;
   if (driverDossiersScript) driverDossiersScript.remove();
   driverDossiersScript = null;
+  fullResultsPromise = null;
+  if (fullResultsScript) fullResultsScript.remove();
+  fullResultsScript = null;
+  driverRankingsPromise = null;
+  if (driverRankingsScript) driverRankingsScript.remove();
+  driverRankingsScript = null;
   routeAndSettle();
 };
 
@@ -5189,7 +5253,9 @@ function routeAndSettle() {
   var needsDeep = routeNeedsDeepArchive(hash);
   var needsRaceDossiers = routeNeedsRaceDossiers(hash);
   var needsDriverDossiers = routeNeedsDriverDossiers(hash);
-  if (!needsDeep && !needsRaceDossiers && !needsDriverDossiers) {
+  var needsFullResults = routeNeedsFullResults(hash);
+  var needsDriverRankings = routeNeedsDriverRankings(hash);
+  if (!needsDeep && !needsRaceDossiers && !needsDriverDossiers && !needsFullResults && !needsDriverRankings) {
     route();
     settleRouteView();
     return;
@@ -5197,21 +5263,27 @@ function routeAndSettle() {
   var deepReady = !needsDeep || deepArchiveReady();
   var raceDossiersReady = !needsRaceDossiers || !!window.SOURCE_DOSSIERS;
   var driverDossiersReady = !needsDriverDossiers || !!window.DRIVER_DOSSIERS;
-  if (deepReady && raceDossiersReady && driverDossiersReady) {
+  var fullResultsReady = !needsFullResults || !!window.FULL_RESULTS_BOARDS;
+  var driverRankingsReady = !needsDriverRankings || !!window.DRIVER_RANKINGS;
+  if (deepReady && raceDossiersReady && driverDossiersReady && fullResultsReady && driverRankingsReady) {
     if (needsDeep) syncDeepArchiveGlobals();
     if (needsRaceDossiers) SOURCE_DOSSIERS = window.SOURCE_DOSSIERS || {};
     if (needsDriverDossiers) DRIVER_DOSSIERS = window.DRIVER_DOSSIERS || {};
+    if (needsFullResults) FULL_RESULTS_BOARDS = window.FULL_RESULTS_BOARDS || { boards: [], summary: {}, methodology: {} };
+    if (needsDriverRankings) DRIVER_RANKINGS = window.DRIVER_RANKINGS || { categoryOrder: [], categories: {}, snapshot: {} };
     route();
     settleRouteView();
     return;
   }
   renderNav();
   window.scrollTo(0, 0);
-  $app.innerHTML = deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers);
+  $app.innerHTML = deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers, needsFullResults, needsDriverRankings);
   var loaders = [];
   if (!deepReady) loaders.push(loadDeepArchive());
   if (!raceDossiersReady) loaders.push(loadRaceDossiers());
   if (!driverDossiersReady) loaders.push(loadDriverDossiers());
+  if (!fullResultsReady) loaders.push(loadFullResults());
+  if (!driverRankingsReady) loaders.push(loadDriverRankings());
   Promise.all(loaders).then(function () {
     if (request !== routeRequest) return;
     route();
