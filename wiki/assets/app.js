@@ -61,10 +61,13 @@ var $nav = document.getElementById("nav");
 var $foot = document.getElementById("foot");
 var DEEP_ARCHIVE_URL = "assets/showcase.js?v=26";
 var RACE_DOSSIERS_URL = "assets/source-dossiers.js?v=26";
+var DRIVER_DOSSIERS_URL = "assets/driver-dossiers.js?v=26";
 var deepArchivePromise = null;
 var deepArchiveScript = null;
 var raceDossiersPromise = null;
 var raceDossiersScript = null;
+var driverDossiersPromise = null;
+var driverDossiersScript = null;
 var routeRequest = 0;
 
 function syncDeepArchiveGlobals() {
@@ -80,6 +83,11 @@ function routeNeedsDeepArchive(hash) {
 }
 function routeNeedsRaceDossiers(hash) {
   return /^#\/race(?:\/|$)/.test(hash);
+}
+function routeNeedsDriverDossiers(hash) {
+  return /^#\/(?:tape|rankings)(?:\/|$)/.test(hash) ||
+    /^#\/(?:race|driver|season)\//.test(hash) ||
+    /^#\/(?:hall|drivers|visual-garage|winners|records)$/.test(hash);
 }
 function deepArchiveReady() {
   return !!(window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH);
@@ -128,16 +136,42 @@ function loadRaceDossiers() {
   });
   return raceDossiersPromise;
 }
-function deepArchiveLoadingHtml() {
+function loadDriverDossiers() {
+  if (window.DRIVER_DOSSIERS) {
+    DRIVER_DOSSIERS = window.DRIVER_DOSSIERS;
+    return Promise.resolve();
+  }
+  if (driverDossiersPromise) return driverDossiersPromise;
+  driverDossiersPromise = new Promise(function (resolve, reject) {
+    driverDossiersScript = document.createElement("script");
+    driverDossiersScript.src = DRIVER_DOSSIERS_URL;
+    driverDossiersScript.async = true;
+    driverDossiersScript.dataset.vrlDriverDossiers = "true";
+    driverDossiersScript.onload = function () {
+      DRIVER_DOSSIERS = window.DRIVER_DOSSIERS || {};
+      resolve();
+    };
+    driverDossiersScript.onerror = function () {
+      reject(new Error("The driver archive dossiers could not be loaded."));
+    };
+    document.head.appendChild(driverDossiersScript);
+  });
+  return driverDossiersPromise;
+}
+function deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers) {
+  var systems = [];
+  if (needsDeep) systems.push("Time Machine, Driver DNA, Ghost Telemetry, and Lore Galaxy");
+  if (needsRaceDossiers) systems.push("race source dossiers");
+  if (needsDriverDossiers) systems.push("driver identity and career files");
   return '<div class="archive-ignition route-ignition" role="status" aria-live="polite">' +
     '<div class="archive-ignition-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
-    '<span>DEEP ARCHIVE / LOADING EXACT TAPE INTELLIGENCE</span><h1>OPENING THE INNER GARAGE</h1>' +
-    '<p>Wiring Time Machine, Driver DNA, Ghost Telemetry, and the Lore Galaxy&hellip;</p>' +
+    '<span>DEEP ARCHIVE / LOADING EXACT TAPE INTELLIGENCE</span><h1>OPENING THE INNER GARAGE</h1><p>Wiring ' +
+    systems.join(" + ") + '&hellip;</p>' +
     '<div class="archive-ignition-track" aria-hidden="true"><b></b></div></div>';
 }
 function deepArchiveErrorHtml() {
-  return '<div class="wrap"><div class="empty"><b>DEEP ARCHIVE CONNECTION MISSED</b><p>The core race files are still available. Retry this evidence-heavy route when the connection is ready.</p>' +
-    '<button class="btn" onclick="__retryDeepArchive()">RETRY DEEP ARCHIVE</button> <a class="btn ghost" href="#/">RETURN TO PIT WALL</a></div></div>';
+  return '<div class="wrap"><div class="empty"><b>ARCHIVE CONNECTION MISSED</b><p>The core race files are still available. Retry this evidence-heavy route when the connection is ready.</p>' +
+    '<button class="btn" onclick="__retryDeepArchive()">RETRY ARCHIVE ROUTE</button> <a class="btn ghost" href="#/">RETURN TO PIT WALL</a></div></div>';
 }
 window.__retryDeepArchive = function () {
   deepArchivePromise = null;
@@ -146,6 +180,9 @@ window.__retryDeepArchive = function () {
   raceDossiersPromise = null;
   if (raceDossiersScript) raceDossiersScript.remove();
   raceDossiersScript = null;
+  driverDossiersPromise = null;
+  if (driverDossiersScript) driverDossiersScript.remove();
+  driverDossiersScript = null;
   routeAndSettle();
 };
 
@@ -5151,26 +5188,30 @@ function routeAndSettle() {
   var hash = location.hash || "#/";
   var needsDeep = routeNeedsDeepArchive(hash);
   var needsRaceDossiers = routeNeedsRaceDossiers(hash);
-  if (!needsDeep && !needsRaceDossiers) {
+  var needsDriverDossiers = routeNeedsDriverDossiers(hash);
+  if (!needsDeep && !needsRaceDossiers && !needsDriverDossiers) {
     route();
     settleRouteView();
     return;
   }
   var deepReady = !needsDeep || deepArchiveReady();
   var raceDossiersReady = !needsRaceDossiers || !!window.SOURCE_DOSSIERS;
-  if (deepReady && raceDossiersReady) {
+  var driverDossiersReady = !needsDriverDossiers || !!window.DRIVER_DOSSIERS;
+  if (deepReady && raceDossiersReady && driverDossiersReady) {
     if (needsDeep) syncDeepArchiveGlobals();
     if (needsRaceDossiers) SOURCE_DOSSIERS = window.SOURCE_DOSSIERS || {};
+    if (needsDriverDossiers) DRIVER_DOSSIERS = window.DRIVER_DOSSIERS || {};
     route();
     settleRouteView();
     return;
   }
   renderNav();
   window.scrollTo(0, 0);
-  $app.innerHTML = deepArchiveLoadingHtml();
+  $app.innerHTML = deepArchiveLoadingHtml(needsDeep, needsRaceDossiers, needsDriverDossiers);
   var loaders = [];
   if (!deepReady) loaders.push(loadDeepArchive());
   if (!raceDossiersReady) loaders.push(loadRaceDossiers());
+  if (!driverDossiersReady) loaders.push(loadDriverDossiers());
   Promise.all(loaders).then(function () {
     if (request !== routeRequest) return;
     route();
