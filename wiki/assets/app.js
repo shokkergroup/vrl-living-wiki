@@ -2952,24 +2952,33 @@ function fullResultsBoardFor(race) {
 
 function fullResultsBoardHtml(board) {
   if (!board || !(board.slots || []).length) return "";
+  var renderFullResultSlot = function (slot) {
+    if (!slot.canonicalDriver || !slot.receipt) {
+      return '<div class="full-result-slot unknown"><b>P' + slot.position +
+        '</b><span>UNKNOWN</span><small>NOT GUESSED</small></div>';
+    }
+    var driver = driverForResultName(slot.canonicalDriver);
+    return '<div class="full-result-slot"><b>P' + slot.position + '</b><span>' +
+      (driver ? '<a href="#/driver/' + driver.id + '">' + esc(slot.canonicalDriver) + '</a>' :
+      esc(slot.canonicalDriver)) + '</span><button aria-label="Play provisional P' +
+      slot.position + ' broadcast result read for ' + esc(slot.canonicalDriver) +
+      '" onclick="__playReceipt(\'' +
+      slot.receipt.sourceId + '\',' + slot.receipt.t + ',' + slot.receipt.end +
+      ',\'PROVISIONAL P' + slot.position + ' BROADCAST READ\')">&#9654; ' +
+      fmtT(slot.receipt.t) + '</button></div>';
+  };
+  var resultsMidpoint = Math.ceil(board.slots.length / 2);
+  var resultsColumns = [
+    board.slots.slice(0, resultsMidpoint),
+    board.slots.slice(resultsMidpoint)
+  ].filter(function (column) { return column.length; });
   return '<details class="full-results-board"><summary><span>FULL RESULTS BOARD PILOT</span><b>' +
     board.knownPositionCount + ' / ' + board.fieldSize +
     ' EXPLICIT READS</b><em>OPEN PROVISIONAL FIELD</em></summary><div class="full-results-board-body">' +
     '<div class="full-results-board-ledger"><span>EDITOR-REVIEWED BROADCAST READ</span><span>EXACT SAME-SOURCE WINDOWS</span><span>ZERO STATS / RANKING EFFECT</span></div>' +
-    '<div class="full-results-grid">' + board.slots.map(function (slot) {
-      if (!slot.canonicalDriver || !slot.receipt) {
-        return '<div class="full-result-slot unknown"><b>P' + slot.position +
-          '</b><span>UNKNOWN</span><small>NOT GUESSED</small></div>';
-      }
-      var driver = driverForResultName(slot.canonicalDriver);
-      return '<div class="full-result-slot"><b>P' + slot.position + '</b><span>' +
-        (driver ? '<a href="#/driver/' + driver.id + '">' + esc(slot.canonicalDriver) + '</a>' :
-        esc(slot.canonicalDriver)) + '</span><button aria-label="Play provisional P' +
-        slot.position + ' broadcast result read for ' + esc(slot.canonicalDriver) +
-        '" onclick="__playReceipt(\'' +
-        slot.receipt.sourceId + '\',' + slot.receipt.t + ',' + slot.receipt.end +
-        ',\'PROVISIONAL P' + slot.position + ' BROADCAST READ\')">&#9654; ' +
-        fmtT(slot.receipt.t) + '</button></div>';
+    '<div class="full-results-columns">' + resultsColumns.map(function (column, index) {
+      return '<div class="full-results-column" aria-label="Provisional finishing order column ' +
+        (index + 1) + '">' + column.map(renderFullResultSlot).join("") + '</div>';
     }).join("") + '</div><p>Provisional as broadcast, not final league certification. Unknown slots stay unknown. No row changes starts, wins, podiums, statistics, championships, or driver rankings.</p></div></details>';
 }
 
