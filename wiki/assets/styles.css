@@ -3956,6 +3956,98 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
     border-right: 0;
   }
 }
+
+/* A race file can double as a clean league press sheet or Save-as-PDF dossier. */
+@media print {
+  @page { margin: 12mm; }
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 10pt;
+  }
+  header,
+  .nav,
+  .crumb,
+  .race-rundown-bar,
+  .player-shell,
+  .race-broadcast-ribbon,
+  .highlight-race-cta,
+  .race-nav,
+  #dock,
+  #cautionFlag,
+  .memory-modal,
+  .foot .m-share,
+  .btn {
+    display: none !important;
+  }
+  .wrap,
+  .race-hero {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .race-hero h1 {
+    margin: 0 0 5mm !important;
+    color: #111 !important;
+    font-size: 34pt !important;
+  }
+  .race-control-stage {
+    display: block !important;
+    border: 1px solid #777 !important;
+    background: #fff !important;
+  }
+  .race-control-screen { display: none !important; }
+  .race-control-tower {
+    display: grid !important;
+    grid-template-columns: repeat(5,1fr) !important;
+    background: #fff !important;
+  }
+  .race-fact,
+  .source-dossier,
+  .recap,
+  .race-full-results-pilot,
+  .full-results-board,
+  .full-results-columns,
+  .full-result-slot {
+    break-inside: avoid;
+    border-color: #888 !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+  .race-fact *,
+  .source-dossier *,
+  .recap *,
+  .race-full-results-pilot *,
+  .full-results-board *,
+  .full-results-columns * {
+    color: #111 !important;
+  }
+  .full-results-column { border-color: #888 !important; }
+  .full-results-columns .full-result-slot>b { background: #ececec !important; }
+  .full-results-columns .full-result-slot.unknown {
+    background: repeating-linear-gradient(135deg,#f4f4f4 0 8px,#fff 8px 16px) !important;
+  }
+  button {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #111 !important;
+  }
+  a { color: #111 !important; text-decoration: none !important; }
+  details { break-inside: avoid; }
+  .foot {
+    margin-top: 8mm !important;
+    padding: 4mm 0 0 !important;
+    border-color: #999 !important;
+    color: #333 !important;
+  }
+}
 @media (max-width: 650px) {
   .race-hero { padding-top: 24px; }
   .race-hero>h1 { font-size: clamp(42px,14vw,62px); }

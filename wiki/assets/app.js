@@ -2059,7 +2059,8 @@ function vRace(id, startAt) {
       return '<button type="button" onclick="var el=document.getElementById(\'' + item[0] +
         '\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'})"><b>' +
         String(index + 1).padStart(2, "0") + '</b>' + item[1] + '</button>';
-    }).join("") + '</nav>';
+    }).join("") + '<button type="button" class="race-print-file" onclick="__printRaceFile()"' +
+    ' aria-label="Print or save this race file as a PDF"><b>PDF</b>PRINT FILE</button></nav>';
   var html = '<div class="wrap race-hero">' +
     '<div class="crumb"><a href="#/seasons">SEASONS</a>' + (r.seasonLabel ? ' / <a href="#/season/' + encodeURIComponent(r.seasonLabel) + '">' + esc(r.seasonLabel).toUpperCase() + "</a>" : "") + " / " + esc(r.name || r.title).toUpperCase() + "</div>" +
     "<h1>" + esc(r.name || r.title) + "</h1>" +
@@ -3415,6 +3416,24 @@ window.__shareMoment = function (id, t, encodedTitle) {
     var el = document.createElement("div"); el.id = "shareToast"; el.className = "share-toast"; el.setAttribute("role", "status"); el.setAttribute("aria-live", "polite"); el.textContent = "MOMENT LINK COPIED";
     document.body.appendChild(el); setTimeout(function () { el.remove(); }, 2200);
   });
+};
+
+window.__printRaceFile = function () {
+  var detailStates = Array.prototype.map.call($app.querySelectorAll("details"), function (detail) {
+    var state = { detail: detail, open: detail.open };
+    detail.open = true;
+    return state;
+  });
+  document.body.classList.add("printing-race-file");
+  var restored = false;
+  var restore = function () {
+    if (restored) return;
+    restored = true;
+    detailStates.forEach(function (state) { state.detail.open = state.open; });
+    document.body.classList.remove("printing-race-file");
+  };
+  window.addEventListener("afterprint", restore, { once: true });
+  window.print();
 };
 
 /* --------------------------------------------------------- TIME MACHINE */
