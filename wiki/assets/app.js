@@ -2047,6 +2047,19 @@ function vRace(id, startAt) {
   var storyboard = raceStoryboard(r, reel, resultRundown);
   var recapView = publicEventRecap(r);
   var receiptGroup = RECEIPT_MATRIX.filter(function (item) { return item.eventId === (r.eventId || id); })[0] || null;
+  var raceJumpLinks = [
+    ["race-watch", "WATCH"],
+    reel ? ["race-highlights", "HIGHLIGHTS"] : null,
+    recapView.text ? ["race-story", "STORY"] : null,
+    (verifiedPositions.length || fullResultsBoard) ? ["race-results", "RESULTS"] : null,
+    dossier ? ["race-source", "SOURCE"] : null
+  ].filter(Boolean);
+  var raceRundownHtml = '<nav class="race-rundown-bar" aria-label="Race file sections"><span>PIT WALL</span>' +
+    raceJumpLinks.map(function (item, index) {
+      return '<button type="button" onclick="var el=document.getElementById(\'' + item[0] +
+        '\');if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'})"><b>' +
+        String(index + 1).padStart(2, "0") + '</b>' + item[1] + '</button>';
+    }).join("") + '</nav>';
   var html = '<div class="wrap race-hero">' +
     '<div class="crumb"><a href="#/seasons">SEASONS</a>' + (r.seasonLabel ? ' / <a href="#/season/' + encodeURIComponent(r.seasonLabel) + '">' + esc(r.seasonLabel).toUpperCase() + "</a>" : "") + " / " + esc(r.name || r.title).toUpperCase() + "</div>" +
     "<h1>" + esc(r.name || r.title) + "</h1>" +
@@ -2058,7 +2071,7 @@ function vRace(id, startAt) {
     "<span>TAPE <b>" + fmtDur(r.duration) + "</b></span>" +
     "<span>BOOTH <b>" + esc(e.name) + "</b></span>" +
     "</div>" +
-    '<section class="race-control-stage"><div class="race-control-screen">' +
+    '<section class="race-control-stage" id="race-watch"><div class="race-control-screen">' +
     '<div class="player-shell"><div class="player-16x9"><div id="racePlayerHost"></div></div></div>' +
     '<div class="race-broadcast-ribbon"><span>ARCHIVE FEED / EXACT OFFICIAL SOURCE</span><b>' +
     esc(r.name || r.title) + '</b><em>' + esc((r.seasonLabel || "VRL").toUpperCase()) +
@@ -2097,9 +2110,10 @@ function vRace(id, startAt) {
         ' / 100</b><small>ARCHIVE RANK #' + ex.rank + '</small></a>'
       : '<div class="race-fact unknown"><span>EXCITEMENT INDEX</span><b>PENDING</b><small>NO SCORE INVENTED</small></div>') +
     '</section></section>';
+  html += raceRundownHtml;
 
   if (reel) {
-    html += '<section class="highlight-race-cta"><div><span>FAST ' + fmtT((reel.fastRecap || {}).editDurationSeconds) + ' / COVERAGE ' + fmtT(reel.editDurationSeconds) + '</span><h2>TWO WAYS TO RELIVE THE RACE</h2><p>Fast Recap hits the SportsCenter window. Full Coverage keeps every first lap, final lap, caution, wreck, and bounded replay sequence.</p></div>' +
+    html += '<section class="highlight-race-cta" id="race-highlights"><div><span>FAST ' + fmtT((reel.fastRecap || {}).editDurationSeconds) + ' / COVERAGE ' + fmtT(reel.editDurationSeconds) + '</span><h2>TWO WAYS TO RELIVE THE RACE</h2><p>Fast Recap hits the SportsCenter window. Full Coverage keeps every first lap, final lap, caution, wreck, and bounded replay sequence.</p></div>' +
       '<div><button class="btn" onclick="__playHighlight(\'' + eventId + '\',\'fast\')">▶ FAST RECAP</button><button class="btn ghost" onclick="__playHighlight(\'' + eventId + '\')">▶ FULL COVERAGE</button><a class="btn ghost" href="#/highlights/' + eventId + '">OPEN CUT LIST</a></div></section>';
   }
 
@@ -2126,7 +2140,7 @@ function vRace(id, startAt) {
   }
 
   if (recapView.text) {
-    html += '<div class="recap"><span class="k">' +
+    html += '<div class="recap" id="race-story"><span class="k">' +
       (recapView.quarantined ? "Tape story · result language quarantined" :
         (recapView.multiSource ? "Complete race recap · all official tape parts" : "Race recap")) +
       "</span>" + recapView.parts.map(function (part) {
@@ -2139,7 +2153,7 @@ function vRace(id, startAt) {
 
   if (dossier) {
     var sourceLimits = dossier.sourceLimitations || [];
-    html += '<div class="source-dossier"><div><span>OFFICIAL SOURCE DOSSIER</span><h3>' + esc(dossier.canonicalTitle) + '</h3>' +
+    html += '<div class="source-dossier" id="race-source"><div><span>OFFICIAL SOURCE DOSSIER</span><h3>' + esc(dossier.canonicalTitle) + '</h3>' +
       '<p>Source <code>' + esc(dossier.sourceId) + '</code> · canonical event <code>' + esc(dossier.eventId) + '</code> · ' + esc(dossier.sourceRole) +
       ' · result status ' + (winnerResult ? "exact-language receipt" : "unverified / unknown") + '</p>' +
       '<p><b>TRACK</b> ' + esc(dossier.track || "not established") + ' · <b>CONFIGURATION</b> ' + esc(dossier.configuration || "not established") +
@@ -2155,7 +2169,7 @@ function vRace(id, startAt) {
   }
 
   if (verifiedPositions.length) {
-    html += '<div class="podium">' + verifiedPositions.map(function (item) {
+    html += '<div class="podium" id="race-results">' + verifiedPositions.map(function (item) {
       var claim = item.claim;
       var dr = driverForResultName(claim.name);
       var positionLabel = claim.countsAsOrdinaryEvent ? ('P' + item.position) : ('QUALIFIER P' + item.position);
@@ -2185,7 +2199,7 @@ function vRace(id, startAt) {
       '</div>';
   }
   if (fullResultsBoard) {
-    html += '<section class="race-full-results-pilot"><div><span>FULL RESULTS BOARD PILOT</span><h3>THE BOOTH READ, POSITION BY POSITION</h3><p>' +
+    html += '<section class="race-full-results-pilot"' + (!verifiedPositions.length ? ' id="race-results"' : '') + '><div><span>FULL RESULTS BOARD PILOT</span><h3>THE BOOTH READ, POSITION BY POSITION</h3><p>' +
       fullResultsBoard.knownPositionCount + ' of ' + fullResultsBoard.fieldSize +
       ' positions are explicitly relationship-reviewed in exact same-source closing windows. Unknowns are left blank, and the entire board is quarantined from statistics.</p></div>' +
       fullResultsBoardHtml(fullResultsBoard) + '</section>';

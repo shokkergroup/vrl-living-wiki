@@ -3996,3 +3996,84 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   .race-control-stage .race-fact>small { font-size: 8px; }
   .race-control-stage .race-fact:is(button,a) { min-height: 88px; }
 }
+
+/* Long race files keep a race-specific pit-wall rundown in reach. */
+.race-rundown-bar {
+  position: sticky;
+  z-index: 32;
+  top: 58px;
+  display: flex;
+  align-items: stretch;
+  margin: -7px 0 24px;
+  overflow-x: auto;
+  border: 1px solid #3b4351;
+  border-top: 5px solid var(--blue);
+  background: rgba(8,10,14,.96);
+  box-shadow: 0 13px 34px rgba(0,0,0,.34);
+  scrollbar-width: thin;
+}
+.race-rundown-bar>span {
+  display: grid;
+  flex: 0 0 auto;
+  min-width: 92px;
+  place-items: center;
+  padding: 0 13px;
+  background: var(--red);
+  color: #fff;
+  font: 800 8px var(--mono);
+  letter-spacing: 1.3px;
+}
+.race-rundown-bar button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px;
+  align-items: center;
+  min-height: 46px;
+  padding: 8px 16px;
+  border: 0;
+  border-right: 1px solid #343b48;
+  background: #0e1117;
+  color: #c3c7cf;
+  cursor: pointer;
+  font: 800 8px var(--mono);
+  letter-spacing: .65px;
+}
+.race-rundown-bar button b {
+  color: var(--gold);
+  font: 22px var(--disp);
+}
+.race-rundown-bar button:hover,
+.race-rundown-bar button:focus-visible {
+  background: var(--red);
+  color: #fff;
+  outline: none;
+}
+.race-rundown-bar button:hover b,
+.race-rundown-bar button:focus-visible b { color: #fff; }
+#race-watch,
+#race-highlights,
+#race-story,
+#race-results,
+#race-source { scroll-margin-top: 125px; }
+
+@media (max-width: 650px) {
+  .race-rundown-bar {
+    top: 51px;
+    margin-right: -22px;
+    margin-left: -22px;
+    padding-right: 14px;
+  }
+  .race-rundown-bar>span {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    min-width: 76px;
+  }
+  .race-rundown-bar button {
+    flex: 0 0 auto;
+    min-width: 118px;
+    min-height: 49px;
+    padding: 8px 12px;
+    font-size: 9px;
+  }
+}
