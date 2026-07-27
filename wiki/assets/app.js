@@ -2058,7 +2058,17 @@ function vRace(id, startAt) {
     "<span>TAPE <b>" + fmtDur(r.duration) + "</b></span>" +
     "<span>BOOTH <b>" + esc(e.name) + "</b></span>" +
     "</div>" +
-    '<section class="race-fact-strip">' +
+    '<section class="race-control-stage"><div class="race-control-screen">' +
+    '<div class="player-shell"><div class="player-16x9"><div id="racePlayerHost"></div></div></div>' +
+    '<div class="race-broadcast-ribbon"><span>ARCHIVE FEED / EXACT OFFICIAL SOURCE</span><b>' +
+    esc(r.name || r.title) + '</b><em>' + esc((r.seasonLabel || "VRL").toUpperCase()) +
+    (r.round ? ' / ROUND ' + r.round : '') + ' / ' + esc(fmtDate(r.date).toUpperCase()) +
+    '</em></div>' +
+    (sceneIssue ? '<a class="race-scene-cta" href="#/scene/' + esc(sceneIssue.eventId) +
+      '"><span>VIGILANTE SCENE / ISSUE ' + String(sceneIssue.issueNumber).padStart(2, "0") +
+      '</span><b>' + esc(sceneIssue.cover.headline) +
+      '</b><em>READ THE RACE-DAY EDITION &rarr;</em></a>' : '') +
+    '</div><section class="race-fact-strip" aria-label="Static reviewed race evidence tower">' +
     (winnerResult
       ? '<button class="race-fact winner" onclick="__playReceipt(\'' + winnerResult.sourceId + '\',' +
         winnerResult.receipt.t + ',' + winnerResult.receipt.end + ',\'P1 RESULT RECEIPT\')"><span>' +
@@ -2086,12 +2096,7 @@ function vRace(id, startAt) {
       ? '<a class="race-fact" href="#/exciting"><span>EXCITEMENT INDEX</span><b>' + ex.score +
         ' / 100</b><small>ARCHIVE RANK #' + ex.rank + '</small></a>'
       : '<div class="race-fact unknown"><span>EXCITEMENT INDEX</span><b>PENDING</b><small>NO SCORE INVENTED</small></div>') +
-    '</section>' +
-    (sceneIssue ? '<a class="race-scene-cta" href="#/scene/' + esc(sceneIssue.eventId) +
-      '"><span>VIGILANTE SCENE / ISSUE ' + String(sceneIssue.issueNumber).padStart(2, "0") +
-      '</span><b>' + esc(sceneIssue.cover.headline) +
-      '</b><em>READ THE RACE-DAY EDITION &rarr;</em></a>' : '') +
-    '<div class="player-shell"><div class="player-16x9"><div id="racePlayerHost"></div></div></div>';
+    '</section></section>';
 
   if (reel) {
     html += '<section class="highlight-race-cta"><div><span>FAST ' + fmtT((reel.fastRecap || {}).editDurationSeconds) + ' / COVERAGE ' + fmtT(reel.editDurationSeconds) + '</span><h2>TWO WAYS TO RELIVE THE RACE</h2><p>Fast Recap hits the SportsCenter window. Full Coverage keeps every first lap, final lap, caution, wreck, and bounded replay sequence.</p></div>' +

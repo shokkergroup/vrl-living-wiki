@@ -3747,3 +3747,252 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
 @media (prefers-reduced-motion: reduce) {
   .winner-pylon-visual .driver-visual img { transition: none; }
 }
+
+/* Race Control V37: official player first, static evidence pylon second. */
+.race-hero {
+  position: relative;
+  padding-top: 34px;
+}
+.race-hero>h1 {
+  max-width: 1050px;
+  margin: 5px 0 13px;
+  font-size: clamp(45px,7vw,88px);
+  line-height: .86;
+  letter-spacing: -1px;
+}
+.race-hero>.race-meta {
+  gap: 0;
+  border-top: 1px solid #3c4352;
+  border-bottom: 1px solid #3c4352;
+  background: #0c0f14;
+}
+.race-hero>.race-meta span {
+  min-height: 38px;
+  padding: 11px 15px;
+  border-right: 1px solid #343b48;
+  color: #7f8792;
+  font-size: 8px;
+}
+.race-hero>.race-meta span:last-child { border-right: 0; }
+.race-hero>.race-meta b {
+  margin-left: 5px;
+  color: #fff;
+}
+.race-control-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 318px;
+  margin: 19px 0 24px;
+  overflow: hidden;
+  border: 1px solid #3d4553;
+  border-top: 7px solid var(--red);
+  background: #080a0e;
+  box-shadow: 0 30px 80px rgba(0,0,0,.48);
+}
+.race-control-stage::before {
+  content: "RACE CONTROL / REVIEWED STATIC BOARD";
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  width: 318px;
+  padding: 7px 10px;
+  border-bottom: 1px solid #343b48;
+  background: #141820;
+  color: #ffba49;
+  font: 800 7px var(--mono);
+  letter-spacing: 1.1px;
+  text-align: center;
+  pointer-events: none;
+}
+.race-control-screen {
+  min-width: 0;
+  border-right: 1px solid #3d4553;
+  background: #050609;
+}
+.race-control-screen .player-shell {
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.race-broadcast-ribbon {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  gap: 15px;
+  align-items: center;
+  min-height: 56px;
+  padding: 10px 15px;
+  border-top: 1px solid #3d4553;
+  border-bottom: 1px solid #3d4553;
+  background:
+    linear-gradient(90deg,rgba(218,26,40,.94),rgba(120,8,18,.94) 23%,#151922 23%);
+  color: #fff;
+}
+.race-broadcast-ribbon span {
+  padding-right: 14px;
+  font: 800 7px var(--mono);
+  letter-spacing: .8px;
+}
+.race-broadcast-ribbon b {
+  overflow: hidden;
+  font: 23px/1 var(--disp);
+  letter-spacing: .4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.race-broadcast-ribbon em {
+  color: #aeb5c0;
+  font: 800 7px var(--mono);
+  font-style: normal;
+  letter-spacing: .6px;
+  text-align: right;
+}
+.race-control-screen .race-scene-cta {
+  grid-template-columns: auto minmax(0,1fr) auto;
+  min-height: 62px;
+  margin: 0;
+  border: 0;
+  border-left: 7px solid #d9b95f;
+  background:
+    repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 2px,transparent 2px 12px),
+    #202733;
+}
+.race-control-screen .race-scene-cta:hover,
+.race-control-screen .race-scene-cta:focus-visible {
+  background-color: #303a49;
+}
+.race-control-stage .race-fact-strip {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  margin: 26px 0 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: #0d1016;
+}
+.race-control-stage .race-fact {
+  flex: 1 1 0;
+  min-height: 92px;
+  padding: 14px 16px;
+  border: 0;
+  border-bottom: 1px solid #343b48;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.018),transparent),
+    #0d1016;
+}
+.race-control-stage .race-fact:last-child { border-bottom: 0; }
+.race-control-stage .race-fact:is(button,a):hover,
+.race-control-stage .race-fact:is(button,a):focus-visible {
+  background: var(--red);
+  color: #fff;
+}
+.race-control-stage .race-fact>span {
+  color: #ff5360;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+.race-control-stage .race-fact>b {
+  margin: 6px 0;
+  font-size: 23px;
+  line-height: 1;
+}
+.race-control-stage .race-fact>small {
+  color: #818996;
+  font-size: 7px;
+}
+.race-control-stage .race-fact.winner {
+  border-top: 0;
+  border-left: 7px solid var(--gold);
+  background:
+    linear-gradient(90deg,rgba(244,196,48,.11),transparent 65%),
+    #111319;
+}
+.race-control-stage .race-fact.winner>b {
+  color: var(--gold);
+  font-size: 28px;
+}
+.race-control-stage .race-fact:is(button,a):hover>span,
+.race-control-stage .race-fact:is(button,a):hover>small,
+.race-control-stage .race-fact:is(button,a):focus-visible>span,
+.race-control-stage .race-fact:is(button,a):focus-visible>small { color: #fff; }
+.race-control-stage+.highlight-race-cta {
+  margin-top: 0;
+  border-radius: 0;
+  border-left-width: 7px;
+  background:
+    linear-gradient(110deg,rgba(244,196,48,.13),transparent 40%),
+    #11151d;
+}
+
+@media (max-width: 980px) {
+  .race-control-stage { grid-template-columns: 1fr; }
+  .race-control-stage::before {
+    position: static;
+    grid-row: 1;
+    width: auto;
+    text-align: left;
+  }
+  .race-control-screen {
+    grid-row: 2;
+    border-right: 0;
+    border-bottom: 1px solid #3d4553;
+  }
+  .race-control-stage .race-fact-strip {
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    margin-top: 0;
+  }
+  .race-control-stage .race-fact {
+    min-height: 88px;
+    border-right: 1px solid #343b48;
+  }
+  .race-control-stage .race-fact:nth-child(2n) { border-right: 0; }
+  .race-control-stage .race-fact:last-child {
+    grid-column: 1/-1;
+    border-right: 0;
+  }
+}
+@media (max-width: 650px) {
+  .race-hero { padding-top: 24px; }
+  .race-hero>h1 { font-size: clamp(42px,14vw,62px); }
+  .race-hero>.race-meta { display: grid; grid-template-columns: 1fr 1fr; }
+  .race-hero>.race-meta span {
+    border-right: 1px solid #343b48;
+    border-bottom: 1px solid #343b48;
+    font-size: 9px;
+  }
+  .race-hero>.race-meta span:nth-child(2n) { border-right: 0; }
+  .race-control-stage { margin-right: -2px; margin-left: -2px; }
+  .race-broadcast-ribbon {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    min-height: 0;
+    padding: 13px 14px;
+    background:
+      linear-gradient(90deg,rgba(218,26,40,.94),rgba(104,7,15,.94) 7px,#151922 7px);
+  }
+  .race-broadcast-ribbon span,
+  .race-broadcast-ribbon em { font-size: 8px; text-align: left; }
+  .race-broadcast-ribbon b { font-size: 20px; white-space: normal; }
+  .race-control-screen .race-scene-cta {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 14px;
+  }
+  .race-control-screen .race-scene-cta b { font-size: 22px; }
+  .race-control-screen .race-scene-cta em { text-align: left; }
+  .race-control-stage .race-fact-strip { grid-template-columns: 1fr; }
+  .race-control-stage .race-fact,
+  .race-control-stage .race-fact:last-child {
+    grid-column: auto;
+    min-height: 82px;
+    border-right: 0;
+  }
+  .race-control-stage .race-fact>span { font-size: 9px; }
+  .race-control-stage .race-fact>small { font-size: 8px; }
+  .race-control-stage .race-fact:is(button,a) { min-height: 88px; }
+}
