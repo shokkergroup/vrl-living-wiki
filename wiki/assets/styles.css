@@ -3957,7 +3957,7 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   }
 }
 
-/* A race file can double as a clean league press sheet or Save-as-PDF dossier. */
+/* Race, season, and driver files can double as clean league press sheets or Save-as-PDF dossiers. */
 @media print {
   @page { margin: 12mm; }
   * {
@@ -3977,6 +3977,7 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   .race-broadcast-ribbon,
   .highlight-race-cta,
   .race-nav,
+  .driver-jumpbar,
   #dock,
   #cautionFlag,
   .memory-modal,
@@ -3985,7 +3986,8 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
     display: none !important;
   }
   .wrap,
-  .race-hero {
+  .race-hero,
+  .driver-dossier-page {
     width: auto !important;
     max-width: none !important;
     margin: 0 !important;
@@ -4010,6 +4012,12 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   .race-fact,
   .source-dossier,
   .recap,
+  .season-film,
+  .season-war-room,
+  .season-rulebook,
+  .driver-dossier-hero,
+  .dossier-ledger,
+  .driver-current-form,
   .race-full-results-pilot,
   .full-results-board,
   .full-results-columns,
@@ -4022,11 +4030,18 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
   .race-fact *,
   .source-dossier *,
   .recap *,
+  .season-film *,
+  .season-war-room *,
+  .season-rulebook *,
+  .driver-dossier-hero *,
+  .dossier-ledger *,
+  .driver-current-form *,
   .race-full-results-pilot *,
   .full-results-board *,
   .full-results-columns * {
     color: #111 !important;
   }
+  .season-film > .story-filmstrip { display: none !important; }
   .full-results-column { border-color: #888 !important; }
   .full-results-columns .full-result-slot>b { background: #ececec !important; }
   .full-results-columns .full-result-slot.unknown {

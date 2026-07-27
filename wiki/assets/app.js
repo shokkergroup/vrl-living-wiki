@@ -1962,7 +1962,7 @@ function vSeason(label) {
       esc(label.toUpperCase()) + ' IN ' + seasonFilm.length + ' DEFINING CHAPTERS</h2><p>The season&rsquo;s pivotal finishes, strategy swings, wrecks, and reversals play in chronological order from bounded highlight cuts. No media is copied; every chapter returns to its official broadcast.</p><div><button class="btn" onclick="__playSeasonStory(\'' +
       encodeURIComponent(label) + '\')">&#9654; PLAY SEASON FILM / ' + fmtT(storyboardRuntime(seasonFilm)) +
       '</button><button class="btn ghost" onclick="__shareCurrent(\'VRL ' + esc(label).replace(/'/g, "\\'") +
-      ' Season File\')">SHARE SEASON</button></div></div><div class="season-film-ledger"><div><b>' + s.races.length +
+      ' Season File\')">SHARE SEASON</button><button class="btn ghost season-print-file" onclick="__printWikiFile()">PRINT / PDF SEASON FILE</button></div></div><div class="season-film-ledger"><div><b>' + s.races.length +
       '</b><span>RACE FILES</span></div><div><b>' + winners.length + '</b><span>SUPPORTED WINNERS</span></div><div><b>' +
       resultReadCount + '</b><span>RESULT READS</span></div><div><b>' + fmtDur(fastRecapSeconds) +
       '</b><span>FAST-RECAP TAPE</span></div></div>' +
@@ -3418,23 +3418,24 @@ window.__shareMoment = function (id, t, encodedTitle) {
   });
 };
 
-window.__printRaceFile = function () {
+window.__printWikiFile = function () {
   var detailStates = Array.prototype.map.call($app.querySelectorAll("details"), function (detail) {
     var state = { detail: detail, open: detail.open };
     detail.open = true;
     return state;
   });
-  document.body.classList.add("printing-race-file");
+  document.body.classList.add("printing-wiki-file");
   var restored = false;
   var restore = function () {
     if (restored) return;
     restored = true;
     detailStates.forEach(function (state) { state.detail.open = state.open; });
-    document.body.classList.remove("printing-race-file");
+    document.body.classList.remove("printing-wiki-file");
   };
   window.addEventListener("afterprint", restore, { once: true });
   window.print();
 };
+window.__printRaceFile = window.__printWikiFile;
 
 /* --------------------------------------------------------- TIME MACHINE */
 var TimeMachineUI = (function () {
@@ -4749,7 +4750,7 @@ function vDriverDossier(slug) {
       return '<button type="button" onclick="var el=document.getElementById(\'' + item[0] +
         '\');if(el&&el.tagName===\'DETAILS\')el.open=true;if(el)el.scrollIntoView({behavior:\'smooth\',block:\'start\'})">' +
         esc(item[1]) + '</button>';
-    }).join("") + '</nav>';
+    }).join("") + '<button type="button" class="driver-print-file" onclick="__printWikiFile()">PRINT / PDF DOSSIER</button></nav>';
 
   if (currentForm) {
     html += '<section class="driver-current-form" id="driver-current"><div><span>SEASON 15 / CLASSIFIED RESULT READS</span><h2>CURRENT FORM ON TAPE</h2><p>This is a result-receipt snapshot, not official VRL points or an entry-list claim.</p></div>' +
