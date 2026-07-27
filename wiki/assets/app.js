@@ -697,7 +697,7 @@ function driverVisual(d, extraClass) {
     var imageNumber = (ownerImage && ownerImage.number) || number;
     var proof = ownerImage
       ? "OWNER SELECTED" + (ownerImage.currentSeasonSchemeCertified ? " · CURRENT SCHEME" : " · IDENTITY ART")
-      : art ? "PAINT LIBRARY · PLACEHOLDER" : "OFFICIAL TAPE FRAME";
+      : art ? "PAINT LIBRARY · NUMBER MATCH" : "OFFICIAL TAPE FRAME";
     var altPrefix = ownerImage
       ? "League-owner-selected truck image for "
       : art ? "Historical number-matched truck placeholder for " : "Approved official-tape frame associated with ";
@@ -1173,6 +1173,48 @@ function pressClippingsForDriver(driverId) {
     }).sort(function (a, b) { return b.seasonNumber - a.seasonNumber; })
   };
 }
+// Caption evidence arrives as raw ASR: no casing, and usually clipped mid-sentence
+// with unrelated booth chatter on either end. This only ever DROPS whole leading
+// filler sentences and fixes casing — it never rewords a receipt, and the exact
+// bounded audio stays one click away.
+function quoteText(raw) {
+  var text = String(raw == null ? "" : raw).replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  var trimmedStart = false;
+  if (/[.!?]/.test(text)) {
+    var sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    while (sentences.length > 1) {
+      var lead = sentences[0].trim();
+      // Short throwaway openers ("take care.", "we'll see you.") only.
+      if (lead.split(" ").length > 4 || !/[.!?]$/.test(lead)) break;
+      sentences.shift();
+      trimmedStart = true;
+    }
+    text = sentences.join("").trim();
+  } else {
+    trimmedStart = true;
+  }
+  text = text.replace(/([.!?]\s+|^)([a-z])/g, function (all, before, letter) {
+    return before + letter.toUpperCase();
+  });
+  text = text.replace(/\bi\b/g, "I");
+  if (trimmedStart) text = "… " + text;
+  if (!/[.!?]$/.test(text)) text += " …";
+  return text;
+}
+function voteTrail(rankMeta) {
+  var creator = Number(rankMeta && rankMeta.creatorVotes) || 0;
+  var editor = Number(rankMeta && rankMeta.editorVotes) || 0;
+  if (!creator && !editor) return "";
+  return " · creator/editor votes " + creator + "/" + editor;
+}
+function publicationDateRange(range) {
+  if (!range) return "SEASON ARCHIVE";
+  if (typeof range === "string") return range;
+  if (range.start && range.end) return fmtDate(range.start) + " – " + fmtDate(range.end);
+  if (range.label) return range.label;
+  return "SEASON ARCHIVE";
+}
 function driverPressClippingCard(item, type) {
   var isScene = type === "scene";
   var href = isScene ? "#/scene/" + item.eventId : "#/flashback/" + item.seasonNumber;
@@ -1183,7 +1225,7 @@ function driverPressClippingCard(item, type) {
   var title = isScene ? item.leadStory.headline : item.title;
   var detail = isScene
     ? fmtDate(item.date) + " / " + (item.track || "TRACK DEVELOPING")
-    : (item.dateRange || "SEASON ARCHIVE") + " / " + item.raceCount + " RACES";
+    : publicationDateRange(item.dateRange) + " / " + item.raceCount + " RACES";
   return '<a class="driver-press-card ' + (isScene ? "scene" : "flashback") + '" href="' + href +
     '"><figure><img loading="lazy" src="' + esc(image) + '" alt="" aria-hidden="true"></figure><div><span>' +
     esc(eyebrow) + '</span><h3>' + esc(title) + '</h3><p>' + esc(detail) +
@@ -1258,7 +1300,7 @@ function momentRow(r, m, showRace, rankMeta) {
     '<div class="m-title">' + esc(m.title || "") + (m.auto ? ' <span class="pill" style="font-size:9.5px;padding:1px 8px;vertical-align:2px;cursor:default">AUTO-DETECTED</span>' : "") +
     '<button class="m-share" title="Share this exact moment" onclick="__shareMoment(\'' + r.id + '\',' + (m.t || 0) + ',\'' + encArg(m.title || "VRL moment") + '\')">↗ SHARE</button></div>' +
     (m.summary ? '<div class="m-sub">' + esc(m.summary) + "</div>" : "") +
-    (rankMeta ? '<div class="hot-why"><b>' + rankMeta.score + ' MEMORABILITY</b> · ' + (rankMeta.reasons || rankMeta.why || []).map(esc).join(' · ') + '<small>Baseline #' + (rankMeta.baselineRank || rankMeta.rank || "?") + ' · confidence ' + Math.round((rankMeta.evidenceConfidence || 0) * 100) + '% · creator/editor votes ' + (rankMeta.creatorVotes || 0) + '/' + (rankMeta.editorVotes || 0) + '</small></div>' : '') +
+    (rankMeta ? '<div class="hot-why"><b>' + rankMeta.score + ' MEMORABILITY</b> · ' + (rankMeta.reasons || rankMeta.why || []).map(esc).join(' · ') + '<small>Baseline #' + (rankMeta.baselineRank || rankMeta.rank || "?") + ' · confidence ' + Math.round((rankMeta.evidenceConfidence || 0) * 100) + '%' + voteTrail(rankMeta) + '</small></div>' : '') +
     (tags ? '<div class="m-tags">' + tags + "</div>" : "") +
     "</div></div>";
 }
@@ -1717,7 +1759,7 @@ function vWatch(moodId) {
   $app.innerHTML = '<div class="watch-page"><section class="watch-hero"><div class="wrap"><div class="kicker">NO SCROLLING REQUIRED / PICK A MOOD</div>' +
     '<h1>WHAT SHOULD I <span>WATCH?</span></h1><p>A fan-first way into 219 race nights. Choose the kind of racing you want; the Watch Desk uses the public Excitement components, exact result receipts, and available highlight coverage to make the pick.</p>' +
     '<div class="watch-ledger"><div><b>' + watchEligibleRaces().length + '</b><span>RECEIPT-BACKED PICKS</span></div><div><b>' +
-    WATCH_MOODS.length + '</b><span>WATCH MOODS</span></div><div><b>2</b><span>RECAP MODES</span></div><div><b>0</b><span>HIDDEN EDITOR VOTES</span></div></div></div></section>' +
+    WATCH_MOODS.length + '</b><span>WATCH MOODS</span></div><div><b>2</b><span>RECAP MODES</span></div><div><b>0</b><span>EDITOR THUMBS ON THE SCALE</span></div></div></div></section>' +
     '<div class="wrap"><nav class="watch-moods" aria-label="Choose a racing mood">' + moodGrid +
     '</nav><section id="watchPickHost">' + watchSelectionHtml(selected, mood, false).replace(
       'id="watchPick"',
@@ -3589,8 +3631,36 @@ function copyText(text, done) {
     area.remove(); done();
   }
 }
+// A hash fragment never reaches a server, so every #/... link previews as the
+// same generic site card on Facebook, iMessage and Discord. The /s/ stubs carry
+// per-item Open Graph tags, so share those and let them hand off to the route.
+function stubBase() {
+  return location.href.split("#")[0].replace(/\/[^\/]*$/, "") + "/s/";
+}
+function momentStubExists(raceId, seconds) {
+  var entry = (window.DISTILLED || {})[raceId];
+  if (!entry || !entry.moments) return false;
+  for (var i = 0; i < entry.moments.length; i++) {
+    if (Math.round(Number(entry.moments[i].t) || 0) === seconds) return true;
+  }
+  return false;
+}
+function shareUrlForRoute(hash) {
+  var route = String(hash || location.hash || "").replace(/^#/, "");
+  var race = route.match(/^\/race\/([^\/]+)(?:\/t\/(\d+))?/);
+  if (race) {
+    var seconds = race[2] ? parseInt(race[2], 10) : null;
+    if (seconds != null && momentStubExists(race[1], seconds)) {
+      return stubBase() + "m/" + race[1] + "-" + seconds + ".html";
+    }
+    return stubBase() + "r/" + race[1] + ".html" + (seconds != null ? "?t=" + seconds : "");
+  }
+  var driver = route.match(/^\/driver\/([^\/]+)/);
+  if (driver) return stubBase() + "d/" + driver[1] + ".html";
+  return location.href;
+}
 function shareCurrent(title) {
-  var url = location.href;
+  var url = shareUrlForRoute();
   var text = title + " — found on the SHOKKER LORE VRL Living Wiki.";
   if (navigator.share) {
     navigator.share({ title: title, text: text, url: url }).catch(function () {});
@@ -3607,7 +3677,7 @@ window.__shareCurrent = shareCurrent;
 window.__shareEncoded = function (encodedTitle) { shareCurrent(decodeURIComponent(encodedTitle || "VRL")); };
 window.__shareMoment = function (id, t, encodedTitle) {
   var title = decodeURIComponent(encodedTitle || "VRL moment");
-  var url = location.href.split("#")[0] + "#/race/" + id + "/t/" + Math.round(t || 0);
+  var url = shareUrlForRoute("#/race/" + id + "/t/" + Math.round(t || 0));
   var text = title + " — play the exact moment on SHOKKER LORE.";
   if (navigator.share) navigator.share({ title: title, text: text, url: url }).catch(function () {});
   else copyText(text + " " + url, function () {
@@ -3822,6 +3892,41 @@ function renderTapeAnswer(q) {
       }).join("") + '</div><a class="tape-form-roster-link" href="#/drivers/current">OPEN THE COMPLETE CURRENT-SEASON BOARD →</a>' : '') +
       '<small class="tape-form-boundary">Missing broadcasts are not starts, DNFs, or zeroes. Every finish shown above opens the bounded official result read used in the calculation.</small></section>';
   }
+  if (found.leaderboard) {
+    var board = found.leaderboard;
+    var leadNames = board.leaders.map(function (row) { return row.driver.name; });
+    var topWins = board.rows[0].wins;
+    var winWord = topWins === 1 ? "win" : "wins";
+    var headline;
+    if (leadNames.length === 1) {
+      headline = leadNames[0] + " leads " + board.track + " with " + topWins +
+        " documented " + winWord + ".";
+    } else if (leadNames.length > 3) {
+      // A wide tie is the real answer: nobody owns this track yet.
+      headline = "No driver leads " + board.track + " outright — " + leadNames.length +
+        " drivers are tied with " + topWins + " documented " + winWord + " each.";
+    } else {
+      headline = leadNames.slice(0, -1).join(", ") + " and " + leadNames[leadNames.length - 1] +
+        " are tied at " + board.track + " with " + topWins + " documented " + winWord + " each.";
+    }
+    html += '<section class="tape-direct tape-leaderboard"><div class="tape-direct-head"><span>TRACK WINNER LEDGER · ' +
+      esc(board.track.toUpperCase()) + '</span><h2>' + esc(headline) + '</h2><p>Counted across ' +
+      board.eventCount + ' canonical ' + (board.eventCount === 1 ? "event" : "events") + ' at ' +
+      esc(board.track) + ', each with a position-specific winner receipt. Drivers with no supported ' +
+      esc(board.track) + ' win do not appear.</p></div><div class="tape-board-grid">' +
+      board.rows.slice(0, 8).map(function (row, index) {
+        return '<article><b>#' + (index + 1) + '</b><div><h3>' + esc(row.driver.name) + '</h3><span>' +
+          row.wins + (row.wins === 1 ? " WIN" : " WINS") + '</span><div class="tape-board-receipts">' +
+          row.races.slice(0, 6).map(function (win) {
+            return '<button onclick="__playReceipt(\'' + esc(win.sourceId) + '\',' + Number(win.t || 0) +
+              ',' + Number(win.end || 0) + ',\'' + encArg(row.driver.name + " wins at " + board.track) +
+              '\')">' + esc(fmtDate(win.race.date)) + '</button>';
+          }).join("") + '</div><a href="#/driver/' + esc(row.driver.id) + '">OPEN DRIVER DOSSIER →</a></div></article>';
+      }).join("") + '</div>' +
+      (board.rows.length > 8 ? '<small class="tape-board-note">Showing the top 8 of ' + board.rows.length +
+        ' drivers with a supported ' + esc(board.track) + ' win.</small>' : '') +
+      '</section>';
+  }
   if (knowledge.length) {
     html += '<section class="tape-direct"><div class="tape-direct-head"><span>DIRECT ARCHIVE ANSWER · REVIEWED LEDGER</span></div><div class="tape-direct-grid">' +
       knowledge.map(function (item) {
@@ -3838,7 +3943,7 @@ function renderTapeAnswer(q) {
       '<div class="tape-direct-grid">' + eventAnswers.map(function (item) {
         return '<article class="tape-direct-card"><button onclick="__play(\'' + item.race.id + '\',' + item.record.t + ')">▶ PLAY THE ANSWER</button>' +
           '<div><span>' + fmtDate(item.race.date) + ' · ' + esc(item.race.seasonLabel || "VRL") + ' · ' + fmtT(item.record.t) + '</span><h3>' +
-          esc(item.winnerName) + ' won ' + esc(item.race.name || item.race.title) + '</h3><p>' + esc(item.record.text) +
+          esc(item.winnerName) + ' won ' + esc(item.race.name || item.race.title) + '</h3><p>' + esc(quoteText(item.record.text)) +
           '</p><small>Confidence: ' + esc(item.resultConfidence) + ' · winner field and bounded finish receipt share this official source</small>' +
           '<a href="#/race/' + item.race.id + '/t/' + item.record.t + '">OPEN EXACT RACE RECEIPT →</a></div></article>';
       }).join("") + '</div></section>';
@@ -3861,7 +3966,7 @@ function renderTapeAnswer(q) {
       var directWinCard = function (item) {
         return '<article class="tape-direct-card"><button onclick="__play(\'' + item.race.id + '\',' + item.record.t + ')">▶ PLAY THE WIN</button>' +
           '<div><span>' + fmtDate(item.race.date) + ' · ' + esc(item.race.seasonLabel || "VRL") + '</span><h3>' +
-          esc(item.race.name || item.race.title) + '</h3><p>' + esc(item.record.text) + '</p><a href="#/race/' + item.race.id +
+          esc(item.race.name || item.race.title) + '</h3><p>' + esc(quoteText(item.record.text)) + '</p><a href="#/race/' + item.race.id +
           '">OPEN COMPLETE RACE FILE →</a></div></article>';
       };
       html += '<div class="tape-direct-grid">' + direct.slice(0, 3).map(directWinCard).join("") + '</div>';
@@ -4132,9 +4237,9 @@ function vShowcase(step) {
     '<article><span>03</span><h3>MAKE THE AUDIENCE MATTER</h3><p>Every person, topic, quote, and memory gets a door into the world—then links back to the original creator.</p></article>' +
     '<article><span>04</span><h3>SELL AN EXPERIENCE</h3><p>Not another video list: a white-label, sponsor-ready destination leagues and channels can own.</p></article></div></div>' +
     '<section class="league-offer"><div class="league-offer-head"><span>WHITE-LABEL LEAGUE PILOT</span><h2>START WITH A USEFUL ARCHIVE. EARN THE UNIVERSE.</h2><p>A narrow, caption-ready single-feed build with explicit canon rules, a correction authority, and exact-source acceptance checks. Traffic, revenue, retention, SEO rank, and virality are never promised.</p></div>' +
-    '<div class="league-package-grid"><article><span>LEAGUE LORE STARTER</span><b>$250</b><h3>THE CORE RACING ARCHIVE</h3><ul><li>Usable public race catalog</li><li>Canonical event and source split</li><li>Exact official-source playback</li><li>League brand and sponsor layer</li><li>One bounded correction pass</li></ul></article>' +
-    '<article class="featured"><span>LEAGUE LORE PLUS</span><b>$500</b><h3>DEEPER RECORDS + ONE SIGNATURE FEATURE</h3><ul><li>Everything in Starter</li><li>Deeper race and driver records</li><li>One signature interaction such as Ask, Time Machine, or Booth Lore</li><li>Evidence and unknown-state QA</li><li>Public demo / acceptance route</li></ul></article></div>' +
-    '<div class="league-care"><div><span>ENTRY / $25 MONTH</span><p>Hosting and up to four automated normal-format updates.</p></div><div><span>WEEKLY / $50 MONTH</span><p>Up to four lightly curated updates plus a moment and clip shortlist.</p></div><div><span>STUDIO / $100 MONTH</span><p>Up to twelve updates, deeper clip queue, and priority corrections.</p></div></div>' +
+    '<div class="league-package-grid"><article><span>START HERE</span><b>ONE SEASON</b><h3>THE CORE RACING ARCHIVE</h3><ul><li>Usable public race catalog</li><li>Canonical event and source split</li><li>Exact official-source playback</li><li>League brand and sponsor layer</li><li>One bounded correction pass</li></ul></article>' +
+    '<article class="featured"><span>FULL ARCHIVE</span><b>EVERY SEASON</b><h3>DEEPER RECORDS + SIGNATURE FEATURES</h3><ul><li>Everything in the season build</li><li>Deeper race and driver records</li><li>Signature interactions such as Ask, Time Machine, or Booth Lore</li><li>Evidence and unknown-state QA</li><li>Public demo / acceptance route</li></ul></article></div>' +
+    '<div class="league-care"><div><span>HOSTED</span><p>Hosting and automated normal-format updates after each race.</p></div><div><span>CURATED</span><p>Lightly curated race files plus a moment and clip shortlist.</p></div><div><span>FULL STUDIO</span><p>Deeper clip queue, Scene issues, season annuals, and priority corrections.</p></div></div>' +
     '<section class="league-acceptance"><div class="league-acceptance-head"><div><span>LIVE VRL ACCEPTANCE PADDOCK</span><h3>DON’T BUY THE PROMISE. TEST THE PRODUCT.</h3><p>These are observable checks on this deployment—not projected business outcomes.</p></div><b>7 / 7<small>PUBLIC CHECKS</small></b></div><div class="league-acceptance-grid">' +
     '<a href="#/highlights"><i>PASS</i><b>' + (reelProof.reelCount || 0) + ' / ' + CANONICAL_COUNT + '</b><span>canonical events have exact-source highlight reels</span><small>' + (reelProof.cutCount || 0) + ' cuts · first and final lap retained</small></a>' +
     '<a href="#/highlights"><i>PASS</i><b>' + (reelProof.cautionCallsCovered || 0) + ' / ' + (reelProof.cautionCallsDetected || 0) + '</b><span>detected caution calls are represented</span><small>' + (reelProof.replayExtendedIncidentCount || 0) + ' incident windows extend through replay analysis</small></a>' +
@@ -4154,15 +4259,15 @@ window.__copyPilotBrief = function () {
   var brief = [
     "SHOKKER LORE — SIM RACING LEAGUE PILOT",
     "",
-    "League Lore Starter — $250 one time",
+    "SEASON BUILD",
     "Usable public catalog, canonical race/source split, exact official-source playback, league branding, and one bounded correction pass.",
     "",
-    "League Lore Plus — $500 one time",
-    "Everything in Starter, deeper race/driver records, one signature interaction, evidence QA, and a public acceptance route.",
+    "FULL ARCHIVE BUILD",
+    "Everything in the season build, deeper race/driver records, signature interactions, evidence QA, and a public acceptance route.",
     "",
     "Acceptance checks: complete scoped catalog; exact-source playback; enforced exclusions; reviewable aliases/corrections; explicit unknown states; mobile recovery path.",
     "",
-    "Ongoing: Entry $25/month; Weekly $50/month; Studio $100/month.",
+    "Ongoing upkeep: hosted, curated, or full studio. Scoped to the league's race cadence.",
     "",
     "Normal scope: caption-ready single public feed; league supplies brand assets, canon rules, official data, corrections, and approval authority. No traffic, revenue, SEO, retention, or virality claims."
   ].join("\n");

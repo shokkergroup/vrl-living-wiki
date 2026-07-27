@@ -157,7 +157,7 @@
   function detectIntent(query) {
     var q = norm(query), types = [];
     function add(name, expression) { if (expression.test(q)) types.push(name); }
-    add("win", /\b(win|wins|won|winner|winners|victory|victories|checkered)\b/);
+    add("win", /\b(win|wins|won|winner|winners|winningest|victory|victories|checkered)\b/);
     add("finish", /\b(finish|finishes|finished|photo finish|last lap|white flag|at the line)\b/);
     add("wreck", /\b(wreck|wrecks|crash|crashes|spin|spins|airborne|flip|flips|big one)\b/);
     add("funny", /\b(funny|funniest|joke|jokes|laugh|comedy|booth)\b/);
@@ -277,6 +277,98 @@
     });
     out.sort(function (a, b) { return (b.race.ts || 0) - (a.race.ts || 0); });
     return out;
+  }
+
+  // Booth and paddock nicknames that never appear in the canonical track field.
+  var TRACK_ALIASES = {
+    "dega": "Talladega",
+    "the brickyard": "Indianapolis",
+    "brickyard": "Indianapolis",
+    "indy": "Indianapolis",
+    "the glen": "Watkins Glen",
+    "glen": "Watkins Glen",
+    "the paperclip": "Martinsville",
+    "paperclip": "Martinsville",
+    "wilkesboro": "North Wilkesboro",
+    "the roval": "Charlotte Roval",
+    "roval": "Charlotte Roval",
+    "vegas": "Las Vegas",
+    "homestead": "Homestead-Miami",
+    "miami": "Homestead-Miami",
+    "the lady in black": "Darlington",
+    "too tough to tame": "Darlington",
+    "the magic mile": "New Hampshire",
+    "loudon": "New Hampshire",
+    "the tricky triangle": "Pocono",
+    "tricky triangle": "Pocono",
+    "hotlanta": "Atlanta",
+    "the coliseum": "LA Coliseum",
+    "cota": "COTA"
+  };
+
+  // "who has the most wins at X" / "winningest driver at X" — an aggregate
+  // question, not a single-event lookup. Answering it with one arbitrary race
+  // is the failure mode this resolves.
+  function detectTrack(query, races) {
+    var q = " " + norm(query) + " ", best = null;
+    var canonical = {};
+    (races || []).forEach(function (race) { if (race.track) canonical[race.track] = 1; });
+    Object.keys(canonical).forEach(function (track) {
+      var needle = " " + norm(track) + " ";
+      if (q.indexOf(needle) >= 0 && (!best || track.length > best.length)) best = track;
+    });
+    if (best) return best;
+    Object.keys(TRACK_ALIASES).forEach(function (alias) {
+      if (q.indexOf(" " + alias + " ") >= 0) {
+        var target = TRACK_ALIASES[alias];
+        if (canonical[target] && (!best || alias.length > best.length)) best = target;
+      }
+    });
+    return best;
+  }
+
+  function asksSuperlative(query) {
+    var q = norm(query);
+    return /\b(most|winningest|best|top|leader|leaders|leading|who has|which driver|how many)\b/.test(q);
+  }
+
+  function trackLeaderboard(query, data, intent) {
+    if (intent.types.indexOf("win") < 0 || !asksSuperlative(query)) return null;
+    var track = detectTrack(query, data.races || []);
+    if (!track) return null;
+    var tally = {}, events = {};
+    (data.races || []).forEach(function (race) {
+      if (race.sourceRole === "continuation" || race.track !== track) return;
+      var eventId = race.eventId || race.id;
+      if (events[eventId]) return;
+      var result = verifiedWinnerForEvent(race, data);
+      if (!result || !result.receipt) return;
+      events[eventId] = 1;
+      var id = result.driver.id;
+      if (!tally[id]) tally[id] = { driver: result.driver, wins: 0, races: [] };
+      tally[id].wins++;
+      tally[id].races.push({
+        race: race,
+        sourceId: result.sourceRace.id,
+        t: result.receipt.t,
+        end: result.receipt.end,
+        quote: result.receipt.quote
+      });
+    });
+    var rows = Object.keys(tally).map(function (id) { return tally[id]; });
+    if (!rows.length) return null;
+    rows.forEach(function (row) {
+      row.races.sort(function (a, b) { return (b.race.ts || 0) - (a.race.ts || 0); });
+    });
+    rows.sort(function (a, b) {
+      return b.wins - a.wins || a.driver.name.localeCompare(b.driver.name);
+    });
+    return {
+      track: track,
+      rows: rows,
+      eventCount: Object.keys(events).length,
+      leaders: rows.filter(function (row) { return row.wins === rows[0].wins; })
+    };
   }
 
   var MONTHS = {
@@ -445,9 +537,13 @@
     var knowledge = directKnowledgeAnswers(query, data);
     var directNumberLookup = knowledge.some(function (item) { return item.type === "number"; });
     var eventResolution = directEventAnswers(query, data, intent);
+    var leaderboard = detected.length ? null : trackLeaderboard(query, data, intent);
+    // A track-scoped aggregate is the answer. Do not also surface one arbitrary
+    // race at that track as if it settled the question.
+    if (leaderboard) eventResolution = { answers: [], ambiguities: eventResolution.ambiguities };
     var driverAmbiguities = aliasAmbiguities(query, data.entityRegistry || {});
     var unresolvedDirectQuestion = (
-      intent.types.indexOf("win") >= 0 && !detected.length &&
+      intent.types.indexOf("win") >= 0 && !detected.length && !leaderboard &&
       !eventResolution.answers.length && !knowledge.length && !driverAmbiguities.length &&
       (intent.asksWhichRace || /^\s*who\b/i.test(String(query || "")))
     );
@@ -529,6 +625,7 @@
       intent: intent,
       drivers: detected.map(function (item) { return item.driver; }),
       directAnswers: direct,
+      leaderboard: leaderboard,
       eventAnswers: eventResolution.answers,
       knowledgeAnswers: knowledge,
       ambiguities: eventResolution.ambiguities.concat(driverAmbiguities).concat(
@@ -546,6 +643,8 @@
     norm: norm,
     detectDrivers: detectDrivers,
     detectIntent: detectIntent,
+    detectTrack: detectTrack,
+    trackLeaderboard: trackLeaderboard,
     queryDate: queryDate,
     queryTerms: queryTerms,
     search: search
