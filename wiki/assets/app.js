@@ -3210,8 +3210,10 @@ function resultRaceCardHtml(row) {
       '</span><b>' + esc(winner.name) + '</b><button onclick="__playReceipt(\'' + winner.sourceId + '\',' +
       winner.receipt.t + ',' + winner.receipt.end + ',\'P1 RESULT RECEIPT\')">&#9654; PROOF / ' +
       fmtT(winner.receipt.t) + '</button></div>' :
-      '<div class="result-winner unknown"><span>WINNER</span><b>NOT YET POSITION-BOUND</b><small><strong>SOURCE LIMIT / </strong>' +
-      esc(resultUnknownReason(race)) + '</small></div>') +
+    '<div class="result-winner unknown"><span>WINNER</span><b>NOT YET POSITION-BOUND</b><small><strong>SOURCE LIMIT / </strong>' +
+      esc(resultUnknownReason(race)) + '</small>' +
+      (race.special === "qualifier" ? '<em class="result-scope-zero">ALL-STAR QUALIFIER FINAL / ZERO ORDINARY WIN EFFECT</em>' : "") +
+      '</div>') +
     '<div class="result-podium">' + [1, 2, 3].map(function (position) {
       var item = row.positions.filter(function (candidate) { return candidate.position === position; })[0];
       if (!item) return '<span class="pending">P' + position + ' / PENDING</span>';
@@ -3245,18 +3247,25 @@ function vResults() {
   var winnerCount = rows.filter(function (row) { return row.winner; }).length;
   var rundownCount = rows.filter(function (row) { return row.rundown; }).length;
   var completePodiums = rows.filter(function (row) { return row.positions.length === 3; }).length;
+  var qualifierUnknownCount = rows.filter(function (row) {
+    return !row.winner && row.race.special === "qualifier";
+  }).length;
+  var ordinaryUnknownCount = rows.filter(function (row) {
+    return !row.winner && row.race.special !== "qualifier";
+  }).length;
   var html = '<div class="results-room"><section class="results-hero"><div class="wrap"><div class="kicker">THE CHECKERED FLAG / EXACT OFFICIAL TAPE</div>' +
     '<h1>VRL RESULTS <span>ROOM</span></h1><p>One finish desk for every eligible Wednesday-night event. Winner and podium names appear only when individually bound to position language; complete finishing-order reads remain playable as bounded booth segments.</p>' +
     '<div class="results-tote"><div><b>' + winnerCount + '</b><span>EVENTS WITH SUPPORTED P1</span></div><div><b>' +
     completePodiums + '</b><span>COMPLETE SUPPORTED PODIUMS</span></div><div><b>' + rundownCount +
-    '</b><span>BOUNDED RESULT READS</span></div><div><b>' + (rows.length - winnerCount) +
-    '</b><span>P1 STILL UNKNOWN</span></div></div></div></section><div class="wrap">' +
+    '</b><span>BOUNDED RESULT READS</span></div><div><b>' + ordinaryUnknownCount +
+    '</b><span>ORDINARY P1 GAPS</span></div></div><div class="results-scope-seal"><b>ORDINARY RACE-WINNER RECORD: COMPLETE ON REVIEWED TAPE</b><span>' +
+    qualifierUnknownCount + ' All-Star qualifier-final P1 remains deliberately unknown because the captions never say who won. It contributes zero ordinary wins, podiums, starts, or ranking points.</span></div></div></section><div class="wrap">' +
     ((FULL_RESULTS_BOARDS.summary || {}).boardCount ? '<aside class="full-results-pilot-banner"><div><span>NEW / FULL RESULTS BOARD PILOT</span><b>' +
       FULL_RESULTS_BOARDS.summary.knownPositionCount + ' REVIEWED FIELD POSITIONS ACROSS ' +
       FULL_RESULTS_BOARDS.summary.boardCount + ' FEATURED RACES</b><small>' +
       FULL_RESULTS_BOARDS.summary.unknownPositionCount + ' UNKNOWN SLOTS PRESERVED / ZERO STATISTICAL EFFECT</small></div><button class="btn" onclick="document.getElementById(\'resultsState\').value=\'fullboard\';document.getElementById(\'resultsState\').dispatchEvent(new Event(\'change\'))">SHOW PILOT BOARDS</button></aside>' : '') +
     '<div class="results-controls"><div class="bigsearch"><span class="ic">&#128269;</span><input id="resultsQ" aria-label="Search race results" placeholder="Driver, race, season, track, year..."></div>' +
-    '<label>SHOW<select id="resultsState" aria-label="Filter race results by evidence state"><option value="all">All eligible events</option><option value="fullboard">Full Results pilot boards</option><option value="rundown">Bounded result read available</option><option value="provisional">Provisional broadcast reads</option><option value="winner">Supported winner</option><option value="podium">Complete podium</option><option value="unknown">Winner still unknown</option></select></label></div>' +
+    '<label>SHOW<select id="resultsState" aria-label="Filter race results by evidence state"><option value="all">All eligible events</option><option value="fullboard">Full Results pilot boards</option><option value="rundown">Bounded result read available</option><option value="provisional">Provisional broadcast reads</option><option value="winner">Supported winner</option><option value="podium">Complete podium</option><option value="unknown">Unknown qualifier-final P1</option></select></label></div>' +
     '<div class="results-browser-status" id="resultsStatus" aria-live="polite"></div>' +
     '<div class="results-list" id="resultsList"></div><div class="empty" id="resultsEmpty" hidden>No result file matches those filters.</div>' +
     '<div class="results-more"><button class="btn ghost" id="resultsMore" type="button">LOAD 25 MORE RACES</button></div>' +
@@ -4129,7 +4138,9 @@ function vShowcase(step) {
     '<section class="league-acceptance"><div class="league-acceptance-head"><div><span>LIVE VRL ACCEPTANCE PADDOCK</span><h3>DON’T BUY THE PROMISE. TEST THE PRODUCT.</h3><p>These are observable checks on this deployment—not projected business outcomes.</p></div><b>7 / 7<small>PUBLIC CHECKS</small></b></div><div class="league-acceptance-grid">' +
     '<a href="#/highlights"><i>PASS</i><b>' + (reelProof.reelCount || 0) + ' / ' + CANONICAL_COUNT + '</b><span>canonical events have exact-source highlight reels</span><small>' + (reelProof.cutCount || 0) + ' cuts · first and final lap retained</small></a>' +
     '<a href="#/highlights"><i>PASS</i><b>' + (reelProof.cautionCallsCovered || 0) + ' / ' + (reelProof.cautionCallsDetected || 0) + '</b><span>detected caution calls are represented</span><small>' + (reelProof.replayExtendedIncidentCount || 0) + ' incident windows extend through replay analysis</small></a>' +
-    '<a href="#/results"><i>PASS</i><b>' + (resultProof.supportedWinnerClaimCount || 0) + '</b><span>winner claims have same-source position language</span><small>' + (resultProof.sourceWithResultRundownCount || 0) + ' bounded finishing-order reads</small></a>' +
+    '<a href="#/results"><i>PASS</i><b>' + (resultProof.supportedWinnerClaimCount || 0) + ' / ' +
+    (resultProof.winnerClaimCount || 0) + '</b><span>source-level P1 claims have same-source position language</span><small>every ordinary event has an event-level P1; the sole source-claim gap is an excluded qualifier final / ' +
+    (resultProof.sourceWithResultRundownCount || 0) + ' bounded finishing-order reads</small></a>' +
     '<a href="#/hall"><i>PASS</i><b>' + DRIVERS.length + '</b><span>canonical driver dossiers are public</span><small>aliases merge visibly; unsupported starts remain unknown</small></a>' +
     '<a href="#/scene"><i>PASS</i><b>' + sceneIssues().length + ' + ' + flashbackAnnuals().length + '</b><span>weekly Scene issues and completed-season Flashbacks are published</span><small>' + (VIGILANTE_PUBLICATIONS.summary.receiptCount || 0) + ' bounded publication receipt routes</small></a>' +
     '<a href="#/corrections"><i>PASS</i><b>' + ((ENTITY_REGISTRY.corrections || []).length) + '</b><span>owner corrections have a visible ripple trail</span><small>identity edits stay reviewable instead of silently rewriting tape</small></a>' +
