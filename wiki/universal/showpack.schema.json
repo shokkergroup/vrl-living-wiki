@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shokkerlore.local/schema/showpack.schema.json",
+  "title": "SHOKKER LORE Show Pack",
+  "type": "object",
+  "required": ["show", "scope", "entityTypes", "categories", "sources"],
+  "properties": {
+    "show": {
+      "type": "object",
+      "required": ["id", "name", "tagline"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "channelUrl": { "type": "string", "format": "uri" },
+        "visualTokens": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": ["include", "exclude"],
+      "properties": {
+        "include": { "type": "array", "items": { "type": "string" } },
+        "exclude": { "type": "array", "items": { "type": "string" } },
+        "exceptions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "entityTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "singular", "plural"],
+        "properties": {
+          "id": { "type": "string" },
+          "singular": { "type": "string" },
+          "plural": { "type": "string" },
+          "identitySignals": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "evidenceSignals"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "evidenceSignals": { "type": "array", "items": { "type": "string" } },
+          "weight": { "type": "number", "minimum": 0 }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "url", "title"],
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "title": { "type": "string" },
+          "published": { "type": ["string", "null"], "format": "date" },
+          "duration": { "type": ["integer", "null"], "minimum": 0 },
+          "collection": { "type": ["string", "null"] },
+          "transcript": { "type": "boolean" }
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    }
+  }
+}
+

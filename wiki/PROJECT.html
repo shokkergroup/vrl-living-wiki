@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRL LIVING WIKI — Project Dossier (the wiki about the wiki)</title>
+<style>
+  :root {
+    --bg:#0B0C10; --panel:#151824; --panel2:#1B1F30; --line:#262B40;
+    --txt:#F2F3F8; --dim:#9AA0B5; --faint:#666C82;
+    --red:#E8302A; --red-hot:#FF4B44; --blue:#3D6BB3; --blue-lt:#6E9AE0; --gold:#F4C430;
+    --mono:ui-monospace,Consolas,monospace;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:"Segoe UI",system-ui,sans-serif; font-size:16px; line-height:1.6; }
+  .wrap { max-width:980px; margin:0 auto; padding:0 24px 80px; }
+  header { border-bottom:1px solid var(--line); padding:40px 0 24px; margin-bottom:8px;
+    background:radial-gradient(700px 300px at 20% 0%, rgba(232,48,42,.12), transparent 60%); }
+  h1 { font-size:38px; margin:0 0 6px; letter-spacing:.5px; }
+  h1 .r { color:var(--red); }
+  .kicker { font-family:var(--mono); font-size:12px; letter-spacing:4px; color:var(--red); text-transform:uppercase; }
+  .sub { color:var(--dim); max-width:820px; }
+  h2 { font-size:24px; margin:44px 0 10px; padding-top:18px; border-top:1px solid var(--line); letter-spacing:.4px; }
+  h2 .n { color:var(--faint); font-family:var(--mono); font-size:15px; margin-right:10px; }
+  h3 { font-size:17.5px; margin:26px 0 8px; color:var(--blue-lt); }
+  p { margin:10px 0; }
+  a { color:var(--blue-lt); }
+  code, .path { font-family:var(--mono); font-size:13.5px; background:var(--panel2); padding:1px 6px; border-radius:5px; color:#D8DCEC; }
+  pre { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.5; color:#C9CEDF; }
+  table { border-collapse:collapse; width:100%; margin:14px 0; font-size:14.5px; }
+  th { text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--faint); border-bottom:2px solid var(--line); padding:8px 10px; }
+  td { border-bottom:1px solid var(--line); padding:8px 10px; vertical-align:top; }
+  tr:hover td { background:rgba(61,107,179,.06); }
+  .num { font-family:var(--mono); color:var(--gold); }
+  .callout { background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--blue); border-radius:0 10px 10px 0; padding:12px 18px; margin:16px 0; }
+  .callout.red { border-left-color:var(--red); }
+  .callout.gold { border-left-color:var(--gold); }
+  .tag { display:inline-block; font-family:var(--mono); font-size:10.5px; letter-spacing:1px; padding:2px 9px; border-radius:12px; margin:1px 4px 1px 0; text-transform:uppercase; }
+  .tag.done { background:rgba(23,163,74,.15); color:#5AD98B; border:1px solid rgba(23,163,74,.4); }
+  .tag.todo { background:rgba(244,196,48,.12); color:var(--gold); border:1px solid rgba(244,196,48,.4); }
+  .tag.idea { background:rgba(61,107,179,.15); color:var(--blue-lt); border:1px solid rgba(61,107,179,.4); }
+  .tag.risk { background:rgba(232,48,42,.13); color:var(--red-hot); border:1px solid rgba(232,48,42,.4); }
+  .toc { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 22px; margin:22px 0; columns:2; }
+  .toc a { display:block; padding:3px 0; text-decoration:none; font-size:14.5px; }
+  .toc a:hover { color:var(--red-hot); }
+  ul { margin:8px 0; padding-left:22px; }
+  li { margin:5px 0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .grid2{grid-template-columns:1fr;} .toc{columns:1;} }
+  .statrow { display:flex; gap:26px; flex-wrap:wrap; margin:18px 0; }
+  .stat b { display:block; font-size:28px; color:var(--txt); }
+  .stat span { font-family:var(--mono); font-size:10px; color:var(--faint); letter-spacing:2px; text-transform:uppercase; }
+  .q { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 16px; margin:10px 0; }
+  .q b { color:var(--gold); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="kicker">SHOKKER LORE · PROJECT DOSSIER · FOR EXTERNAL REVIEW</div>
+    <h1>The VRL Living Wiki — <span class="r">the wiki about the wiki</span></h1>
+    <p class="sub">Complete engineering documentation of the Vigilante Racing League Living Wiki: the goal, the architecture,
+    how every byte of data is produced, what is honestly still missing, and the improvement backlog.
+    Written to be handed to an independent reviewer (Codex) for critique and suggestions. Last updated <b>2026-07-25</b>.</p>
+  </div>
+</header>
+<div class="wrap">
+
+<div class="callout gold">
+  <b>CODEX CONTINUATION — 2026-07-23.</b> The review has become an implementation run. The July 22 Indianapolis
+  broadcast was located, downloaded, transcribed locally with faster-whisper large-v3, visually checked against
+  the broadcast grid, fully distilled, and added as Season 15 Round 3. The public catalog now contains
+  <b>222 complete eligible source broadcasts forming 219 canonical events</b>, <b>222 searchable transcripts</b>,
+  <b>222 full editorial distills</b>, <b>133 evidence-retained canonical driver identities</b>, <b>2,574 curated moments</b>, and
+  <b>1,563 playable soundbytes</b>. Validation passes with no
+  contract errors and zero eligible races missing a transcript or distill.
+  <p><b>New experiential layer:</b> Top-25 Time Machine V1, Ask the Tape, VRL Movie, Driver DNA, Ghost Telemetry,
+  shareable timestamp deep links, the Lore Galaxy, local-first Community Memory, a guided sales Showcase, and a
+  universal SHOKKER LORE show-pack schema. Other channel prototypes are now maintained and deployed as
+  independent products so the VRL experience remains completely racing-specific.</p>
+  <p><b>Identity and answer-quality pass:</b> owner-pinned full-name/nickname pairs now collapse before profiles,
+  mentions, rivalries, DNA, and lore are generated. Ask the Tape resolves the named driver and question intent
+  first; winner questions consult the official winner ledger and present the direct race answer before ranked
+  supporting moments or broad transcript testimony.</p>
+  <p><b>Booth Lore pass:</b> 70 playable exhibits now turn the announcers into characters: 8 verified
+  Announcer's Curse setup/payoff pairs, 9 Great Carnac predictions with back-to-back fulfillment playback, and
+  43 bounded rollover candidates across 35 races. Every row remains pending visual review; the detector is public-scope only and rejects camera references,
+  metaphors, near misses, Friday races, and Monday mocks.</p>
+  <p><b>Driver Dossier pass:</b> all 133 evidence-retained canonical identities now receive an evidence-based career page rather
+  than a mention-count poster. The new offline builders recover a disclosed mixed participant-or-mention appearance index, curated results, seasons, track affinities,
+  number histories, signature moments, and driver-spoken interview clips; the interface keeps confirmed starts unknown
+  visibly separate from races where the booth merely mentioned the name. Alan/Allen/Jess Vaught is one
+  owner-confirmed identity with the No. 33 and broadcaster transition preserved. A resumable Car-on-Tape pilot
+  adds real broadcast frames where the visual evidence is strong and uses stylized recovered-number cards
+  everywhere else.</p>
+  <p><a href="index.html#/showcase"><b>Open the new product showcase →</b></a></p>
+</div>
+
+<div class="toc">
+  <a href="#goal">1 · The Goal</a>
+  <a href="#state">2 · Current State (numbers)</a>
+  <a href="#arch">3 · Architecture</a>
+  <a href="#data">4 · Data Contracts</a>
+  <a href="#pipeline">5 · The Pipeline, step by step</a>
+  <a href="#ai">6 · The AI Distill System &amp; Cost Economics</a>
+  <a href="#zerotoken">7 · Zero-Token Techniques (the clever parts)</a>
+  <a href="#features">8 · Feature Inventory</a>
+  <a href="#issues">9 · Known Issues &amp; Limitations</a>
+  <a href="#needed">10 · What Is Still Needed</a>
+  <a href="#improve">11 · Improvement Backlog</a>
+  <a href="#runbook">12 · Runbook</a>
+  <a href="#questions">13 · Questions for the Reviewer</a>
+</div>
+
+<h2 id="goal"><span class="n">1</span>The Goal</h2>
+<p>The <b>Vigilante Racing League (VRL)</b> is a real iRacing NASCAR-style sim league that has raced nearly every
+Wednesday night since August 2021. Its broadcasts — 2 to 3 hours each with live two-person commentary — live on
+YouTube across <b>four different broadcaster channels</b> (the league outlived three broadcast partners). One
+departed broadcaster deleted their uploads, so part of the league's history is lost media.</p>
+<p>The project builds a <b>living wiki</b> of that entire history with three promises:</p>
+<ul>
+  <li><b>Everything indexed to the second.</b> Type a driver's name ("Ricky Whittenburg") and get every race
+  they appear in, every moment they caused, and every time the booth said their name — each one a ▶ button that
+  plays the original YouTube broadcast at that exact second.</li>
+  <li><b>Zero-maintenance updates.</b> New race nights appear by re-running one script; every derived page
+  (Hot 100, Winner's Circle, rivalries…) recomputes automatically.</li>
+  <li><b>A product, not a one-off.</b> This is the racing-league prototype of the <b>SHOKKER LORE</b> platform
+  (sister build: The Lapsed Fan podcast wiki). The intent is to sell living wikis to other leagues/series — the
+  league-specific parts are isolated in a "Show Pack" config (<span class="path">assets/show.js</span>) plus data,
+  so standing up a new league is config + pipeline run, not new code.</li>
+</ul>
+<div class="callout gold"><b>Secondary goal — a love letter.</b> This is the league owner's own league. The wiki
+should feel like a fan-made shrine, not a database: wanted posters, a late-night scanner channel, censored-cussing
+archive, victory-lane frames. Personality is a feature requirement, not decoration.</div>
+
+<h2 id="state"><span class="n">2</span>Current State</h2>
+<div class="statrow">
+  <div class="stat"><b>222</b><span>eligible broadcasts</span></div>
+  <div class="stat"><b>222</b><span>with transcripts</span></div>
+  <div class="stat"><b>222</b><span>fully distilled</span></div>
+  <div class="stat"><b>486</b><span>hours of eligible tape</span></div>
+  <div class="stat"><b>133</b><span>evidence-retained drivers</span></div>
+  <div class="stat"><b>133</b><span>primary numbers recovered</span></div>
+  <div class="stat"><b>68</b><span>published interview clips</span></div>
+  <div class="stat"><b>15</b><span>approved car frames</span></div>
+  <div class="stat"><b>2,574</b><span>curated moments</span></div>
+  <div class="stat"><b>1,563</b><span>playable soundbytes</span></div>
+  <div class="stat"><b>0</b><span>fallback auto-moments</span></div>
+  <div class="stat"><b>296</b><span>rage moments</span></div>
+  <div class="stat"><b>60</b><span>booth-lore exhibits</span></div>
+  <div class="stat"><b>124</b><span>victory frames</span></div>
+  <div class="stat"><b>426</b><span>exact result receipts</span></div>
+  <div class="stat"><b>219</b><span>coverage-first highlight reels</span></div>
+  <div class="stat"><b>2,498</b><span>exact highlight cuts</span></div>
+  <div class="stat"><b>15</b><span>seasons mapped</span></div>
+  <div class="stat"><b>17</b><span>reviewed title outcomes</span></div>
+</div>
+<p>The public scope is now enforced in Eastern time: <b>219 Wednesday-date source broadcasts + 3 reviewed Monday All-Star qualifiers</b>, for 222 source broadcasts forming 219 canonical events across 218 dates. Sixteen Friday/Monday-mock/weekend/technical,
+undated, or failed-stream sources remain preserved on disk but cannot enter generated public data. All features
+listed in §8 are live. The wiki runs locally (<code>python serve.py</code> → localhost:8791) and as a private
+production showcase at <a href="https://vrl-living-wiki.downndirtytn.chatgpt.site">vrl-living-wiki.downndirtytn.chatgpt.site</a>.</p>
+
+<h2 id="arch"><span class="n">3</span>Architecture</h2>
+<p><b>Two halves, strictly separated:</b> an offline <b>pipeline</b> (Python, runs on the owner's PC) that produces
+static data files, and a <b>runtime</b> (plain-JS static SPA, no build step, no server logic) that renders them.
+Compute happens offline; runtime is free to host anywhere. This mirrors the PodWiki playbook: "compute offline,
+ship static artifacts."</p>
+<pre>
+VRL WIKI/
+├─ index.html            hash-routed SPA shell (loads all data scripts)
+├─ serve.py              dev server (no-cache headers), port 8791
+├─ PROJECT.html          ← this dossier
+├─ assets/
+│  ├─ app.js             the entire application (~1,500 lines, vanilla JS, IIFE)
+│  ├─ styles.css         theme (asphalt dark, flag red/blue, checkered accents)
+│  ├─ show.js            SHOW PACK: branding, eras, ontology, links  ← per-league config
+│  ├─ races.js           race catalog          (generated)
+│  ├─ excitement.js      race index + every season recap (generated)
+│  ├─ distilled.js       recaps/moments/soundbytes per race (generated)
+│  ├─ drivers.js         canonical roster      (generated)
+│  ├─ mentions.js        per-driver mention counts per race (generated)
+│  ├─ rivalries.js       co-mention pairs + tape refs (generated)
+│  ├─ automoments.js     keyword-radar moments for undistilled races (generated)
+│  ├─ firedup.js         rage/bleep moments    (generated)
+│  ├─ booth-lore.js      curse/Carnac/rollover evidence (generated)
+│  ├─ driver-dossiers.js full career dossiers for every canonical driver (generated)
+│  ├─ driver-carshots.js real broadcast-frame pilot manifest (generated)
+│  ├─ highlight-reels.js 219 coverage-first exact-source edit briefs (generated)
+│  ├─ driver-cars/       reviewable real footage frames
+│  ├─ winnershots.js     manifest of victory frames (generated)
+│  ├─ posters.js         poster-art manifest   (generated)
+│  ├─ trindex.js         list of race ids that have transcripts (generated)
+│  ├─ tr/&lt;ytid&gt;.js       lazy per-race transcript (222 public ids, loaded on demand)
+│  ├─ winners/&lt;ytid&gt;.jpg victory frames (124)
+│  └─ posters/p###.jpg   poster art (237)
+└─ pipeline/             all generators (see §5) + distill/&lt;ytid&gt;.json ground truth
+</pre>
+<h3>Runtime design decisions</h3>
+<ul>
+  <li><b>No framework, no bundler.</b> One IIFE, hash routing, template strings. Rationale: zero build
+  friction for a solo owner-operator; page views are simple renders of pre-computed data.</li>
+  <li><b>YouTube IFrame API</b> for playback. Two players: an <i>inline</i> player on race pages and a floating
+  <i>dock</i> player (bottom-right) for playing any moment from any page. <code>__play(videoId, seconds)</code>
+  is the universal entry point — every ▶ in the app routes through it. If the inline player is showing the same
+  video, it seeks; otherwise the dock loads it. Highlight reels extend the dock sequence contract with per-cut source IDs, so continuation broadcasts switch videos at the exact boundary.</li>
+  <li><b>Transcripts are lazy.</b> 222 eligible transcripts ≈ many MB; each is a separate
+  <span class="path">assets/tr/&lt;id&gt;.js</span> loaded only when needed (race page, deep search). Deep search
+  scans progressively with a progress bar and can be superseded mid-run (generation counter).</li>
+  <li><b>Everything else loads eagerly</b> (including the dossier data layer). Fine at current scale; see §11 for the
+  split-when-bigger plan.</li>
+</ul>
+
+<h2 id="data"><span class="n">4</span>Data Contracts</h2>
+<table>
+  <tr><th>Global</th><th>Shape</th><th>Produced by</th></tr>
+  <tr><td><code>RACES</code></td><td><code>[{id, title, name, era, seasonLabel, round, special, track, date, ts, duration, thumb, views, desc}]</code></td><td>build_races.py</td></tr>
+  <tr><td><code>EXCITEMENT</code></td><td><code>{ytid: {score, rank, grade, status, components{}, reasons[]}}</code></td><td>build_excitement.py</td></tr>
+  <tr><td><code>SEASON_STORIES</code></td><td><code>{season: {recap, champion, mostExcitingRaceId, topRaceIds[], definingMoments[]}}</code></td><td>build_excitement.py</td></tr>
+  <tr><td><code>DISTILLED</code></td><td><code>{ytid: {recap, winner, podium[], moments[{t,title,summary,tags[],heat,kind,subkind}], soundbytes[{t,quote,context,gold}]}}</code></td><td>build_distilled.py ← distill/*.json</td></tr>
+  <tr><td><code>DRIVERS</code></td><td><code>[{id, name, aka[], bio, races[], momentCount}]</code></td><td>build_distilled.py ← roster.json</td></tr>
+  <tr><td><code>MENTIONS</code></td><td><code>{slug: {n, races:{ytid:count}}}</code></td><td>build_mentions.py</td></tr>
+  <tr><td><code>RIVALRIES</code></td><td><code>[{a, b, n, refs:[[ytid,t]…]}]</code> (same-caption-line co-mentions)</td><td>build_mentions.py</td></tr>
+  <tr><td><code>AUTOMOMENTS</code></td><td><code>{ytid: [{t,title,summary,kind,heat,auto:1}]}</code> — only races w/o distill</td><td>build_automoments.py</td></tr>
+  <tr><td><code>FIREDUP</code></td><td><code>[{v, t, kind, heat, quote}]</code> kinds: bleeped/payback/radio rage/…</td><td>build_firedup.py</td></tr>
+  <tr><td><code>BOOTH_LORE</code></td><td><code>{curse:[{setup,payoff…}], carnac:[{setup,payoff…}], upsideDown:[{raceId,t,quote,drivers[]…}]}</code></td><td>build_booth_lore.py + booth_lore_curated.json</td></tr>
+  <tr><td><code>DRIVER_DOSSIERS</code></td><td><code>{slug:{career{}, narrative[], yearsActive[], seasonsActive[], careerGauge{}, numberHistory[], seasonStats[], bestQuotes[], topEvidenceMoments[]}}</code></td><td>build_driver_dossiers.py + driver_interviews.json + owner profile overrides</td></tr>
+  <tr><td><code>DRIVER_CARSHOTS</code></td><td><code>{drivers:{slug:{raceId,t,path,reason,confidence,evidence}}}</code></td><td>build_driver_carshots.py</td></tr>
+  <tr><td><code>HIGHLIGHT_REELS</code></td><td><code>{methodology, summary, reels:{eventId:{editDurationSeconds,cuts[{sourceId,t,end,programT,title,kind,heat,exactUrl}]}}}</code></td><td>build_highlight_reels.py</td></tr>
+  <tr><td><code>TR["id"]</code></td><td><code>[[seconds, "caption text"]…]</code> ~10s coalesced lines</td><td>build_transcripts.py</td></tr>
+  <tr><td><code>WINNERSHOTS</code></td><td><code>[ytid…]</code> races that have assets/winners/&lt;id&gt;.jpg</td><td>build_winner_shots.py</td></tr>
+  <tr><td><code>POSTERS</code></td><td><code>[{f, s, n, ar}]</code> file/season/name/aspect</td><td>build_posters.py</td></tr>
+  <tr><td><code>SHOW</code></td><td>branding, eras[], ontology, lostMedia note, links — the per-league config</td><td>hand-written</td></tr>
+</table>
+<p><b>Derived at runtime</b> (not stored): season groupings and driver career spans. Championship titles come only from the explicit, source-linked <code>SEASON_CHAMPIONS</code> ledger; the Hot 100 is a persisted 100-receipt artifact with unique ranks and literal zero unsupplied votes.</p>
+<p><b>Ground truth on disk:</b> <span class="path">pipeline/distill/&lt;ytid&gt;.json</span> — one file per
+AI-distilled race (schema §6). These are the crown jewels; everything driver/moment/soundbyte flows from them
+plus the transcripts. <span class="path">pipeline/seasons_map.json</span> maps every video to
+season/round/special. <span class="path">pipeline/roster_overrides.json</span> lets the owner pin correct
+name spellings, explicit never-merge pairs, and per-broadcast identity corrections that beat caption-majority
+voting without rewriting the archival source distill.</p>
+
+<h2 id="pipeline"><span class="n">5</span>The Pipeline, step by step</h2>
+<table>
+  <tr><th>#</th><th>Script</th><th>What it does</th><th>Cost</th></tr>
+  <tr><td>1</td><td><code>fetch_channels.py</code></td><td>yt-dlp flat-playlist dump of videos+streams tabs of all 4 broadcaster channels → <span class="path">channels/*.json</span> (1,409 videos found)</td><td>free</td></tr>
+  <tr><td>2</td><td><code>fetch_meta.py</code></td><td>Finds title-matching VRL candidates and fetches per-video yt-dlp metadata: description, chapters, duration, view count, live timestamp + English auto-captions (json3). Resumable.</td><td>free</td></tr>
+  <tr><td>3</td><td><code>build_races.py</code> + <code>eligibility.py</code></td><td>Converts live timestamps to America/New_York and admits Wednesday only, with an explicit All-Star qualifier exception. Emits <code>eligibility_report.json</code>; excluded sources are retained, not deleted. Also cleans titles, infers tracks, and applies seasons_map.json.</td><td>free</td></tr>
+  <tr><td>4</td><td><code>build_transcripts.py</code></td><td>json3 caption events → coalesced ~10s lines; strips [Music] noise and publishes only eligible ids. Emits lazy <span class="path">assets/tr/*.js</span> + <span class="path">transcripts/*.txt</span> ("[H:MM:SS] text") for agents/miners.</td><td>free</td></tr>
+  <tr><td>5</td><td><code>gen_workflow.py [N]</code> + workflow run</td><td>AI distills — see §6. Hard-capped batch, priority-scored, max 3 concurrent.</td><td><b>~102–113k tokens/race</b></td></tr>
+  <tr><td>6</td><td><code>normalize_distills.py</code></td><td>Maps detailed agent labels into the seven stable public moment categories, preserves each detailed label as <code>subkind</code>, and converts legacy booth-gold booleans to 1–5 scores.</td><td>free</td></tr>
+  <tr><td>7</td><td><code>build_provisional_roster.py</code></td><td>Union-find clustering of driver names across all distills (see §7), with same-race and owner-pinned never-merge guards. → roster.json</td><td>free</td></tr>
+  <tr><td>8</td><td><code>build_mentions.py</code></td><td>N-gram alias scan of all 222 eligible transcripts → mention counts + co-mention rivalries.</td><td>free</td></tr>
+  <tr><td>9</td><td><code>build_distilled.py</code></td><td>Merges distill/*.json + roster: tags moments with driver slugs, applies per-video identity corrections, canonicalizes winner/podium names, and extracts fallback soundbytes → distilled.js + drivers.js.</td><td>free</td></tr>
+  <tr><td>10</td><td><code>build_automoments.py</code></td><td>Keyword radar over undistilled races' transcripts (see §7) → automoments.js.</td><td>free</td></tr>
+  <tr><td>11</td><td><code>build_firedup.py</code></td><td>Rage miner: bleep markers + anger phrases, eligible transcripts only → firedup.js.</td><td>free</td></tr>
+  <tr><td>12</td><td><code>build_excitement.py</code></td><td>Archive-relative Excitement Index + explainable components + a deterministic recap/top-race/defining-moment package for every season → excitement.js.</td><td>free</td></tr>
+  <tr><td>12b</td><td><code>build_booth_lore.py</code></td><td>Joins human-verified Curse/Carnac setup-payoff pairs to exact transcript lines, then mines explicit rollover language from eligible tape only → booth-lore.js.</td><td>free</td></tr>
+  <tr><td>12c</td><td><code>build_driver_interviews.py</code></td><td>Precision-first extraction of driver-spoken interview excerpts. Requires explicit speaker context or a named interview handoff, verifies the caption cue, caps each driver at five quotes, and rejects ambiguous booth speech.</td><td>free</td></tr>
+  <tr><td>12d</td><td><code>build_driver_dossiers.py</code></td><td>Joins mixed archive appearances, curated results, seasons, numbers, interview quotes, tagged moments, track evidence, and owner identity notes into a deterministic real career page for every driver.</td><td>free</td></tr>
+  <tr><td>12e</td><td><code>build_highlight_reels.py</code></td><td>Compiles every canonical event into a chronological, coverage-first official-tape sequence. Requires the complete first lap and final lap; retains every transcript-bounded caution, authored incident, and bounded replay/cause discussion; exposes boundary confidence; and emits 219 shareable cut lists with continuation-source switching.</td><td>free</td></tr>
+  <tr><td>13</td><td><code>build_winner_shots.py</code></td><td>For each receipt-supported winner source: picks a finish/victory timestamp (chapter markers → finish moments → 96.5% of duration), yt-dlp downloads a 6-second 480p section, ffmpeg extracts one frame → assets/winners/. Sequential, throttled, resumable; image presence never authenticates the result.</td><td>bandwidth only</td></tr>
+  <tr><td>13b</td><td><code>build_driver_carshots.py</code></td><td>Resumable real-footage prototype: mines explicit camera/ride-along cues tied to canonical drivers, downloads the cited video section, and extracts one reviewable frame. Weak or absent visual evidence falls back to a stylized number card in the UI.</td><td>bandwidth only</td></tr>
+  <tr><td>14</td><td><code>build_posters.py</code></td><td>Curates the owner's poster-art folders (size/aspect/name filters against drafts and layer crops), downscales to ≤1000px JPEG → Poster Vault.</td><td>free</td></tr>
+  <tr><td>—</td><td><code>validate.py</code></td><td>Checks eligibility isolation, the explicit VRL/NTRL crossover quarantine, source coverage, JSON contracts, timestamps, 1..N excitement ranks, every-season recap coverage, 219/219 coverage-first highlight reels with complete first/final laps, all detected caution windows, and exact-source cuts, generated-asset parity, 133/133 dossier coverage, the 39-driver Season 15 receipt ledger, confirmed-start integrity, owner identity pins, interview scope, and carshot file evidence.</td><td>free</td></tr>
+  <tr><td>—</td><td><code>update.py</code></td><td>One-command offline refresh through validation. The current 222-source archive is fully distilled; new tape remains quarantined until eligibility review and deliberate source-grounded distillation.</td><td>free</td></tr>
+</table>
+<p><b>Season mapping</b> was a one-time AI task (a "season architect" agent, ~150k tokens): given the full
+race list plus dated anchors (explicit titles like "Season 6 Opener", "S12 Round #1", "Season #13 Championship
+Race", plus the league's own records), it assigned all 237 source candidates to Seasons 1–15 with round numbers and special
+tags (all-star, qualifier, exhibition, fragment, crossover, olympics, mock). Confidence: high for S1–S8 and
+S12–S15 (anchored), medium for S9–S11 where lost tape breaks the chain.</p>
+
+<h2 id="ai"><span class="n">6</span>The AI Distill System &amp; Cost Economics</h2>
+<p>The only part of the system that uses AI at scale: one agent reads one race's transcript
+(<span class="path">transcripts/&lt;id&gt;.txt</span>, typically 100–300 KB) plus its metadata and returns
+structured JSON, which it also writes to <span class="path">distill/&lt;id&gt;.json</span> (crash-safe: files land
+as agents finish, so a killed batch keeps its progress).</p>
+<h3>Distill schema (enforced via structured output)</h3>
+<pre>{
+  id, recap (3-5 sentences, facts from tape only),
+  winner | null, podium[≤3],
+  moments[6-12]: {t seconds, title, summary, kind: wreck|pass|restart|finish|drama|funny|moment,
+                  heat 1-5, driverNames[]},
+  drivers[]: {name (best-guess proper), spellings[] (caption variants seen)},
+  soundbytes[3-8]: {t, quote (verbatim), context, gold 1-5},
+  broadcasters[], notes (uncertainties)
+}</pre>
+<h3>Batching &amp; the hard rules (learned the hard way)</h3>
+<div class="callout red"><b>Incident report:</b> the first attempt fanned out ~200 agents at once (one per race).
+It burned <span class="num">3.24M tokens</span> and died against the owner's subscription usage limit having
+completed only 28 races. The owner's standing rule since:
+<b>max 3 concurrent agents, batches only with explicit owner approval and a token estimate up front, actual cost
+reported after.</b> This rule is enforced structurally: <code>gen_workflow.py</code> historically baked only the selected batch's ids into the workflow script, and the workflow ran a chunked loop (<code>WIDTH = 3</code> with a barrier between chunks) rather than a wide pipeline. <b>Operational status:</b> all 222 eligible sources are now distilled, so this legacy remote batch path is not part of routine local refresh or polish work.</div>
+<h3>Measured economics</h3>
+<table>
+  <tr><th>Run</th><th>Races</th><th>Tokens</th><th>Per race</th><th>Notes</th></tr>
+  <tr><td>Uncapped fan-out (killed)</td><td>28 usable</td><td class="num">3,238,683</td><td class="num">~116k</td><td>186 agents died at the usage limit — the cautionary tale</td></tr>
+  <tr><td>Capped batch #1</td><td>25</td><td class="num">2,816,823</td><td class="num">~113k</td><td>championships/all-stars first; 0 failures</td></tr>
+  <tr><td>Capped batch #2 (width 3)</td><td>37</td><td class="num">3,783,858</td><td class="num">~102k</td><td>67 min wall clock; 0 failures</td></tr>
+</table>
+<p>Cost driver is transcript length (input tokens), so ~100–115k/race is intrinsic. The final parallel Codex run
+completed the remaining <b>89 captioned races</b>; then local large-v3 speech recognition recovered the three
+genuine full broadcasts that lacked usable YouTube captions. The eligible queue is now zero. Three tiny
+reboot/failed-stream artifacts are preserved in the source ledger but correctly excluded as non-races. Batch
+priority scoring: championship (+100), all-star (+40),
+opener (+25), + views/1000, + 2.5 per heat≥4 keyword-radar hit ("chaos bonus" — loaded tape first).</p>
+
+<h2 id="zerotoken"><span class="n">7</span>Zero-Token Techniques</h2>
+<p>Most of the wiki's intelligence costs nothing. These are the parts worth stealing for any future league:</p>
+<h3>7.1 The bleep detector (FIRED UP)</h3>
+<p>YouTube auto-captions censor profanity as a literal <code>[ __ ]</code> marker. Every marker is therefore a
+<b>timestamped cussing fit</b>, free. Combined with a rage-phrase regex table (retaliation, dumped him, radio
+screaming, middle finger…), this yields 296 eligible documented anger moments with zero AI.</p>
+<h3>7.2 Keyword moment radar (auto-moments)</h3>
+<p>A cue table (the Big One, flips/airborne/catch fence, caution flies, photo finish, green-white-checkered,
+booth exclamations, N-wide) scans every undistilled race. Hits cluster in 75-second windows; density boosts heat;
+guards suppress pre-race chatter and mid-race "finish" false alarms (finish cues only count in the last 28% of the
+tape). During distillation this supplied 434 clearly badged temporary moments. All 222 eligible races now have
+human-curated distills, so the active fallback set is empty; the miner remains ready for future uploads and its
+results stay excluded from the curated Hot 100.</p>
+<h3>7.3 Roster clustering (union-find + guards)</h3>
+<p>Auto-captions mangle names relentlessly ("Ricky Whittenburg" appears as Wittenberg / Whitenburg / Whitburgh /
+"Double Nickel Ri"). The provisional roster clusters name strings from all distills by:
+(1) shared caption spelling variants, (2) fuzzy full-name similarity bucketed by surname initial —
+<b>both gated by a first-name compatibility check</b> (equal / prefix / ratio ≥ 0.75). That guard exists because
+caption garble once stitched two different humans together (Chris <i>Goans</i> merged into Jason <i>Gaines</i>
+via shared "Gones" variants). Additional rules: booth crew (≥3 booth races) are excluded from the driver roster
+<i>unless</i> they have ≥3 driver races <i>or ever won/podiumed a race</i> (winner protection);
+<span class="path">roster_overrides.json</span> lets the owner pin the true spelling of any name, beating
+caption-majority voting (that's how "Chris Gomes" became Chris Goans — the owner's own file names proved the
+spelling).</p>
+<h3>7.4 The Mention Machine (n-gram scan)</h3>
+<p>Every roster name + alias becomes a word-tuple key (1-grams only for distinctive ≥6-char surnames that map to
+exactly one driver). A single pass over all 222 eligible transcripts does longest-match n-gram lookups per caption line —
+fast (seconds), no giant regex. Output: per-driver mention counts per race (the Hall's "booth mentions"), and
+same-line co-mentions become the <b>Shared-Tape Wire</b> (top pair: Anderson–Adamson, 181 shared calls) with
+clickable tape refs.</p>
+<h3>7.5 Victory frames (yt-dlp + ffmpeg)</h3>
+<p>For every known winner: pick a timestamp (victory-lane chapter marker if the broadcast has one → last
+finish-kind moment +35s → 96.5% of duration), download six seconds of 480p video with
+<code>yt-dlp --download-sections</code>, extract one frame with ffmpeg (bundled via imageio-ffmpeg), save 640px
+JPEG. The frames routinely capture the FINAL LAP banner or the results tower with the winner's name+car on
+screen — authentic broadcast history at zero AI cost. Frame presence never authenticates a result. There are 124 race-night frames total; 87 of the 155 exact-receipt winner sources have a frame, while 68 remain eligible for the resumable backfill.</p>
+<h3>7.6 Hand-distillation when the tape is explicit</h3>
+<p>Season 7's finale never made an AI batch, but a grep of the transcript's closing minutes found the literal
+championship call. The distill JSON was written by hand from those lines (flagged as such in
+<code>notes</code>). Lesson: for targeted facts, grep-then-read beats spending 100k tokens.</p>
+
+<h2 id="features"><span class="n">8</span>Feature Inventory</h2>
+<table>
+  <tr><th>Page</th><th>What it is</th><th>Data source</th></tr>
+  <tr><td>Home</td><td>Stats, This-Week-in-VRL-History, season rail, archive-wide top-three most exciting events, latest broadcasts, Hot 100 sampler, After Dark promo, lost-tape note</td><td>RACES, EXCITEMENT, DISTILLED, CHAMPIONS</td></tr>
+  <tr><td>Most Exciting Races</td><td>All 219 canonical events ranked 1..N with a 0–100 archive-relative index, evidence confidence, baseline rank, deferral reason, and eight component bars. Disruption is capped at 8% so wreck count cannot dominate.</td><td>EXCITEMENT, EXCITEMENT_METHOD, RECEIPT_MATRIX</td></tr>
+  <tr><td>Seasons / Season</td><td>Every season has a recap, champion banner, top-three most-exciting race rail, defining moments, and every-race grid</td><td>RACES, SEASON_STORIES, CHAMPIONS</td></tr>
+  <tr><td>Race page</td><td>Exact-source player with recovery link, full coverage-first highlight-reel launch and cut-list route, eight-component excitement panel + archive rank, Race Night Mode, recap, podium, moments, booth gold, notes, commentary search, prev/next</td><td>HIGHLIGHT_REELS, EXCITEMENT, DISTILLED/AUTOMOMENTS, TR lazy</td></tr>
+  <tr><td>Highlight Reels / Reel</td><td>All 219 canonical races searchable in one hub; each detail page plays a coverage-first SportsCenter-style exact-source sequence (7:47–31:25 in the current archive), exposes every bounded cut and source role, switches continuation tapes, and retains a YouTube recovery link per cut.</td><td>HIGHLIGHT_REELS, RECEIPT_MATRIX, RACES, RESULT_TRUTH</td></tr>
+  <tr><td>Race Night Mode</td><td>While the inline player runs, moment toasts pop within ±(4–14)s of each logged moment — a synced rewatch companion (1.5s poll of player time)</td><td>momentsOf(race)</td></tr>
+  <tr><td>Hall of Vigilantes</td><td>All 133 evidence-retained canonical careers in evidence-based tiers, with search by name, alias, recognizable number, or season and filters for winners, champions, the 39-driver current Season 15 field, and the 65-frame official-tape visual pilot. Single-broadcast caption debris is hidden unless a result receipt or owner review retains it.</td><td>DRIVERS, DRIVER_DOSSIERS, CURRENT_ROSTER, DRIVER_CARSHOTS, TITLES</td></tr>
+  <tr><td>Driver Dossier</td><td>A real career write-up for every canonical driver: mixed participant-or-mention appearances disclosed and confirmed starts kept unknown, curated wins and podiums, archive years/seasons, transparent archive-footprint gauge, number history with playable receipts, season-by-season timeline, track fingerprint, exact driver interview clips, Driver DNA, signature moments, Booth Lore, and deep transcript search.</td><td>DRIVER_DOSSIERS + DRIVER_CARSHOTS + DRIVER_DNA + BOOTH_LORE + TR</td></tr>
+  <tr><td>Winner's Circle</td><td>Every exact-receipt winner (37 across 155 canonical-event victories), reviewed win counts, championship crowns, win chips → race pages, and candidate official-source victory frames where available</td><td>RESULT_TRUTH, RECEIPT_MATRIX, CHAMPIONS, WINNERSHOTS</td></tr>
+  <tr><td>Hot 100</td><td>Archive-wide curated countdown: human heat + moment-type stakes + iconic phrase evidence + nearby booth gold + race-excitement context; deterministic, max 2 moments per race, with a visible “why” line for every entry</td><td>HOT100 + DISTILLED + EXCITEMENT</td></tr>
+  <tr><td>FIRED UP</td><td>296 eligible rage moments filterable by flavor; bleeped category = the censored-cussing archive</td><td>FIREDUP</td></tr>
+  <tr><td>Jukebox</td><td>Booth's best verbatim lines, gold-ranked, random-quote button, plays 3s before the line</td><td>DISTILLED soundbytes</td></tr>
+  <tr><td>Booth Lore</td><td>Three tape-native collections: Announcer's Curse praise-to-pain pairs; Great Carnac predictions spliced directly into their payoff; and 43 bounded rollover candidates pending visual review. Paired exhibits use a controlled two-clip sequence player.</td><td>BOOTH_LORE + RACES + DRIVERS</td></tr>
+  <tr><td>Record Book</td><td>Tote board, most-watched, Track Atlas (visit counts), marathon nights, the 37-week Wednesday Streak, Victory Lane win board, Big One Board, Photo Finish reel, most-talked-about leaderboard, Iron Vigilantes</td><td>RACES, DISTILLED, MENTIONS</td></tr>
+  <tr><td>Shared-Tape Wire / pair page</td><td>Top 200 co-mention pairs with exact caption receipts; co-occurrence does not prove rivalry, direct interaction, or causality</td><td>RIVALRIES + TR</td></tr>
+  <tr><td>Poster Vault</td><td>237 curated poster-art pieces by season, masonry + lightbox</td><td>POSTERS</td></tr>
+  <tr><td>After Dark</td><td>Neon late-night scanner: shuffled heat≥3 moments (incl. auto) auto-advance every 75s in the dock, era filter, skip button, session log</td><td>momentsOf pool</td></tr>
+  <tr><td>The Eras</td><td>The broadcaster history with date ranges and channel links</td><td>SHOW.eras, RACES</td></tr>
+  <tr><td>Lost Tape Memorial</td><td>The Aug–Oct 2024 dead-air story + auto-computed missing round numbers per season, dashed ghost cards</td><td>seasons_map gaps</td></tr>
+  <tr><td>Search</td><td>Drivers (alias-aware) + races + logged moments + progressive full-transcript deep scan with highlights</td><td>everything</td></tr>
+  <tr><td>Easter egg</td><td>Press C → full-screen caution flag wave</td><td>—</td></tr>
+</table>
+
+<h2 id="issues"><span class="n">9</span>Known Issues &amp; Limitations (honest list)</h2>
+<ul>
+  <li><span class="tag risk">data</span><b>Auto-caption quality bounds everything.</b> Names, quotes and search
+  all inherit caption garble. Whisper re-transcription of the audio would be far cleaner but costs compute for
+  486 hours of eligible public tape (see §11).</li>
+  <li><span class="tag todo">data</span><b>The confirmed-start ledger is conservative, not an official entry list.</b>
+  Driver Dossiers now disclose that the current index mixes participant and incidental booth mentions; confirmed starts remain null, but a missed name in
+  an old recap can still undercount a start. The page labels the basis and never inflates the total with mentions.</li>
+  <li><span class="tag risk">data</span><b>Roster clustering is heuristic.</b> Owner overrides now resolve the
+  known Alan/Allen/Jess Vaught identity and Dave/David Mayberry, while winner protection prevents dangerous
+  merges. A full owner pass over <span class="path">roster.json</span> can still catch less-visible cases.</li>
+  <li><span class="tag risk">data</span><b>Season 9–11 numbering is medium-confidence.</b> Lost tape breaks the
+  anchor chain; TLN-era "Race #1"s are missing. S10 may not have had a separate playoff. Owner review recommended.</li>
+  <li><span class="tag idea">data</span><b>Race distill coverage is complete.</b> All 222 eligible sources meet the 6-12 moment and 3-8 exact-soundbyte targets; future work should deepen reviewed results and entry ledgers, not fabricate extra clips.</li>
+  <li><span class="tag todo">data</span><b>Heat calibration varies by archivist.</b> The new Hot 100 reduces that
+  weakness with iconic-evidence, booth-gold, finish-stakes, and race-context signals, but a human head-to-head
+  normalization of the heat-5 pool would still sharpen the top 20.</li>
+  <li><span class="tag idea">infra</span><b>Private production is live with a bespoke OG/social card.</b> A custom
+  domain, analytics, SEO prerender (the hash-routed SPA is still mostly invisible to crawlers), and the TLF
+  third-party search widget remain productization opportunities.</li>
+  <li><span class="tag idea">ux</span><b>Mobile navigation is implemented and contract-tested.</b> The small-screen menu exposes its expanded state, closes after navigation, and is covered by rendered-product tests; representative real-phone visual QA remains useful.</li>
+  <li><span class="tag todo">data</span><b>View counts are a snapshot</b> from fetch time; they drift. Fine for
+  "most watched of all time", stale for recent races.</li>
+  <li><span class="tag todo">data</span><b>68 exact-receipt winner sources still lack candidate victory frames.</b> A smaller older set hit age, region, or section-download failures. Continuation uploads are now merged into 219 canonical events with explicit source roles; frame presence remains presentation evidence, never result authentication.</li>
+  <li><span class="tag risk">product</span><b>YouTube dependency.</b> If a channel deletes uploads (it happened
+  once), moments break. The pipeline re-scans on update and the Memorial documents gaps, but there's no local
+  archival story (deliberately — rights/size).</li>
+</ul>
+
+<h2 id="needed"><span class="n">10</span>What Is Still Needed (to call v1 "done")</h2>
+<table>
+  <tr><th>Item</th><th>Effort / cost</th><th>Why</th></tr>
+<tr><td>Owner review pass: roster.json + seasons_map S9–S11</td><td>human, ~30 min</td><td>the two heuristic-confidence areas; owner knowledge is ground truth</td></tr>
+  <tr><td>Human visual review of the Car-on-Tape pilot</td><td>human, ~15 min</td><td>camera-cue automation finds candidates; the strongest frames should be owner-approved before a public sales launch</td></tr>
+  <tr><td>Custom domain + analytics + SEO prerender</td><td>infra, medium</td><td>extend the public production demo into an acquisition funnel</td></tr>
+  <tr><td>Representative real-phone visual QA</td><td>human, small</td><td>the responsive menu and layouts are contract-tested; physical-device checks can catch browser-specific fit issues</td></tr>
+  <tr><td>Outbound YouTube link checker</td><td>local/network code, small</td><td>the data validator is live; link rot still needs a separate check</td></tr>
+  <tr><td>Weekly update automation (cron: update.py + rebuild + shot grab)</td><td>infra, small</td><td>makes "living" literally true</td></tr>
+</table>
+
+<h2 id="improve"><span class="n">11</span>Improvement Backlog (ideas, roughly prioritized)</h2>
+<h3>Search &amp; intelligence</h3>
+<ul>
+  <li><span class="tag idea">high value</span><b>Semantic search.</b> The TLF sister build already ships
+  quantized embeddings + in-browser cosine (transformers.js) — port it: "that time the spotter said clear and he
+  wasn't" should find the moment without keyword luck. Offline embedding build, static .bin artifact.</li>
+  <li><span class="tag idea">high value</span><b>Whisper re-transcription</b> of top races (or all, locally on
+  GPU over nights): fixes names/quotes at the source; auto-captions remain the fallback.</li>
+  <li><span class="tag idea"></span><b>Official entry-list reconciliation.</b> The dossier builder now mines
+  number→driver evidence by season and exposes playable receipts. Importing league entry lists would turn the
+  transcript-derived number history into a fully authoritative registry.</li>
+  <li><span class="tag idea"></span><b>Booth diarization</b> (who said it — per-host pages, "Alan vs Adam"
+  quote battles). pyannote locally, zero API.</li>
+</ul>
+<h3>Content &amp; storytelling</h3>
+<ul>
+  <li><span class="tag idea">high value</span><b>Standings reconstruction.</b> Distills capture winners/podiums;
+  full finishing orders often appear in results-tower frames and closing commentary. Even partial points tables
+  per season would unlock "title race" pages and add full points tables and richer title-race context beyond the reviewed title receipts.</li>
+  <li><span class="tag idea"></span><b>Story arcs / feud chapters.</b> The Shared-Tape Wire has the data; a cheap
+  synthesis pass could write "the Anderson–Adamson wars" as narrated chapters with tape.</li>
+  <li><span class="tag idea"></span><b>Community calibration for the Hot 100.</b> The deterministic memorability
+  model is now live; an owner ballot or lightweight fan voting could supply a human signal without letting
+  recency or popularity erase older archive moments. A yearly "SuperClash Awards" page could reuse it.</li>
+  <li><span class="tag idea"></span><b>Start Here onramp</b> for new league members: ten moments in order that
+  explain the league; gateway playlist.</li>
+  <li><span class="tag idea"></span><b>Clip factory:</b> auto-cut vertical clips (yt-dlp section + ffmpeg crop +
+  caption burn) for the league's socials — every clip a recruitment backlink.</li>
+</ul>
+<h3>Platform / productization</h3>
+<ul>
+  <li><span class="tag idea">high value</span><b>Show Pack extraction.</b> Formalize what's VRL-specific
+  (show.js, title-filter rules in fetch_meta, cue tables?) into a documented config so league #2 is a form-fill.
+  The per-channel title-filter rules are currently code — they should be config.</li>
+  <li><span class="tag idea"></span><b>SEO prerender:</b> generate real HTML pages per race/driver + JSON-LD +
+  sitemap + OG images (the TLF pipeline has build_static.py/build_og.py to port).</li>
+  <li><span class="tag idea"></span><b>Perf at scale:</b> split distilled.js per era, IndexedDB-cache transcripts,
+  service worker for offline; matters as the 222-race public archive is fully distilled and if a league has 500+ races.</li>
+  <li><span class="tag idea"></span><b>Member layer:</b> Patreon-gated features (After Dark, FIRED UP) as the
+  recurring-revenue story when selling to leagues.</li>
+  <li><span class="tag idea"></span><b>Operator console:</b> multi-tenant build dashboard (batch approvals, cost
+  ledger, validation status) — the business backend if this becomes SHOKKER LORE the product.</li>
+</ul>
+
+<h2 id="runbook"><span class="n">12</span>Runbook</h2>
+<pre># serve locally
+python serve.py                      # http://localhost:8791
+
+# weekly refresh (new race nights) — all free
+python pipeline/update.py
+python pipeline/build_firedup.py
+python pipeline/build_winner_shots.py     # victory frames for new winners
+python pipeline/build_driver_carshots.py  # resumable real-car-frame pilot
+
+# legacy AI distill path — archive is already 222/222 complete; do not run during routine refresh
+python pipeline/gen_workflow.py 10        # only if future reviewed tape creates a real backlog
+# → launch pipeline/vrl_distill_workflow2.js via the Workflow tool (runs width-3)
+# afterwards, fold in:
+python pipeline/normalize_distills.py
+python pipeline/build_provisional_roster.py
+python pipeline/build_mentions.py
+python pipeline/build_distilled.py
+python pipeline/build_automoments.py
+python pipeline/build_firedup.py
+python pipeline/build_booth_lore.py
+python pipeline/build_excitement.py
+python pipeline/build_source_dossiers.py
+python pipeline/build_highlight_reels.py
+python pipeline/build_driver_interviews.py
+python pipeline/build_driver_dossiers.py
+python pipeline/validate.py             # contract + generated-asset parity check
+
+# fix a name the captions got wrong
+#   edit pipeline/roster_overrides.json → rerun roster/mentions/distilled steps
+# owner-confirm driver metadata (number/role/identity note)
+#   edit pipeline/driver_profile_overrides.json → rerun driver dossiers</pre>
+
+<h2 id="questions"><span class="n">13</span>Questions for the Reviewer</h2>
+<div class="q"><b>Q1.</b> Roster identity: is union-find over caption spellings + first-name guard + owner
+overrides the right architecture, or would you model driver identity differently (e.g. explicit entity store with
+per-season car numbers as primary keys, captions as evidence)?</div>
+<div class="q"><b>Q2.</b> The eligible archive is fully transcribed and distilled. Should technical reboot fragments
+and failed streams stay only in the internal exclusion report, or receive a public “broadcast archaeology” memorial
+that explains why they are not counted as races?</div>
+<div class="q"><b>Q3.</b> Excitement and Hot 100 calibration: do the current explainable weights (finish drama,
+lead battle, booth energy, chaos, and curated heat) feel right after watching the top 25? Should owner/fan ballots
+be blended in as a separate human signal, and if so, how do we prevent recency and popularity bias?</div>
+<div class="q"><b>Q4.</b> Architecture: the runtime is a single 1,600-line vanilla-JS file by design (owner-operated,
+no build step). At what point does that decision break, and what's the lightest migration that preserves
+"unzip and open"?</div>
+<div class="q"><b>Q5.</b> Season 9–11 reconstruction: given lost tape, is there a defensible methodology for
+numbering (e.g. probabilistic round assignment from dates + track rotation), or should the wiki present those
+seasons as explicitly "survival-order" and stop implying official rounds?</div>
+<div class="q"><b>Q6.</b> Productization: what's missing from the Show Pack boundary before a second league could
+be onboarded without touching code? (Known gap: per-channel title-filter rules live in fetch_meta.py.)</div>
+<div class="q"><b>Q7.</b> Anything in §7 that's fragile in ways not listed in §9? The bleep detector, the n-gram
+mention scan, and the victory-frame timestamp heuristic have had the least adversarial review.</div>
+
+<p style="margin-top:40px;color:var(--faint);font-family:var(--mono);font-size:12px">
+SHOKKER LORE · VRL Living Wiki project dossier · generated 2026-07-22 · pairs with README.md (operator view) —
+this document is the reviewer view. The wiki itself: run <code>python serve.py</code> in the same folder.</p>
+</div>
+</body>
+</html>
