@@ -28,6 +28,44 @@ body {
   font-family: var(--body); font-size: 16px; line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Immediate race-control feedback while the evidence archive loads over the public web. */
+.archive-ignition {
+  min-height: calc(100vh - 70px); display: grid; place-content: center; justify-items: start;
+  padding: clamp(28px,7vw,96px); overflow: hidden; position: relative;
+  background:
+    linear-gradient(115deg,rgba(6,8,12,.96) 0 56%,rgba(6,8,12,.72)),
+    repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.025) 79px 80px);
+}
+.archive-ignition::before {
+  content: "VRL"; position: absolute; right: -.04em; bottom: -.23em; color: rgba(255,255,255,.025);
+  font: clamp(210px,42vw,700px)/.8 var(--disp); letter-spacing: -.04em; pointer-events: none;
+}
+.archive-ignition-mark { display: grid; grid-template-columns: repeat(5,26px); gap: 5px; margin-bottom: 24px; transform: skewX(-15deg); }
+.archive-ignition-mark i { height: 8px; background: #323846; animation: archive-ignition-lights 1.3s infinite both; }
+.archive-ignition-mark i:nth-child(2) { animation-delay: .12s; }
+.archive-ignition-mark i:nth-child(3) { animation-delay: .24s; }
+.archive-ignition-mark i:nth-child(4) { animation-delay: .36s; }
+.archive-ignition-mark i:nth-child(5) { animation-delay: .48s; }
+.archive-ignition > span { position: relative; color: var(--gold); font: 800 9px var(--mono); letter-spacing: 2.2px; }
+.archive-ignition h1 { position: relative; max-width: 900px; margin: 8px 0 6px; font: clamp(52px,9vw,126px)/.82 var(--disp); letter-spacing: .01em; }
+.archive-ignition p { position: relative; margin: 10px 0 22px; color: #aeb6c3; font-size: clamp(14px,1.5vw,18px); }
+.archive-ignition-track { width: min(560px,78vw); height: 3px; overflow: hidden; background: #252b36; }
+.archive-ignition-track b { display: block; width: 34%; height: 100%; background: linear-gradient(90deg,var(--red-hot),var(--gold)); animation: archive-ignition-scan 1.4s ease-in-out infinite; }
+.archive-noscript { max-width: 680px; margin: 30px auto; padding: 18px; border: 1px solid var(--red-hot); color: #fff; }
+@keyframes archive-ignition-lights {
+  0%,18% { background: #323846; }
+  38%,100% { background: var(--red-hot); box-shadow: 0 0 14px rgba(232,48,42,.5); }
+}
+@keyframes archive-ignition-scan {
+  0% { transform: translateX(-105%); }
+  100% { transform: translateX(300%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-ignition-mark i,.archive-ignition-track b { animation: none; }
+  .archive-ignition-mark i { background: var(--red-hot); }
+  .archive-ignition-track b { width: 100%; }
+}
 a { color: var(--blue-lt); text-decoration: none; }
 a:hover { color: var(--red-hot); }
 img { max-width: 100%; }

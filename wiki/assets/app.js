@@ -5049,7 +5049,19 @@ function route() {
   if ((m = h.match(/^#\/search\/?(.*)$/))) return vSearch(m[1]);
   vHome();
 }
-window.addEventListener("hashchange", route);
+function settleRouteView() {
+  window.requestAnimationFrame(function () {
+    var heading = $app.querySelector("h1, h2.page, h2");
+    var title = heading ? heading.textContent.trim().replace(/\s+/g, " ") : "";
+    document.title = title ? title + " · VRL Living Wiki" : "VRL Living Wiki";
+    $app.focus({ preventScroll: true });
+  });
+}
+function routeAndSettle() {
+  route();
+  settleRouteView();
+}
+window.addEventListener("hashchange", routeAndSettle);
 renderFoot();
-route();
+routeAndSettle();
 })();
