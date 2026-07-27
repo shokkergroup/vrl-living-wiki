@@ -3039,3 +3039,298 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
 @media (prefers-reduced-motion: reduce) {
   .scene-photo-frame img { transition: none; }
 }
+
+/* Season 15 race-control board: a scoring pylon and pit ledger, not a card grid. */
+.season-war-room {
+  position: relative;
+  margin: 34px 0 42px;
+  overflow: hidden;
+  border: 1px solid #3a3d42;
+  border-top: 7px solid var(--red);
+  background:
+    linear-gradient(115deg,rgba(222,25,39,.08),transparent 35%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 2px,transparent 2px 14px),
+    #0b0c0e;
+  box-shadow: 0 22px 60px rgba(0,0,0,.38);
+}
+.season-war-room::after {
+  content: "S15";
+  position: absolute;
+  top: -32px;
+  right: -6px;
+  color: rgba(255,255,255,.025);
+  font: 190px/.8 var(--disp);
+  letter-spacing: -9px;
+  pointer-events: none;
+}
+.season-war-room>header {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(360px,1fr) minmax(300px,.75fr);
+  gap: 40px;
+  align-items: end;
+  padding: 28px 30px 24px;
+  border-bottom: 1px solid #34373b;
+}
+.season-war-room>header span {
+  color: #ff5360;
+  font: 800 10px var(--mono);
+  letter-spacing: 1.4px;
+}
+.season-war-room>header h2 {
+  margin: 4px 0 0;
+  color: #fff;
+  font: clamp(40px,6vw,78px)/.82 var(--disp);
+  letter-spacing: -1px;
+}
+.season-war-room>header p {
+  margin: 0;
+  padding-left: 18px;
+  border-left: 3px solid var(--red);
+  color: #adb0b6;
+  font: 13px/1.55 var(--sans);
+}
+.season-war-room>header p b {
+  display: block;
+  margin-bottom: 4px;
+  color: #fff;
+  font: 800 10px var(--mono);
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+.season-war-tower {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-bottom: 1px solid #34373b;
+  background: #15171a;
+}
+.season-war-tower>div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 13px;
+  align-items: center;
+  min-height: 92px;
+  padding: 15px 22px;
+  border-right: 1px solid #34373b;
+}
+.season-war-tower>div:last-child { border-right: 0; }
+.season-war-tower>div.active {
+  background: var(--red);
+  color: #fff;
+}
+.season-war-tower b {
+  color: #fff;
+  font: 52px/.8 var(--disp);
+}
+.season-war-tower span {
+  color: #aeb1b5;
+  font: 800 9px/1.45 var(--mono);
+  letter-spacing: .7px;
+}
+.season-war-tower .active span { color: #fff; }
+.season-war-cut {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  gap: 20px;
+  align-items: center;
+  padding: 12px 22px;
+  border-bottom: 1px solid #34373b;
+  background: #08090a;
+}
+.season-war-cut span,
+.season-war-cut b,
+.season-war-cut em {
+  display: block;
+  font: 800 8px/1.5 var(--mono);
+  letter-spacing: .7px;
+}
+.season-war-cut span { color: #777d84; }
+.season-war-cut b { color: #fff; }
+.season-war-cut em { color: #ffbf34; font-style: normal; }
+.season-war-gauge {
+  height: 7px;
+  overflow: hidden;
+  background: #292c30;
+  transform: skewX(-18deg);
+}
+.season-war-gauge i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg,var(--red),#ffbf34);
+}
+.season-war-ledger {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.season-war-round {
+  display: grid;
+  grid-template-columns: 105px minmax(270px,.64fr) 1fr;
+  min-height: 225px;
+  border-bottom: 1px solid #34373b;
+}
+.season-war-round:last-child { border-bottom: 0; }
+.season-war-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #34373b;
+  background: #111316;
+}
+.season-war-rank span,
+.season-war-rank em {
+  color: #7b8087;
+  font: 800 8px var(--mono);
+  letter-spacing: 1px;
+  font-style: normal;
+}
+.season-war-rank b {
+  margin: 5px 0 9px;
+  color: #fff;
+  font: 72px/.75 var(--disp);
+}
+.season-war-rank em {
+  padding: 4px 6px;
+  background: #e8e9e7;
+  color: #101114;
+}
+.season-war-frame {
+  position: relative;
+  display: block;
+  min-height: 225px;
+  overflow: hidden;
+  border-right: 1px solid #34373b;
+  background: #050505;
+}
+.season-war-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.8) contrast(1.08);
+  transition: transform .28s ease,filter .28s ease;
+}
+.season-war-frame span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 11px 14px;
+  background: linear-gradient(90deg,rgba(216,22,37,.96),rgba(121,7,16,.93));
+  color: #fff;
+  font: 800 9px var(--mono);
+  letter-spacing: .7px;
+}
+.season-war-frame:hover img,
+.season-war-frame:focus-visible img {
+  transform: scale(1.025);
+  filter: saturate(1.05) contrast(1.08);
+}
+.season-war-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 27px;
+}
+.season-war-copy>span {
+  color: #ff5360;
+  font: 800 9px var(--mono);
+  letter-spacing: .7px;
+}
+.season-war-copy h3 {
+  margin: 7px 0 6px;
+  color: #fff;
+  font: clamp(26px,3.1vw,43px)/.92 var(--disp);
+  letter-spacing: .2px;
+}
+.season-war-copy p {
+  max-width: 720px;
+  margin: 0;
+  color: #aeb1b6;
+  font: 13px/1.52 var(--sans);
+}
+.season-war-result {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-top: 15px;
+}
+.season-war-result small {
+  color: #777d84;
+  font: 800 8px var(--mono);
+  letter-spacing: .7px;
+}
+.season-war-result b {
+  color: #ffbf34;
+  font: 23px/1 var(--disp);
+  letter-spacing: .5px;
+}
+.season-war-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 13px;
+}
+.season-war-actions button {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid #4b4f55;
+  background: transparent;
+  color: #fff;
+  font: 800 8px var(--mono);
+  letter-spacing: .55px;
+  cursor: pointer;
+}
+.season-war-actions button:hover,
+.season-war-actions button:focus-visible {
+  border-color: var(--red);
+  background: var(--red);
+}
+.season-war-actions a {
+  color: #fff;
+  font: 800 8px var(--mono);
+  letter-spacing: .6px;
+}
+.season-war-room>footer {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 18px;
+  padding: 14px 22px;
+  border-top: 1px solid #34373b;
+  background: #17191c;
+  color: #94989e;
+  font: 800 8px/1.55 var(--mono);
+  letter-spacing: .45px;
+}
+.season-war-room>footer b { color: #ffbf34; }
+
+@media (max-width: 900px) {
+  .season-war-room>header { grid-template-columns: 1fr; gap: 18px; }
+  .season-war-tower { grid-template-columns: 1fr 1fr; }
+  .season-war-tower>div:nth-child(2) { border-right: 0; }
+  .season-war-tower>div:nth-child(-n+2) { border-bottom: 1px solid #34373b; }
+  .season-war-round { grid-template-columns: 84px minmax(230px,.72fr) 1fr; }
+}
+@media (max-width: 700px) {
+  .season-war-room>header { padding: 23px 18px 20px; }
+  .season-war-room>header h2 { font-size: 47px; }
+  .season-war-tower>div { min-height: 76px; padding: 13px 15px; }
+  .season-war-tower b { font-size: 43px; }
+  .season-war-cut { grid-template-columns: 1fr; gap: 8px; }
+  .season-war-round { grid-template-columns: 68px 1fr; }
+  .season-war-rank { grid-row: 1/3; }
+  .season-war-rank b { font-size: 54px; }
+  .season-war-frame { min-width: 0; min-height: 185px; border-right: 0; }
+  .season-war-copy { padding: 20px 17px 23px; }
+  .season-war-copy h3 { font-size: 31px; }
+  .season-war-actions { align-items: stretch; flex-direction: column; }
+  .season-war-actions button,
+  .season-war-actions a { width: 100%; text-align: center; }
+  .season-war-room>footer { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .season-war-frame img { transition: none; }
+}

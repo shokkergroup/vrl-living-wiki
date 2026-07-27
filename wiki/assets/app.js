@@ -1868,6 +1868,54 @@ function vSeasons() {
   $app.innerHTML = html;
 }
 
+function seasonWarRoom(label, season, rules) {
+  if (label !== "Season 15" || !rules) return "";
+  var seasonEventIds = season.races.map(function (race) { return race.eventId || race.id; });
+  var issues = sceneIssues().filter(function (issue) {
+    return issue.seasonLabel === label && seasonEventIds.indexOf(issue.eventId) >= 0;
+  }).sort(function (a, b) {
+    return (a.round || a.issueNumber || 0) - (b.round || b.issueNumber || 0);
+  });
+  if (!issues.length) return "";
+  var archivedRounds = issues.length;
+  var remainingRegular = Math.max(0, rules.schedule.regularSeasonRaces - archivedRounds);
+  var throughDate = issues[issues.length - 1].date;
+  var progress = Math.min(100, Math.round((archivedRounds / rules.schedule.regularSeasonRaces) * 100));
+  var ledger = issues.map(function (issue) {
+    var cover = issue.cover || {};
+    var winnerReceipt = issue.winnerReceipt || {};
+    var round = issue.round || issue.issueNumber;
+    return '<li class="season-war-round"><div class="season-war-rank"><span>ROUND</span><b>' +
+      String(round).padStart(2, "0") + '</b><em>CHECKERED</em></div><a class="season-war-frame" href="#/scene/' +
+      esc(issue.eventId) + '"><img loading="lazy" src="' + esc(issue.heroImage) +
+      '" alt="Reviewed official-broadcast frame for ' + esc(issue.raceTitle) +
+      '"><span>OPEN VIGILANTE SCENE ' + String(issue.issueNumber).padStart(2, "0") +
+      ' &rarr;</span></a><div class="season-war-copy"><span>' + esc(fmtDate(issue.date).toUpperCase()) +
+      ' / ' + esc(issue.track.toUpperCase()) + ' / COMPLETED ARCHIVE FILE</span><h3>' +
+      esc(cover.coverLine || issue.raceTitle) + '</h3><p>' +
+      esc(cover.deck || ((issue.winner || "The supported winner") + " closes the round.")) +
+      '</p><div class="season-war-result"><small>SUPPORTED WINNER</small><b>' +
+      esc((issue.winner || "Unknown").toUpperCase()) + '</b></div><div class="season-war-actions">' +
+      (winnerReceipt.sourceId && Number.isFinite(winnerReceipt.t)
+        ? '<button onclick="__play(\'' + esc(winnerReceipt.sourceId) + '\',' + winnerReceipt.t +
+          ')">&#9654; PLAY WIN RECEIPT / ' + fmtT(winnerReceipt.t) + '</button>'
+        : '') +
+      '<a href="#/race/' + esc(issue.eventId) + '">RACE FILE &rarr;</a></div></div></li>';
+  }).join("");
+  return '<section class="season-war-room" aria-labelledby="seasonWarRoomTitle"><header><div><span>RACE CONTROL / ARCHIVE THROUGH ' +
+    esc(fmtDate(throughDate).toUpperCase()) + '</span><h2 id="seasonWarRoomTitle">THE ROAD TO THE CHASE</h2></div>' +
+    '<p><b>Coverage board, not a live points table.</b> Completed rounds come from published race files. Remaining counts come only from the league-owner-supplied Season 15 format; no standings, penalties, drop selections, or playoff positions are inferred.</p></header>' +
+    '<div class="season-war-tower" aria-label="Season 15 race format coverage"><div class="active"><b>' +
+    archivedRounds + '</b><span>ROUNDS<br>ARCHIVED</span></div><div><b>' + remainingRegular +
+    '</b><span>REGULAR ROUNDS<br>REMAINING</span></div><div><b>' + rules.schedule.chaseRaces +
+    '</b><span>CHASE<br>RACES</span></div><div><b>' + rules.drops.count +
+    '</b><span>DROP WEEKS<br>R1&ndash;R12</span></div></div><div class="season-war-cut"><div><span>REGULAR-SEASON ARCHIVE PROGRESS</span><b>' +
+    archivedRounds + ' / ' + rules.schedule.regularSeasonRaces + ' COMPLETED ROUNDS</b></div><div class="season-war-gauge" role="img" aria-label="' +
+    archivedRounds + ' of ' + rules.schedule.regularSeasonRaces +
+    ' regular-season rounds archived"><i style="width:' + progress + '%"></i></div><em>NO STANDINGS INFERRED</em></div>' +
+    '<ol class="season-war-ledger">' + ledger + '</ol><footer><b>RACE-CONTROL BOUNDARY</b><span>The pylon advances only when a canonical Wednesday event has a published Scene issue and race file. Broadcast-frame images are exact-source candidates; they are not automated truck-identification claims.</span></footer></section>';
+}
+
 function vSeason(label) {
   var s = null; SEASONS.forEach(function (x) { if (x.label === label) s = x; });
   if (!s) { $app.innerHTML = '<div class="wrap"><div class="empty">Season not found.</div></div>'; return; }
@@ -1902,6 +1950,7 @@ function vSeason(label) {
     '<p class="page-sub">' + s.races.length + " canonical events · Called by " + esc(e.name) +
     (winners.length ? " · " + winners.length + " receipt-verified winners" : "") + "</p>" +
     rulesHtml +
+    seasonWarRoom(label, s, rules) +
     (annual
       ? '<a class="season-publication-cta flashback" href="#/flashback/' +
         annual.seasonNumber + '"><span>THE COMPLETE YEAR IN REVIEW</span><b>OPEN VIGILANTE FLASHBACK SEASON ' +
