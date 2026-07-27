@@ -4048,6 +4048,120 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
     color: #333 !important;
   }
 }
+
+/* The first-lap chooser is a pit-wall dispatch sheet, not four interchangeable cards. */
+@media (min-width: 901px) {
+  .home-start {
+    display: grid;
+    grid-template-columns: minmax(250px,.34fr) minmax(0,1fr);
+    border-radius: 0;
+    clip-path: polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%);
+  }
+  .home-start-head {
+    position: relative;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 34px 28px 26px;
+    border-right: 1px solid #3b4354;
+    background:
+      linear-gradient(145deg,rgba(232,48,42,.2),transparent 65%),
+      #0d1017;
+  }
+  .home-start-head:after {
+    content: "PIT ENTRY / FOUR LANES";
+    margin-top: auto;
+    padding-top: 38px;
+    color: var(--gold);
+    font: 800 8px var(--mono);
+    letter-spacing: 1.5px;
+  }
+  .home-start-head p {
+    margin-top: 17px;
+    font-size: 12px;
+  }
+  .home-start-grid {
+    grid-template-columns: 1fr;
+    border-top: 0;
+  }
+  .home-start-grid a {
+    display: grid;
+    grid-template-columns: 58px minmax(140px,.55fr) minmax(210px,1fr) auto;
+    grid-template-rows: auto 1fr;
+    gap: 2px 16px;
+    min-height: 88px;
+    padding: 13px 18px 13px 0;
+    border-right: 0;
+    border-bottom: 1px solid #343b49;
+  }
+  .home-start-grid a:last-child { border-bottom: 0; }
+  .home-start-grid b {
+    display: grid;
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-self: stretch;
+    place-items: center;
+    margin: -13px 0;
+    border-right: 1px solid #343b49;
+    color: rgba(244,196,48,.62);
+    font-size: 34px;
+  }
+  .home-start-grid span {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin: 0;
+  }
+  .home-start-grid h3 {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    margin: 2px 0 0;
+    font-size: 22px;
+  }
+  .home-start-grid p {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    align-self: center;
+    margin: 0;
+    font-size: 11px;
+  }
+  .home-start-grid em {
+    position: static;
+    grid-column: 4;
+    grid-row: 1 / 3;
+    align-self: center;
+    min-width: 105px;
+    text-align: right;
+  }
+}
+
+@media (max-width: 650px) {
+  .home-start {
+    border-radius: 0;
+    clip-path: polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);
+  }
+  .home-start-grid a {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 3px 12px;
+  }
+  .home-start-grid b {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    border-right: 1px solid #343b49;
+    font-size: 32px;
+  }
+  .home-start-grid span,
+  .home-start-grid h3,
+  .home-start-grid p {
+    grid-column: 2;
+    margin-top: 0;
+  }
+  .home-start-grid em {
+    left: 80px;
+  }
+}
 @media (max-width: 650px) {
   .race-hero { padding-top: 24px; }
   .race-hero>h1 { font-size: clamp(42px,14vw,62px); }
