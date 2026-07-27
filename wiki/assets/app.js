@@ -60,8 +60,11 @@ var $app = document.getElementById("app");
 var $nav = document.getElementById("nav");
 var $foot = document.getElementById("foot");
 var DEEP_ARCHIVE_URL = "assets/showcase.js?v=26";
+var RACE_DOSSIERS_URL = "assets/source-dossiers.js?v=26";
 var deepArchivePromise = null;
 var deepArchiveScript = null;
+var raceDossiersPromise = null;
+var raceDossiersScript = null;
 var routeRequest = 0;
 
 function syncDeepArchiveGlobals() {
@@ -75,8 +78,14 @@ function routeNeedsDeepArchive(hash) {
   return /^#\/(?:showcase|time-machine|tape|galaxy|driver|race)(?:\/|$)/.test(hash) ||
     /^#\/movie\/booth(?:\/|$)/.test(hash);
 }
+function routeNeedsRaceDossiers(hash) {
+  return /^#\/race(?:\/|$)/.test(hash);
+}
+function deepArchiveReady() {
+  return !!(window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH);
+}
 function loadDeepArchive() {
-  if (window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH) {
+  if (deepArchiveReady()) {
     syncDeepArchiveGlobals();
     return Promise.resolve();
   }
@@ -97,6 +106,28 @@ function loadDeepArchive() {
   });
   return deepArchivePromise;
 }
+function loadRaceDossiers() {
+  if (window.SOURCE_DOSSIERS) {
+    SOURCE_DOSSIERS = window.SOURCE_DOSSIERS;
+    return Promise.resolve();
+  }
+  if (raceDossiersPromise) return raceDossiersPromise;
+  raceDossiersPromise = new Promise(function (resolve, reject) {
+    raceDossiersScript = document.createElement("script");
+    raceDossiersScript.src = RACE_DOSSIERS_URL;
+    raceDossiersScript.async = true;
+    raceDossiersScript.dataset.vrlRaceDossiers = "true";
+    raceDossiersScript.onload = function () {
+      SOURCE_DOSSIERS = window.SOURCE_DOSSIERS || {};
+      resolve();
+    };
+    raceDossiersScript.onerror = function () {
+      reject(new Error("The race source dossiers could not be loaded."));
+    };
+    document.head.appendChild(raceDossiersScript);
+  });
+  return raceDossiersPromise;
+}
 function deepArchiveLoadingHtml() {
   return '<div class="archive-ignition route-ignition" role="status" aria-live="polite">' +
     '<div class="archive-ignition-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
@@ -112,6 +143,9 @@ window.__retryDeepArchive = function () {
   deepArchivePromise = null;
   if (deepArchiveScript) deepArchiveScript.remove();
   deepArchiveScript = null;
+  raceDossiersPromise = null;
+  if (raceDossiersScript) raceDossiersScript.remove();
+  raceDossiersScript = null;
   routeAndSettle();
 };
 
@@ -5115,13 +5149,18 @@ function settleRouteView() {
 function routeAndSettle() {
   var request = ++routeRequest;
   var hash = location.hash || "#/";
-  if (!routeNeedsDeepArchive(hash)) {
+  var needsDeep = routeNeedsDeepArchive(hash);
+  var needsRaceDossiers = routeNeedsRaceDossiers(hash);
+  if (!needsDeep && !needsRaceDossiers) {
     route();
     settleRouteView();
     return;
   }
-  if (window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH) {
-    syncDeepArchiveGlobals();
+  var deepReady = !needsDeep || deepArchiveReady();
+  var raceDossiersReady = !needsRaceDossiers || !!window.SOURCE_DOSSIERS;
+  if (deepReady && raceDossiersReady) {
+    if (needsDeep) syncDeepArchiveGlobals();
+    if (needsRaceDossiers) SOURCE_DOSSIERS = window.SOURCE_DOSSIERS || {};
     route();
     settleRouteView();
     return;
@@ -5129,7 +5168,10 @@ function routeAndSettle() {
   renderNav();
   window.scrollTo(0, 0);
   $app.innerHTML = deepArchiveLoadingHtml();
-  loadDeepArchive().then(function () {
+  var loaders = [];
+  if (!deepReady) loaders.push(loadDeepArchive());
+  if (!raceDossiersReady) loaders.push(loadRaceDossiers());
+  Promise.all(loaders).then(function () {
     if (request !== routeRequest) return;
     route();
     settleRouteView();
