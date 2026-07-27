@@ -958,6 +958,32 @@ function flashbackForSeason(value) {
   var number = parseInt(String(value || "").replace(/\D+/g, ""), 10);
   return flashbackAnnuals().filter(function (annual) { return annual.seasonNumber === number; })[0] || null;
 }
+function pressClippingsForDriver(driverId) {
+  return {
+    issues: sceneIssues().filter(function (issue) {
+      return (issue.driverIds || []).indexOf(driverId) >= 0;
+    }).sort(function (a, b) { return String(b.date || "").localeCompare(String(a.date || "")); }),
+    annuals: flashbackAnnuals().filter(function (annual) {
+      return (annual.driverIds || []).indexOf(driverId) >= 0;
+    }).sort(function (a, b) { return b.seasonNumber - a.seasonNumber; })
+  };
+}
+function driverPressClippingCard(item, type) {
+  var isScene = type === "scene";
+  var href = isScene ? "#/scene/" + item.eventId : "#/flashback/" + item.seasonNumber;
+  var image = item.heroImage || "assets/vrl-logo.png";
+  var eyebrow = isScene
+    ? "VIGILANTE SCENE / ISSUE " + String(item.issueNumber).padStart(2, "0")
+    : "VIGILANTE FLASHBACK / SEASON " + item.seasonNumber;
+  var title = isScene ? item.leadStory.headline : item.title;
+  var detail = isScene
+    ? fmtDate(item.date) + " / " + (item.track || "TRACK DEVELOPING")
+    : (item.dateRange || "SEASON ARCHIVE") + " / " + item.raceCount + " RACES";
+  return '<a class="driver-press-card ' + (isScene ? "scene" : "flashback") + '" href="' + href +
+    '"><figure><img loading="lazy" src="' + esc(image) + '" alt="" aria-hidden="true"></figure><div><span>' +
+    esc(eyebrow) + '</span><h3>' + esc(title) + '</h3><p>' + esc(detail) +
+    '</p><b>OPEN THE PUBLICATION &rarr;</b></div></a>';
+}
 window.__playPressReceipt = function (sourceId, t, end, encodedLabel) {
   window.__playReceipt(sourceId, t, end, decodeURIComponent(encodedLabel || "PRESS RECEIPT"));
 };
@@ -4430,6 +4456,8 @@ function vDriverDossier(slug) {
   var signatureReel = driverSignatureSequence(ds, d);
   var verifiedResults = verifiedResultsForDriver(d.name);
   var rankingResume = driverRankingResume(slug);
+  var pressClippings = pressClippingsForDriver(slug);
+  var pressClippingCount = pressClippings.issues.length + pressClippings.annuals.length;
   var currentMember = currentRosterMember(slug);
   var currentLatest = currentMember && currentMember.latestResult;
   var currentForm = currentMember && currentFormRows({ members: [currentMember] })[0];
@@ -4468,6 +4496,7 @@ function vDriverDossier(slug) {
   var dossierJumpLinks = [
     currentForm ? ["driver-current", "Season 15"] : null,
     ["driver-story", "Career story"],
+    pressClippingCount ? ["driver-press", "Press clippings"] : null,
     rankingResume.length ? ["driver-rankings", "Rankings"] : null,
     verifiedResults.length ? ["driver-results", "Results"] : null,
     (ds.seasonStats || []).length ? ["driver-seasons", "Seasons"] : null,
@@ -4531,6 +4560,15 @@ function vDriverDossier(slug) {
           '</p><a href="#/race/' + esc(route.raceId || route.sourceId) +
           '">OPEN RACE FILE &rarr;</a></article>';
       }).join("") + '</div></section>';
+  }
+
+  if (pressClippingCount) {
+    html += '<section class="sec dossier-module driver-press-clippings" id="driver-press"><div class="sec-head"><h2>Press Clippings</h2><div class="ln"></div><span class="more">' +
+      pressClippingCount + ' AUTHORED PUBLICATIONS</span></div><p class="driver-press-rule">A clipping appears only when the authored Scene issue or Flashback annual explicitly names ' +
+      esc(d.name) + '. It is a story index, not an official start or entry-list claim.</p><div class="driver-press-grid">' +
+      pressClippings.issues.map(function (item) { return driverPressClippingCard(item, "scene"); }).join("") +
+      pressClippings.annuals.map(function (item) { return driverPressClippingCard(item, "flashback"); }).join("") +
+      '</div></section>';
   }
 
   if (rankingResume.length) {
