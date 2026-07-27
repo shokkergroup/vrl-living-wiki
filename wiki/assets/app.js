@@ -59,6 +59,61 @@ window.TR = window.TR || {};
 var $app = document.getElementById("app");
 var $nav = document.getElementById("nav");
 var $foot = document.getElementById("foot");
+var DEEP_ARCHIVE_URL = "assets/showcase.js?v=26";
+var deepArchivePromise = null;
+var deepArchiveScript = null;
+var routeRequest = 0;
+
+function syncDeepArchiveGlobals() {
+  TIME_MACHINE = window.TIME_MACHINE || { topRaceIds: [], races: {} };
+  DRIVER_DNA = window.DRIVER_DNA || {};
+  GHOST_TELEMETRY = window.GHOST_TELEMETRY || {};
+  LORE_EVIDENCE = window.LORE_EVIDENCE || [];
+  LORE_GRAPH = window.LORE_GRAPH || { nodes: [], edges: [] };
+}
+function routeNeedsDeepArchive(hash) {
+  return /^#\/(?:showcase|time-machine|tape|galaxy|driver|race)(?:\/|$)/.test(hash) ||
+    /^#\/movie\/booth(?:\/|$)/.test(hash);
+}
+function loadDeepArchive() {
+  if (window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH) {
+    syncDeepArchiveGlobals();
+    return Promise.resolve();
+  }
+  if (deepArchivePromise) return deepArchivePromise;
+  deepArchivePromise = new Promise(function (resolve, reject) {
+    deepArchiveScript = document.createElement("script");
+    deepArchiveScript.src = DEEP_ARCHIVE_URL;
+    deepArchiveScript.async = true;
+    deepArchiveScript.dataset.vrlDeepArchive = "true";
+    deepArchiveScript.onload = function () {
+      syncDeepArchiveGlobals();
+      resolve();
+    };
+    deepArchiveScript.onerror = function () {
+      reject(new Error("The deep archive could not be loaded."));
+    };
+    document.head.appendChild(deepArchiveScript);
+  });
+  return deepArchivePromise;
+}
+function deepArchiveLoadingHtml() {
+  return '<div class="archive-ignition route-ignition" role="status" aria-live="polite">' +
+    '<div class="archive-ignition-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' +
+    '<span>DEEP ARCHIVE / LOADING EXACT TAPE INTELLIGENCE</span><h1>OPENING THE INNER GARAGE</h1>' +
+    '<p>Wiring Time Machine, Driver DNA, Ghost Telemetry, and the Lore Galaxy&hellip;</p>' +
+    '<div class="archive-ignition-track" aria-hidden="true"><b></b></div></div>';
+}
+function deepArchiveErrorHtml() {
+  return '<div class="wrap"><div class="empty"><b>DEEP ARCHIVE CONNECTION MISSED</b><p>The core race files are still available. Retry this evidence-heavy route when the connection is ready.</p>' +
+    '<button class="btn" onclick="__retryDeepArchive()">RETRY DEEP ARCHIVE</button> <a class="btn ghost" href="#/">RETURN TO PIT WALL</a></div></div>';
+}
+window.__retryDeepArchive = function () {
+  deepArchivePromise = null;
+  if (deepArchiveScript) deepArchiveScript.remove();
+  deepArchiveScript = null;
+  routeAndSettle();
+};
 
 /* ------------------------------------------------------------------ utils */
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -5058,8 +5113,31 @@ function settleRouteView() {
   });
 }
 function routeAndSettle() {
-  route();
-  settleRouteView();
+  var request = ++routeRequest;
+  var hash = location.hash || "#/";
+  if (!routeNeedsDeepArchive(hash)) {
+    route();
+    settleRouteView();
+    return;
+  }
+  if (window.TIME_MACHINE && window.DRIVER_DNA && window.GHOST_TELEMETRY && window.LORE_EVIDENCE && window.LORE_GRAPH) {
+    syncDeepArchiveGlobals();
+    route();
+    settleRouteView();
+    return;
+  }
+  renderNav();
+  window.scrollTo(0, 0);
+  $app.innerHTML = deepArchiveLoadingHtml();
+  loadDeepArchive().then(function () {
+    if (request !== routeRequest) return;
+    route();
+    settleRouteView();
+  }).catch(function () {
+    if (request !== routeRequest) return;
+    $app.innerHTML = deepArchiveErrorHtml();
+    settleRouteView();
+  });
 }
 window.addEventListener("hashchange", routeAndSettle);
 renderFoot();
