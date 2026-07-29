@@ -12,8 +12,9 @@ The public, source-linked living archive of the
 - 29 complete bonus broadcasts in **Highline Live**
 - 3 fragments retained in the Source Ledger
 - 20 HLRN-authored companion files mapped to official races
-- 98 normalized driver dossiers
-- 326 exact-source moment routes in the initial public build
+- 99 normalized driver dossiers
+- 424 exact-source moment routes in the initial public build
+- 20/20 official races with timed primary tape and surfaced moments
 - 20 tape-supported winners and a channel-supported Season 1 champion receipt
 
 ## Core experience
