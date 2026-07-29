@@ -272,6 +272,527 @@
     ];
     app.innerHTML = '<div class="home">' +
       '<section class="hero"><div class="hero-grid"></div><div class="hero-lines"><i></i><i></i><i></i></div><div class="wrap hero-inner">' +
-      '<div class="hero-copy"><span class="eyebrow"><i></i>EVERY SI×ÏxÖÚ$z{-®éÜj×FW2G&—fW"6–væGW&R&VVÂãÂ÷ãÆF—câr²²&f–æ—6‚"Â&&GFÆR"Â'&W7F'B"Â'7G&FVw’"Â&F—7'WF–öâ"Â&&ö÷F‚"Â&Wf–FVæ6R%ÒæÖ†gVæ7F–öâ†—FVÒ’²&WGW&âsÇ7ãâr²—FVÒçFõWW$66R‚’²#Â÷7ãâ#²Ò’æ¦ö–â‚""’²#ÂöF—cãÂ÷6V7F–öãâ"°¢sÇ6V7F–öâ6Æ73Ò&ÖWF†öB×Væ¶æ÷vç2#ãÆF—cãÇ7ãä´äõtâäõsÂ÷7ããÇVÃãÆÆ“å6÷W&6R–FVçF—F–W2æBFFW3ÂöÆ“ãÆÆ“ä÷&–v–æÂÆ–&6²U$Ç3ÂöÆ“ãÆÆ“äöff–6–ÂfW'7W2&öçW2ÆæSÂöÆ“ãÆÆ“åF–ÖVBG&ç67&—B6–væÇ3ÂöÆ“ãÆÆ“äÆÂ#öff–6–Âv–ææW'3ÂöÆ“ãÆÆ“å6V6öâ6†×–öâ&V6V—CÂöÆ“ãÆÆ“ä6†ææVÂÖWF†÷&VB6ö×æ–öâW—6öFW3ÂöÆ“ãÂ÷VÃãÂöF—cãÆF—cãÇ7ãåt•D”ärdõ"õtäU"$T4õ$E3Â÷7ããÇVÃãÆÆ“ä6ö×ÆWFRf–æ—6†–ær÷&FW'3ÂöÆ“ãÆÆ“äöff–6–Â7F'G2æBö–çG3ÂöÆ“ãÆÆ“ägVÆÂ7FæF–æw2F&ÆW3ÂöÆ“ãÆÆ“äöff–6–Â–æ6–FVçB6÷VçG3ÂöÆ“ãÆÆ“ä6ö×ÆWFRçVÖ&W"æBFVÒ†—7F÷'“ÂöÆ“ãÂ÷VÃãÂöF—cãÂ÷6V7F–öããÂöF—cãÂöF—câs°¢Ğ ¢gVæ7F–öâW‡Æ÷&UvR‚’°¢f"6&G2Ò°¢²$„”t„Ä”äRÄ•dR"Â%F†R6ö×ÆWFRæöâÖÆVwVR÷G÷W'&’ÂgVÆÇ’6÷fW&VBæBW‡Æ–6—FÇ’6W&FVBâ"Â"2ö†–v†Æ–æRÖÆ—fR"ÂDDç&V6÷&G2æÆ—fT6÷VçB²"$4U2%ÒÀ¢²$„”t‚Ä”äR$D""Â%&6R7F÷'’6–væÇ2Æ÷GFVB7&÷72W†7B6÷W&6RF–ÖRâ"Â"2÷&F""ÂDDæÖöÖVçG2æÆVæwF‚²"4ôåD5E2%ÒÀ¢²$„”t„Ä”äRe$UTTä5’"Â%&V7W'&–æræWGv÷&²ÆæwVvRv—F‚Æ–&ÆRW†7B&V6V—G2â"Â"2ög&WVVæ7’"ÂDDç‡&6W2æÆVæwF‚²"e$UTTä4”U2%ÒÀ¢²%$T4õ$B$ô$B"Â$&6†—fRF÷FÇ2Â'VçF–ÖRÂf–Ww2ÂG&6·2ÂæB6÷W&6R&V6÷&G2â"Â"2÷&V6÷&G2"ÂDDç&V6÷&G2æ†÷W'2²"„õU%2%ÒÀ¢²%4õU$4RÄTDtU""Â$WfW'’7F&ÆRÆ—fW7G&VÒ–FVçF—G’æBWf–FVæ6R7FFRâ"Â"2÷6÷W&6W2"ÂDDç&V6÷&G2ç6÷W&6T6÷VçB²"4õU$4U2%ÒÀ¢²$ÔUD„ôDôÄôu’"Â$6æöâÂWf–FVæ6R7FFW2Â66÷&–ærÂVæ¶æ÷vç2ÂæB6÷'&V7F–öç2â"Â"2öÖWF†öFöÆöw’"Â$õTâ4ôåE$5B%ÒÀ¢Ó°¢æ–ææW$…DÔÂÒsÆF—b6Æ73Ò&W‡Æ÷&R×vR#âr²vT†VB‚%D„RDTU4”täÂDT4²ò$U”ôäBD„RÔ”âD%2"Â%D„Rt„ôÄSÆ'#ãÆVÓääUEtõ$²Tä•dU%4RãÂöVÓâ"Â%6—‚FVWW"FööÇ2GW&âF†R6†ææVÂ&6†—fR–çFòÆ6RFò–çfW7F–vFRÂ&Wf—6—BÂæB6÷'&V7Bâ"Â°¢¶6&G2æÆVæwF‚Â$DTUDôôÅ2%ÒÂ´DDç&V6÷&G2æW†–Æ–'”6÷VçBÂ$4ôÕä”ôâd”ÄU2%ÒÂ´DDç&V6÷&G2æg&vÖVçD6÷VçBÂ%$U4U%dTBe$tÔTåE2%ÒÀ¢Ò’²sÆF—b6Æ73Ò'w&#ãÆF—b6Æ73Ò&W‡Æ÷&RÖw&–B#âr²6&G2æÖ†gVæ7F–öâ†—FVÒÂ–æFW‚’°¢&WGW&âsÆ‡&VcÒ"r²—FVÕ³%Ò²r#ãÆ#âr²7G&–ær†–æFW‚²’çE7F'Bƒ"Â#"’²#Âö#ãÇ7ãâ"²W62†—FVÕ³5Ò’²#Â÷7ããÆƒ#â"²W62†—FVÕ³Ò’²#Âöƒ#ãÇâ"²W62†—FVÕ³Ò’²#Â÷ãÆVÓäõTâDôôÂ(i#ÂöVÓãÂöâ#°¢Ò’æ¦ö–â‚""’²sÂöF—cãÇ6V7F–öâ6Æ73Ò&W‡Æ÷&R×&—GVÇ2#ãÆF—cãÇ7ãå$UEU$â$•ETÃÂ÷7ããÆƒ#äÄ5BÄÄõEDU%“Âöƒ#ãÇäG&÷–çFò7W÷'FVB6Æ÷6–ær6–væÂg&öÒç—v†W&R–âF†RæWGv÷&²ãÂ÷ãÆ'WGFöâöæ6Æ–6³Ò%õöÆ7DÆ‚’#å%TâD„RÄõEDU%’)kcÂö'WGFöããÂöF—cãÆF—cãÇ7ãä´U”$ô$B$•ETÃÂ÷7ããÆƒ#å$U52ƒÂöƒ#ãÇä÷VâF†R†–v‚Æ–æRg&öÒç’vRæB&V6V—fR&æFöÒW†7B&GFÆR6–væÂãÂ÷ãÆ'WGFöâöæ6Æ–6³Ò%õö÷Vä†–v„Æ–æR‚’#äõTâD„R„”t‚Ä”äR)kcÂö'WGFöããÂöF—cãÂ÷6V7F–öããÂöF—cãÂöF—câs°¢Ğ ¢gVæ7F–öâ&6UvR†–BÂF–ÖW7F×’°¢f"6÷W&6RÒ6÷W&6TÖ¶–EÓ°¢–b‚6÷W&6R’&WGW&â†öÖR‚“°¢f"ÖöÖVçG2Ò6÷W&6RæÖöÖVçG2ÇÂµÓ°¢f"&W7VÇBÒ6÷W&6Rç&W7VÇBÇÂ·Ó°¢f"—77VRÒV&Æ–6F–öäÖ¶–EÓ°¢f"G&—fW$–G2Ò'&’æg&öÒ†æWr6WB†ÖöÖVçG2æfÆDÖ†gVæ7F–öâ†—FVÒ’²&WGW&â—FVÒæG&—fW'2ÇÂµÓ²Ò’’“°¢f"G&—fW'2ÒG&—fW$–G2æÖ†gVæ7F–öâ†G&—fW$–B’²&WGW&âG&—fW$Ö¶G&—fW$–EÓ²Ò’æf–ÇFW"„&ööÆVâ“°¢f"†W&ô–ÖvRÒ—77VRbb—77VRæ–ÖvRò—77VRæ–ÖvRæf–ÆR¢6÷W&6RçF‡VÖ#°¢f"7G2Ò²&÷Væ–ær"Â&Ö–FFÆR"Â&6Æ÷6–ær%Ó°¢æ–ææW$…DÔÂÒsÆ'F–6ÆR6Æ73Ò'&6R×vRFVWÖF—fR#ãÇ6V7F–öâ6Æ73Ò'&6RÖ†W&ò#ãÆF—b6Æ73Ò'&6RÖ†W&òÖ&r"7G–ÆSÒ&&6¶w&÷VæBÖ–ÖvS§W&Â…Ârr²W62††W&ô–ÖvR’²uÂr’#ãÂöF—cãÆF—b6Æ73Ò'w&#ãÆF—b6Æ73Ò'&6RÖ7'VÖ"#ãÆ‡&VcÒ"r²‡6÷W&6RæÆæRÓÓÒ&öff–6–Â"ò"2÷6V6öâò"²6÷W&6Rç6V6öâ¢"2ö†–v†Æ–æRÖÆ—fR"’²r#âr²W62†ÆæTÆ&VÂ‡6÷W&6RæÆæR’’²#ÂöãÇ7ãâóÂ÷7ãâ"²W62‡6÷W&6RææÖR’²#ÂöF—cãÆF—b6Æ73ÕÂ'&6R×F—FÆUÂ#â"²ÆæT&FvR‡6÷W&6R’²sÇ7â6Æ73Ò'&6RÖf–ÆRÖÆ&VÂ#âr²‡6÷W&6RæÆæRÓÓÒ&öff–6–Â"ò$ôdd”4”Â$4RDTUD•dR"¢$„”t„Ä”äRÄ•dR4õU$4Rd”ÄR"’²sÂ÷7ããÆƒâr²W62†—77VRò—77VRæ†VFÆ–æR¢6÷W&6RææÖR’²#ÂöƒãÇâ"²W62‡6÷W&6RçG&6²’²"+r"²W62†f×DFFR‡6÷W&6RæFFR’’²"+r"²f×DGW&F–öâ‡6÷W&6RæGW&F–öâ’²sÂ÷ãÆF—cãÆ'WGFöâ6Æ73Ò&'WGFöâ†÷B"öæ6Æ–6³Ò%õ÷Æ’…Ârr²6÷W&6Ræ–B²uÂrÂr²‡F–ÖW7F×ÇÂ’²rÅÂrr²W62‡6÷W&6UF—FÆR‡6÷W&6R’’²uÂr’#î)kbr²‡F–ÖW7F×ò%Ä’B"²f×EF–ÖR‡F–ÖW7F×’¢%tD4‚e$ôÒ5D%B"’²sÂö'WGFöããÆ6Æ73Ò&'WGFöâvÆ72"‡&VcÒ"r²W62‡6÷W&6RçW&Â’²r"F&vWCÒ%ö&Ææ²"&VÃÒ&æö÷VæW"#å”õUET$R4õU$4R(isÂöâr²†—77VRòsÆ6Æ73Ò&'WGFöâvÆ72"‡&VcÒ"2ö6VçG&Âòr²6÷W&6Ræ–B²r#å$TB4TåE$ÂTD•D”ôãÂöâr¢rr’²sÂöF—cãÂöF—cãÆ6–FSâr²†VD&"‡6÷W&6R’²sÆF—cãÆ#âr²6÷W&6RæÖöÖVçG2æÆVæwF‚²#Âö#ãÇ7ãå$Ud”UtTB5UE3Â÷7ããÂöF—cãÆF—cãÆ#â"²6÷W&6RçG&ç67&—DÆ–æW2çFôÆö6ÆU7G&–ær‚’²#Âö#ãÇ7ãåD”ÔTB4TtÔTåE3Â÷7ããÂöF—cãÂö6–FSãÂöF—cãÂ÷6V7F–öãâ"°¢sÇ6V7F–öâ6Æ73Ò'&6RÖf7G2#ãÆF—b6Æ73Ò'w&#ãÆF—cãÇ7ãäÄäSÂ÷7ããÆ#âr²W62†ÆæTÆ&VÂ‡6÷W&6RæÆæR’’²#Âö#ãÂöF—cãÆF—cãÇ7ãåE$4³Â÷7ããÆ#â"²W62‡6÷W&6RçG&6²’²#Âö#ãÂöF—cãÆF—cãÇ7ãäd”ÄSÂ÷7ããÆ#â"²‡6÷W&6RæÆæRÓÓÒ&öff–6–Â"ò%2"²6÷W&6Rç6V6öâ²"ò""²6÷W&6Rç&6R¢W62‡6÷W&6Ræ¶–æB’’²#Âö#ãÂöF—cãÆF—cãÇ7ãå$U5TÅCÂ÷7ããÆ#â"²W62‡&W7VÇBç7FGW2ÇÂ'Væ¶æ÷vâ"’²#Âö#ãÂöF—cãÆF—cãÇ7ãåE$å45$•CÂ÷7ããÆ#â"²W62‡6÷W&6RçG&ç67&—E7FGW2’²#Âö#ãÂöF—cãÂöF—cãÂ÷6V7F–öãâ"°¢sÇ6V7F–öâ6Æ73Ò&Wf–FVæ6R×F÷vW"#ãÆF—b6Æ73Ò'w&#ãÆ'F–6ÆR6Æ73Ò&FöæR#ãÆ#ãÂö#ãÇ7ãå$”Ô%’$4RDSÂ÷7ããÇ7G&öæsâr²6÷W&6RçG&ç67&—DÆ–æW2çFôÆö6ÆU7G&–ær‚’²rD”ÔTB4TtÔTåE3Â÷7G&öæsãÂö'F–6ÆSãÆ'F–6ÆR6Æ73Ò"r²‡6÷W&6Ræ6ö×æ–öâò&FöæR"¢""’²r#ãÆ#ã#Âö#ãÇ7ãä„Å$â4ôÕä”ôãÂ÷7ããÇ7G&öæsâr²‡6÷W&6Ræ6ö×æ–öâò$ÔD4„TB"¢$äõBdõTäB"’²sÂ÷7G&öæsãÂö'F–6ÆSãÆ'F–6ÆR6Æ73Ò"r²†—77VRò&FöæR"¢""’²r#ãÆ#ã3Âö#ãÇ7ãäTD•Dõ$”Â$Ud”UsÂ÷7ããÇ7G&öæsâr²†—77VRòÖöÖVçG2æÆVæwF‚²"$õTäDTB5UE2"¢6÷W&6Ræ6æF–FFT6÷VçB²"4äD”DDU2T$åD”äTB"’²sÂ÷7G&öæsãÂö'F–6ÆSãÆ'F–6ÆR6Æ73Ò"r²‡&W7VÇBç7FGW2ÓÒ'Væ¶æ÷vâ"ò&FöæR"¢""’²r#ãÆ#ãCÂö#ãÇ7ãå$U5TÅB$T4T•CÂ÷7ããÇ7G&öæsâr²W62…7G&–ær‡&W7VÇBç7FGW2ÇÂ'Væ¶æ÷vâ"’çFõWW$66R‚’’²sÂ÷7G&öæsãÂö'F–6ÆSãÂöF—cãÂ÷6V7F–öãâr°¢sÆF—b6Æ73Ò'w&&6RÖÆ–÷WB#ãÆÖ–ãâr°¢†—77VRòsÇ6V7F–öâ6Æ73Ò'&6R×&V6WF†÷&VB#ãÇ7ãä„”t„Ä”äR4TåE$Â$4R$TCÂ÷7ããÆƒ#âr²W62†—77VRæ†VFÆ–æR’²sÂöƒ#ãÇ6Æ73Ò'&6RÖFV6²#âr²W62†—77VRæFV6²’²sÂ÷âr²—77VRæÆVBæÖ†gVæ7F–öâ‡&w&‚’²&WGW&âsÇâr²W62‡&w&‚’²sÂ÷âs²Ò’æ¦ö–â‚""’²sÆ‡&VcÒ"2ö6VçG&Âòr²6÷W&6Ræ–B²r#å$TBD„RäUu5U"TD•D”ôâ(i#ÂöãÂ÷6V7F–öãâr¢sÇ6V7F–öâ6Æ73Ò'&6R×&V6#ãÇ7ãä„”t„Ä”äRÄ•dRò4õU$4RÔd•%5Bd”ÄSÂ÷7ããÆƒ#åD„R$ôåU2$4R$TÔ”å2eTÄÅ’õTãÂöƒ#ãÇâr²W62‡6÷W&6Rç&V6’²sÂ÷ãÇâr²6÷W&6Ræ6æF–FFT6÷VçB²rWFöÖFVBG&ç67&—B6æF–FFW2vW&R&WF–æVBf÷"&W6V&6‚'WB&Ræ÷BV&Æ—6†VB2†–v†Æ–v‡G2VçF–Â‡VÖâ&Wf–Wrv—fW2F†VÒVæ—VRF—FÆW2Â6öçFW‡BÂæB&÷VæF&–W2ãÂ÷ãÂ÷6V7F–öãâr’°¢†ÖöÖVçG2æÆVæwF‚ò&F$f÷%6÷W&6R‡6÷W&6R’¢rr’°¢†—77VRòsÇ6V7F–öâ6Æ73Ò'&6R×F‡&VRÖ7B#ãÆF—b6Æ73Ò'6V7F–öâ×F—FÆR#ãÆF—cãÇ7ãäõ$DU$TB$4R5Dõ%“Â÷7ããÆƒ#åD„Rä”t…B”âD…$TR5E3Âöƒ#ãÂöF—cãÂöF—câr²7G2æÖ†gVæ7F–öâ‡†6RÂ7D–æFW‚’²f"7DÖöÖVçG2ÒÖöÖVçG2æf–ÇFW"†gVæ7F–öâ†ÖöÖVçB’²&WGW&âÖöÖVçBç†6RÓÓÒ†6S²Ò“²&WGW&âsÆ'F–6ÆSãÆ†VFW#ãÆ#ãr²†7D–æFW‚²’²sÂö#ãÆF—cãÇ7ãâr²²$õTä”är"Â%$U55U$R"Â$4Äõ4”är%Õ¶7D–æFW…Ò²sÂ÷7ããÆƒ3âr²²%D„R$ô$B•24UB"Â%D„R$4R4„ätU24„R"Â%D„R$U5TÅB%$•dU2%Õ¶7D–æFW…Ò²sÂöƒ3ãÂöF—cãÂö†VFW#ãÆF—b6Æ73Ò&ÖöÖVçBÖw&–B#âr²7DÖöÖVçG2æÖ†gVæ7F–öâ†ÖöÖVçB’²&WGW&âÖöÖVçD6&B†ÖöÖVçBÂfÇ6R“²Ò’æ¦ö–â‚""’²sÂöF—cãÂö'F–6ÆSâs²Ò’æ¦ö–â‚""’²sÂ÷6V7F–öãâr¢rr’°¢sÇ6V7F–öâ6Æ73Ò'&6RÖÖöÖVçG2#ãÆF—b6Æ73Ò'6V7F–öâ×F—FÆR#ãÆF—cãÇ7ãâr²†ÖöÖVçG2æÆVæwF‚ò%D„RTD•Dõ"u25UB"¢%4õU$4R44U52"’²sÂ÷7ããÆƒ#âr²†ÖöÖVçG2æÆVæwF‚ò$UdU%’$Ud”UtTBTåE%’ô”åB"¢$eTÄÂDRÂäòd´R„”t„Ä”t…E2"’²sÂöƒ#ãÂöF—cãÂöF—câr²†ÖöÖVçG2æÆVæwF‚òsÆF—b6Æ73Ò&ÖöÖVçBÖw&–B#âr²ÖöÖVçG2æÖ†gVæ7F–öâ†—FVÒ’²&WGW&âÖöÖVçD6&B†—FVÒÂfÇ6R“²Ò’æ¦ö–â‚""’²sÂöF—câr¢sÆF—b6Æ73Ò&V×G’×7FFR#åF†—2&öçW2f–ÆR&VÖ–ç2Æ–&ÆRæB6V&6†&ÆRâæòÖ6†–æRÖvVæW&FVB6&B—2&öÖ÷FVB2âVF—F÷&–Â†–v†Æ–v‡BãÂöF—câr’²#Â÷6V7F–öãâ"°¢sÇ6V7F–öâ6Æ73Ò'&6R×G&ç67&—B#ãÆF—b6Æ73Ò'6V7F–öâ×F—FÆR#ãÆF—cãÇ7ãäDTUDR4T$4ƒÂ÷7ããÆƒ#å44âD„•2%$ôD45CÂöƒ#ãÂöF—cãÂöF—cãÆF—b6Æ73Ò'&6R×66â#ãÆ–çWB–CÒ'&6U66ä–çWB"Æ6V†öÆFW#Ò$G&—fW"Â‡&6RÂ–æ6–FVçBÂ7G&FVw(
-b"öæ¶W–F÷vãÒ&–b†WfVçBæ¶W“ÓÓÕÂtVçFW%Âr•õ÷66å&6R…Ârr²6÷W&6Ræ–B²uÂr’#ãÆ'WGFöâöæ6Æ–6³Ò%õ÷66å&6R…Ârr²6÷W&6Ræ–B²uÂr’#å44ãÂö'WGFöããÂöF—cãÆF—b–CÒ'&6U66å&W7VÇG2#ãÇå6V&6‚öæÇ’F†—26÷W&6RæB§V×FòF†RÖF6†–ær6V6öæBãÂ÷ãÂöF—cãÂ÷6V7F–öããÂöÖ–ããÆ6–FSâr°¢sÇ6V7F–öâ6Æ73Ò'&W7VÇBÖ&’#ãÇ7ãå$U5TÅB$’òr²W62…7G&–ær‡&W7VÇBç7FGW2ÇÂ'Væ¶æ÷vâ"’çFõWW$66R‚’’²#Â÷7ããÆƒ3â"²‡&W7VÇBçv–ææW"òW62‡&W7VÇBçv–ææW"’¢%t”ääU"õTâ"’²#Âöƒ3ãÇâ"²W62‡&W7VÇBææ÷FRÇÂ""’²#Â÷â"²‚‡&W7VÇBçöF—VÒÇÂµÒ’æÆVæwF‚âòsÆöÂ6Æ73Ò'öF—VÒÖÆ—7B#âr²&W7VÇBçöF—VÒæÖ†gVæ7F–öâ†æÖRÂ–æFW‚’²&WGW&âsÆÆ“ãÆ#år²†–æFW‚²’²sÂö#ãÇ7ãâr²W62†æÖR’²sÂ÷7ããÂöÆ“âs²Ò’æ¦ö–â‚""’²sÂööÃâr¢rr’²‡&W7VÇBç&6U7FBòsÇ6ÖÆÂ6Æ73Ò'&6R×7FB#âr²W62‡&W7VÇBç&6U7FB’²sÂ÷6ÖÆÃâr¢rr’²‡&W7VÇBç'VÆ–æròsÇ6ÖÆÂ6Æ73Ò'&6R×'VÆ–ær#âr²W62‡&W7VÇBç'VÆ–ær’²sÂ÷6ÖÆÃâr¢rr’²‡&W7VÇBç&V6V—BòsÆ'WGFöâöæ6Æ–6³Ò%õ÷Æ’…Ârr²‡&W7VÇBç&V6V—Bç6÷W&6T–BÇÂ6÷W&6Ræ–B’²uÂrÂr²&W7VÇBç&V6V—BçB²rÅÂu&W7VÇB&V6V—EÂr’#î)kbÄ’$U5TÅB$T4T•CÂö'WGFöãâr¢""’²#Â÷6V7F–öãâ"°¢‡6÷W&6Ræ6ö×æ–öâòsÇ6V7F–öâ6Æ73Ò'&6RÖ6ö×æ–öâ#ãÇ7ãåD„R4„õrò4ôääT5DTB4õU$4SÂ÷7ããÆ–Ör7&3Ò"r²W62‡6÷W&6Ræ6ö×æ–öâçF‡VÖ"’²r"ÇCÒ"#ãÆƒ3âr²W62‡6÷W&6Ræ6ö×æ–öâçF—FÆR’²sÂöƒ3ãÇä„Å$âÖWF†÷&VB6öçFW‡BæBVçFW'F–æÖVçBÂ6W&FVBg&öÒF†R&–Ö'’66÷&–ærÆæRãÂ÷ãÆ'WGFöâöæ6Æ–6³Ò%õ÷Æ’…Ârr²6÷W&6Ræ6ö×æ–öâæ–B²uÂrÃÅÂrr²W62‡6÷W&6Ræ6ö×æ–öâçF—FÆR’²uÂr’#î)kbÄ’D„R4„õsÂö'WGFöãâr²†—77VRòsÆ‡&VcÒ"2ö6VçG&Âòr²6÷W&6Ræ–B²r#å$TB4TåE$ÂTD•D”ôâ(i#Âöâr¢rr’²sÂ÷6V7F–öãâr¢""’°¢†G&—fW'2æÆVæwF‚òsÇ6V7F–öâ6Æ73Ò'&6RÖG&—fW'2#ãÇ7ãäE$•dU%2”â$Ud”UtTB5Dõ%“Â÷7ãâr²G&—fW'2ç6Æ–6RƒÂ‚’æÖ†gVæ7F–öâ†G&—fW"’²&WGW&âsÆ‡&VcÒ"2öG&—fW"òr²G&—fW"æ–B²r#âr²W62†G&—fW"ææÖR’²#Âöâ#²Ò’æ¦ö–â‚""’²#Â÷6V7F–öãâ"¢""’°¢sÇ6V7F–öâ6Æ73Ò'6–væÂÖ6ö×öæVçG2#ãÇ7ãåDR„TBòD•44õdU%’ÔôDTÃÂ÷7ãâr²ö&¦V7BæVçG&–W2‡6÷W&6Ræ†VBæ6ö×öæVçG2ÇÂ·Ò’æÖ†gVæ7F–öâ†VçG'’’²&WGW&âsÆF—cãÆ#âr²W62†VçG'•³ÒçFõWW$66R‚’’²sÂö#ãÆ“ãÆVÒ7G–ÆSÒ'v–GFƒ¢r²ÖF‚æÖ–âƒÂVçG'•³Ò¢R’²rR#ãÂöVÓãÂö“ãÇ7G&öæsâr²VçG'•³Ò²#Â÷7G&öæsãÂöF—câ#²Ò’æ¦ö–â‚""’²sÇåF†—266÷&R&æ·2&W6V&6‚W6VgVÆæW72â—BFöW2æ÷BFV6–FRF†RVF—F÷&–Â7F÷'’ãÂ÷ãÂ÷6V7F–öãâr°¢sÇ6V7F–öâ6Æ73Ò'6÷W&6RÖ6öçG&7B#ãÇ7ãå4õU$4R4ôåE$5CÂ÷7ããÇå7F&ÆR”BÆ6öFSâr²W62‡6÷W&6Ræ–B’²#Âö6öFSãÂ÷ãÇäæò&6Rf–FVò—26÷–VBâWfW'’7WB÷Vç2„Å$âw2÷&–v–æÂWÆöB÷"—G2ÖF6†VB6ö×æ–öâãÂ÷ãÂ÷6V7F–öããÂö6–FSãÂöF—cãÂö'F–6ÆSâ#°¢–b‡F–ÖW7F×’6WEF–ÖV÷WB†gVæ7F–öâ‚’²v–æF÷råõ÷Æ’‡6÷W&6Ræ–BÂF–ÖW7F×Â6÷W&6UF—FÆR‡6÷W&6R’“²ÒÂ“°¢Ğ ¢v–æF÷råõ÷66å&6RÒ7–æ2gVæ7F–öâ†–B’°¢f"–çWBÒFö7VÖVçBævWDVÆVÖVçD'”–B‚'&6U66ä–çWB"“°¢f"&÷‚ÒFö7VÖVçBævWDVÆVÖVçD'”–B‚'&6U66å&W7VÇG2"“°¢–b‚–çWBÇÂ&÷‚ÇÂ–çWBçfÇVRçG&–Ò‚’’&WGW&ã°¢&÷‚æ–ææW$…DÔÂÒ#ÇäÄô4´”ärôåDò4õU$4^(
-cÂ÷â#°¢f"Æ–æW2Òv—BÆöEG&ç67&—B†–B“°¢f"FW&×2Ò–çWBçfÇVRçFôÆ÷vW$66R‚’ç7Æ—B‚õÇ2²ò’æf–ÇFW"„&ööÆVâ“°¢f"†—G2ÒÆ–æW2æf–ÇFW"†gVæ7F–öâ†Æ–æR’²f"FW‡BÒÆ–æU³ÒçFôÆ÷vW$66R‚“²&WGW&âFW&×2æWfW'’†gVæ7F–öâ‡FW&Ò’²&WGW&âFW‡Bæ–æ6ÇVFW2‡FW&Ò“²Ò“²Ò’ç6Æ–6RƒÂc“°¢&÷‚æ–ææW$…DÔÂÒ†—G2æÆVæwF‚òsÆF—b6Æ73Ò'&6R×66âÖ†—G2#âr²†—G2æÖ†gVæ7F–öâ†Æ–æR’²&WGW&âsÆ'WGFöâöæ6Æ–6³Ò%õ÷Æ’…Ârr²–B²uÂrÂr²Æ–æU³Ò²rÅÂuG&ç67&—B6V&6…Âr’#ãÆ#î)kbr²f×EF–ÖR†Æ–æU³Ò’²#Âö#ãÇ7ãâ"²W62†6ö×7B†Æ–æU³ÒÂ3’’²#Â÷7ããÂö'WGFöãâ#²Ò’æ¦ö–â‚""’²#ÂöF—câ"¢#ÇäæòW†7BÆ–æRÖF6‚–âF†—26÷W&6RâG'’6†÷'FW"‡&6R÷"7W&æÖRãÂ÷â#°¢Ó° ¢v–æF÷råõö÷Vä†–v„Æ–æRÒgVæ7F–öâ‚’°¢f"&GFÆW2ÒDDæÖöÖVçG2æf–ÇFW"†gVæ7F–öâ†—FVÒ’²&WGW&â—FVÒæ6FVv÷'’ÓÓÒ&&GFÆR"bb‡7FFRæ6æöâÓÓÒ&ÆÂ"ÇÂ—FVÒæÆæRÓÓÒ&öff–6–Â"“²Ò“°¢–b‚&GFÆW2æÆVæwF‚’&WGW&âFö7B‚%F†R&GFÆRg&WVVæ7’—27F–ÆÂ&V6÷fW&–ær"“°¢f"ÖöÖVçBÒ&GFÆW5´ÖF‚æfÆö÷"„ÖF‚ç&æFöÒ‚’¢&GFÆW2æÆVæwF‚•Ó°¢Fö7VÖVçBæ&öG’æ6Æ74Æ—7BæFB‚&†–v†Æ–æRÖ÷Vâ"“°¢6WEF–ÖV÷WB†gVæ7F–öâ‚’²Fö7VÖVçBæ&öG’æ6Æ74Æ—7Bç&VÖ÷fR‚&†–v†Æ–æRÖ÷Vâ"“²ÒÂ3“°¢v–æF÷råõ÷Æ’†ÖöÖVçBç6÷W&6T–BÂÖöÖVçBçBÂ%F†R†–v‚Æ–æR—2÷Vâ"“°¢Ó° ¢Fö7VÖVçBæFDWfVçDÆ—7FVæW"‚&¶W–F÷vâ"ÂgVæ7F–öâ†WfVçB’°¢f"FrÒ†Fö7VÖVçBæ7F—fTVÆVÖVçBÇÂ·Ò’çFtæÖRÇÂ"#°¢–b‚†WfVçBæ¶W’ÓÓÒ&‚"ÇÂWfVçBæ¶W’ÓÓÒ$‚"’bbFrÓÒ$”åUB"bbFrÓÒ%DU…D$T"bbFrÓÒ%4TÄT5B"’°¢v–æF÷råõö÷Vä†–v„Æ–æR‚“°¢Ğ¢–b†WfVçBæ¶W’ÓÓÒ$W66R"bbFö7VÖVçBæ&öG’æ6Æ74Æ—7Bæ6öçF–ç2‚'Æ–W"Ö÷Vâ"’’v–æF÷råõö6Æ÷6UÆ–W"‚“°¢Ò“° ¢gVæ7F–öâæ÷Df÷VæB‚’°¢æ–ææW$…DÔÂÒsÆF—b6Æ73Ò&æ÷BÖf÷VæB#ãÇ7ãääò4%$”U#Â÷7ããÆƒåD„R4”täÂÔ•54TBãÂöƒãÇåF†B&÷WFRFöW2æ÷BW†—7B–âF†R7W'&VçB„Å$â&6†—fRãÂ÷ãÆ6Æ73Ò&'WGFöâ†÷B"‡&VcÒ"2ò#å$UEU$âDò4TåE$ÃÂöãÂöF—câs°¢Ğ ¢gVæ7F–öâ&÷WFR‚’°¢&VæFW$æb‚“°¢f"†6‚ÒÆö6F–öâæ†6‚ÇÂ"2ò#°¢f"ÖF6ƒ°¢v–æF÷rç67&öÆÅFòƒÂ“°¢–b††6‚ÓÓÒ"2ò"ÇÂ†6‚ÓÓÒ""’†öÖR‚“°¢VÇ6R–b††6‚ÓÓÒ"2÷vF6‚"’vF6‚‚“°¢VÇ6R–b††6‚ÓÓÒ"2ö6²"’6µvR‚""“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Âö6µÂò‚â²’Bò’’’6µvR†FV6öFUU$”6ö×öæVçB†ÖF6…³Ò’“°¢VÇ6R–b††6‚ÓÓÒ"2ö†–v†Æ–v‡G2"’†–v†Æ–v‡EvR‚“°¢VÇ6R–b††6‚ÓÓÒ"2ö6VçG&Â"’6VçG&Â‚“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Âö6VçG&ÅÂò…µÇrÕÒ²’Bò’’’6VçG&Ä—77VR†ÖF6…³Ò“°¢VÇ6R–b††6‚ÓÓÒ"2öG&—fW'2"’G&—fW'5vR‚“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5ÂöG&—fW%Âò…µÇrÕÒ²’Bò’’’G&—fW%vR†ÖF6…³Ò“°¢VÇ6R–b††6‚ÓÓÒ"2÷6V6öç2"’6V6öç5vR‚“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Â÷6V6öåÂò…ÆB²’Bò’’’6V6öåvR†ÖF6…³Ò“°¢VÇ6R–b††6‚ÓÓÒ"2÷&æ¶–æw2"’&æ¶–æw5vR‚“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Â÷&æ¶–æw5Âò…µÇrÕÒ²’Bò’’’&æ¶–æw5vR†ÖF6…³Ò“°¢VÇ6R–b††6‚ÓÓÒ"2ö†–v†Æ–æRÖÆ—fR"’†–v†Æ–æTÆ—fR‚“°¢VÇ6R–b††6‚ÓÓÒ"2÷&F""’&F%vR‚“°¢VÇ6R–b††6‚ÓÓÒ"2ög&WVVæ7’"’g&WVVæ7•vR‚“°¢VÇ6R–b††6‚ÓÓÒ"2÷&V6÷&G2"’&V6÷&G5vR‚“°¢VÇ6R–b††6‚ÓÓÒ"2÷6÷W&6W2"’6÷W&6W5vR‚“°¢VÇ6R–b††6‚ÓÓÒ"2öÖWF†öFöÆöw’"’ÖWF†öFöÆöw•vR‚“°¢VÇ6R–b††6‚ÓÓÒ"2öW‡Æ÷&R"’W‡Æ÷&UvR‚“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Â÷&6UÂò…µÇrÕÒ²•Â÷EÂò…ÆB²’Bò’’’&6UvR†ÖF6…³ÒÂçVÖ&W"†ÖF6…³%Ò’“°¢VÇ6R–b‚†ÖF6‚Ò†6‚æÖF6‚‚õâ5Â÷&6UÂò…µÇrÕÒ²’Bò’’’&6UvR†ÖF6…³Ò“°¢VÇ6Ræ÷Df÷VæB‚“°¢f"†VF–ærÒçVW'•6VÆV7F÷"‚&ƒ"“°¢Fö7VÖVçBçF—FÆRÒ††VF–ærò†VF–ærçFW‡D6öçFVçBç&WÆ6R‚õÇ2²örÂ""’çG&–Ò‚’²"+r"¢""’²$„Å$âÆ—f–ærv–¶’#°¢æfö7W2‡²&WfVçE67&öÆÃ¢G'VRÒ“°¢Ğ ¢v–æF÷ræFDWfVçDÆ—7FVæW"‚&†6†6†ævR"Â&÷WFR“°¢&VæFW$fö÷FW"‚“°¢&÷WFR‚“°§Ò’‚“°
+      '<div class="hero-copy"><span class="eyebrow"><i></i>EVERY SIGNAL LEADS BACK TO THE RACE</span><h1>THE HIGH LINE<br><em>NEVER ENDS.</em></h1>' +
+      '<p>Official HLRN Seasons 1â€“2 and the complete Highline Live shelfâ€”searchable, playable, indexed to the moment, and backed by a recovered winner receipt for every official race.</p>' +
+      '<div class="hero-actions"><a class="button hot" href="#/watch">FIND A RACE</a><a class="button glass" href="#/central">ENTER CENTRAL</a></div>' +
+      '<div class="hero-ledger"><div><b>' + records.officialCount + '</b><span>OFFICIAL<br>RACES</span></div><div><b>' + records.liveCount + '</b><span>HIGHLINE LIVE<br>FILES</span></div><div><b>' + records.hours + '</b><span>HOURS OF<br>TAPE</span></div><div><b>' + records.transcriptSegments.toLocaleString() + '</b><span>TIMED<br>SEGMENTS</span></div></div></div>' +
+      '<aside class="hero-live-card"><div class="on-air"><i></i>SEASON 2 / CURRENT SIGNAL</div><img src="' + esc(latest.thumb) + '" alt="Latest official HLRN broadcast"><div class="hero-live-copy">' +
+      laneBadge(latest) + '<h2>' + esc(sourceTitle(latest)) + '</h2><p>' + esc(latest.track) + " Â· " + esc(fmtDate(latest.date)) + "</p>" +
+      heatBar(latest) + '<div><button onclick="__play(\'' + latest.id + '\',0,\'' + esc(sourceTitle(latest)) + '\')">â–¶ WATCH FROM START</button><a href="#/race/' + latest.id + '">OPEN SIGNAL FILE</a></div></div></aside></div></section>' +
+      '<section class="route-console"><div class="wrap"><header><span>CHOOSE YOUR FREQUENCY</span><h2>EIGHT WAYS INTO THE NETWORK</h2></header><div class="route-grid">' +
+      featureRoutes.map(function (item) { return '<a href="' + item[3] + '"><b>' + item[0] + '</b><span>' + item[1] + '</span><p>' + item[2] + '</p><em>OPEN â†—</em></a>'; }).join("") +
+      '</div></div></section>' +
+      '<section class="home-current"><div class="wrap"><div class="section-title"><div><span>THE OFFICIAL ROAD</span><h2>HOT SIGNALS FROM THE SEASONS</h2></div><a href="#/seasons">ALL OFFICIAL RACES â†’</a></div><div class="source-grid">' + hotOfficial.map(sourceCard).join("") + "</div></div></section>" +
+      '<section class="central-tease"><div class="wrap"><div class="central-word"><span>RACE DESK / COMPANION SHOW / EXACT TAPE</span><h2>HIGHLINE<br><em>CENTRAL</em></h2><p>The league already has something VRL never did: its own short-form companion show. Central pairs each race file with The Show whenever the channel published one.</p><a class="button hot" href="#/central">OPEN THE DESK</a></div>' +
+      '<div class="central-screen"><span>THE SHOW CONNECTION</span>' +
+      (latest.companion ? '<img src="' + esc(latest.companion.thumb) + '" alt="Companion episode thumbnail"><h3>' + esc(latest.companion.title) + '</h3><button onclick="__play(\'' + latest.companion.id + '\',0,\'' + esc(latest.companion.title) + '\')">â–¶ PLAY COMPANION</button>' : '<div class="no-signal">COMPANION MAPPING IN REVIEW</div>') +
+      "</div></div></section>" +
+      (latestLive ? '<section class="live-tease"><div class="wrap"><div><span>THE BONUS FREQUENCY</span><h2>HIGHLINE LIVE</h2><p>Other leagues, specials, memorials, throwdowns, practice races, and beautiful one-off chaosâ€”covered completely, kept outside the official season math.</p><a href="#/highline-live">OPEN ALL ' + records.liveCount + ' BONUS RACES â†’</a></div>' + sourceCard(latestLive, "featured-live") + "</div></section>" : "") +
+      evidenceNote("TAPE-SUPPORTED RESULTS. OPEN LEDGER EDGES.", DATA.meta.resultBoundary) + "</div>";
+  }
+
+  var WATCH_MOODS = [
+    ["latest", "CURRENT SIGNAL", "Newest official race"],
+    ["pack", "PACK PRESSURE", "Battle and finish language"],
+    ["restart", "RESTART HEAVY", "Green/yellow transitions"],
+    ["strategy", "PIT WINDOW", "Fuel, tires, and strategy"],
+    ["chaos", "SCANNER RED", "Incident and caution gravity"],
+    ["live", "HIGHLINE LIVE", "Bonus-race potpourri"],
+    ["surprise", "DROP ME IN", "Random strong tape"],
+  ];
+
+  function watchRank(mood) {
+    var sources = DATA.sources.filter(function (item) {
+      if (!item.isComplete) return false;
+      if (mood === "live") return item.lane === "highline-live";
+      return state.canon === "all" ? item.lane !== "fragment" : item.lane === "official";
+    });
+    if (mood === "latest") return sources.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+    if (mood === "surprise") {
+      var strong = sources.filter(function (item) { return item.heat.score >= 65; });
+      return strong.slice().sort(function () { return Math.random() - 0.5; });
+    }
+    var key = mood === "pack" ? "battle" : mood === "chaos" ? "disruption" : mood;
+    return sources.sort(function (a, b) {
+      var av = Number(((a.heat || {}).components || {})[key] || 0);
+      var bv = Number(((b.heat || {}).components || {})[key] || 0);
+      if (mood === "pack") {
+        av += Number(a.heat.components.finish || 0);
+        bv += Number(b.heat.components.finish || 0);
+      }
+      return bv - av || b.heat.score - a.heat.score;
+    });
+  }
+
+  function packFinder(sources) {
+    return '<section class="pack-finder"><header><div><span>HLRN SIGNATURE / PACK FINDER</span><h2>FIND THE RACE BY ITS SHAPE</h2><p>Horizontal position measures battle and finish language. Vertical position measures disruption and restart language. Every point opens the underlying race file.</p></div><div class="finder-legend"><span>MORE DISRUPTION â†‘</span><span>MORE PACK PRESSURE â†’</span></div></header><div class="pack-plot">' +
+      sources.slice(0, 32).map(function (source) {
+        var components = source.heat.components || {};
+        var x = Math.min(96, 4 + Number(components.battle || 0) * 2.8 + Number(components.finish || 0) * 1.5);
+        var y = Math.min(92, 4 + Number(components.disruption || 0) * 2.9 + Number(components.restart || 0) * 1.8);
+        return '<a href="#/race/' + source.id + '" class="pack-point ' + source.lane + '" style="left:' + x + "%;bottom:" + y + '%" title="' + esc(sourceTitle(source)) + ' Â· tape heat ' + source.heat.score + '"><i></i><span>' + (source.lane === "official" ? "S" + source.season + "R" + source.race : source.track.slice(0, 3).toUpperCase()) + "</span></a>";
+      }).join("") + '<div class="plot-axis x">PACK / FINISH SIGNAL</div><div class="plot-axis y">DISRUPTION / RESTART</div></div></section>';
+  }
+
+  function watch() {
+    var ranked = watchRank(state.watchMood);
+    var pick = ranked[0];
+    var pool = DATA.sources.filter(function (item) { return item.isComplete && (state.canon === "all" ? item.lane !== "fragment" : item.lane === "official"); });
+    app.innerHTML = '<div class="watch-page">' + pageHead("WATCH DESK / HUMAN-READABLE SIGNALS", "WHAT SHOULD I <em>WATCH?</em>", "Choose the kind of racing you want. Recommendations use visible transcript signals and never owner taste or hidden weights.", [
+      [WATCH_MOODS.length, "WATCH MODES"], [pool.length, "ELIGIBLE RACES"], ["0", "SECRET EDITOR POINTS"],
+    ]) + '<div class="wrap"><div class="mood-deck">' + WATCH_MOODS.map(function (item) {
+      return '<button class="' + (state.watchMood === item[0] ? "on" : "") + '" onclick="__watchMood(\'' + item[0] + '\')"><span>' + item[1] + "</span><small>" + item[2] + "</small></button>";
+    }).join("") + "</div>" +
+      (pick ? '<section class="watch-pick"><div class="watch-pick-image"><img src="' + esc(pick.thumb) + '" alt=""><button onclick="__play(\'' + pick.id + '\',0,\'' + esc(sourceTitle(pick)) + '\')">â–¶</button></div><div class="watch-pick-copy">' + laneBadge(pick) + '<span>THE DESK PICK / ' + esc(state.watchMood.toUpperCase()) + "</span><h2>" + esc(sourceTitle(pick)) + "</h2><p>" + esc(pick.recap) + "</p>" + heatBar(pick) + '<div class="component-bars">' +
+      Object.entries(pick.heat.components || {}).map(function (entry) { return '<div><span>' + esc(entry[0].toUpperCase()) + '</span><i><b style="width:' + Math.min(100, entry[1] * 5) + '%"></b></i><em>' + entry[1] + "</em></div>"; }).join("") +
+      '</div><div class="watch-actions"><button class="button hot" onclick="__play(\'' + pick.id + '\',0,\'' + esc(sourceTitle(pick)) + '\')">WATCH NOW</button><a class="button glass" href="#/race/' + pick.id + '">WHY THIS RACE</a></div></div></section>' : "") +
+      '<div class="section-title"><div><span>ALTERNATE FREQUENCIES</span><h2>NEXT ON THE BOARD</h2></div></div><div class="source-grid">' + ranked.slice(1, 7).map(sourceCard).join("") + "</div>" +
+      packFinder(pool) + evidenceNote("THE WATCH DESK RANKS SIGNALS, NOT QUALITY.", "A high tape-heat score means the transcript carries more finish, battle, restart, strategy, disruption, and booth language under the published caps. It is not an official race rating.") +
+      "</div></div>";
+  }
+  window.__watchMood = function (mood) { state.watchMood = mood; watch(); window.scrollTo(0, 0); };
+
+  function askPage(query) {
+    app.innerHTML = '<div class="ask-page">' + pageHead("ASK THE HIGH LINE / SOURCE-BOUNDED DISCOVERY", "ASK <em>THE TAPE.</em>", "Type a driver, track, race, incident, phrase, or question. The answer stays inside indexed HLRN evidence and returns a playable receipt.", [
+      [DATA.sources.length, "RACE SOURCES"], [DATA.records.transcriptSegments.toLocaleString(), "TIMED SEGMENTS"], [DATA.drivers.length, "NORMALIZED IDENTITIES"],
+    ]) + '<div class="wrap"><section class="ask-console"><div class="ask-input"><span>HLRN://QUERY</span><input id="askInput" value="' + esc(query || "") + '" placeholder="Try: Who is on the tape at Talladega?" onkeydown="if(event.key===\'Enter\')__ask()"><button onclick="__ask()">ASK</button></div>' +
+      '<div class="ask-suggestions"><button onclick="__askPreset(\'What is the highest heat official race?\')">Highest heat official race</button><button onclick="__askPreset(\'Trevor Haley\')">Trevor Haley</button><button onclick="__askPreset(\'Talladega final lap\')">Talladega final lap</button><button onclick="__askPreset(\'Season 2 cautions\')">Season 2 cautions</button><button onclick="__askPreset(\'Who won Season 1?\')">Who won Season 1?</button></div></section>' +
+      '<div id="askResults">' + (query ? '<div class="ask-loading"><i></i>SCANNING THE NETWORK TAPEâ€¦</div>' : '<section class="ask-idle"><div class="scan-rings"><i></i><i></i><i></i></div><h2>THE ARCHIVE IS LISTENING.</h2><p>Structured race and driver records answer first. Transcript lines fill in the exact source context. Unsupported results return an honest unknown.</p></section>') + "</div>" +
+      evidenceNote("ASK NEVER PROMOTES PROXIMITY INTO FACT.", "A driver name near a result phrase is a discovery lead, not automatically a finishing position. Direct result answers require a curated position-specific receipt.") +
+      "</div></div>";
+    if (query) setTimeout(function () { runAsk(query); }, 50);
+  }
+  window.__ask = function () {
+    var input = document.getElementById("askInput");
+    if (!input || !input.value.trim()) return;
+    var query = input.value.trim();
+    history.replaceState(null, "", "#/ask/" + encodeURIComponent(query));
+    runAsk(query);
+  };
+  window.__askPreset = function (query) {
+    var input = document.getElementById("askInput");
+    if (input) input.value = query;
+    history.replaceState(null, "", "#/ask/" + encodeURIComponent(query));
+    runAsk(query);
+  };
+
+  function structuredAnswer(query) {
+    var lower = query.toLowerCase();
+    if (/who won season|season \d champion|champion/.test(lower)) {
+      var seasonNumber = Number((lower.match(/season\s*(\d)/) || [])[1] || 1);
+      var season = seasonMap[String(seasonNumber)];
+      if (season && season.champion) {
+        return { title: season.champion + " is channel-supported as the Season " + season.number + " champion.", text: season.championStatus, status: "CHANNEL COMPANION RECEIPT", season: season };
+      }
+      return { title: "The Season " + seasonNumber + " championship is not adjudicated yet.", text: season ? season.championStatus : "No position-specific championship receipt is indexed.", status: "UNKNOWN IS VALID" };
+    }
+    if (/highest|most exciting|hottest|best race/.test(lower)) {
+      var lane = /live/.test(lower) ? "highline-live" : "official";
+      var top = DATA.sources.filter(function (item) { return item.lane === lane && item.isComplete; }).sort(function (a, b) { return b.heat.score - a.heat.score; })[0];
+      if (top) return { title: sourceTitle(top), text: "This is the current highest tape-heat file in the requested lane at " + top.heat.score + "/100. The score measures bounded transcript signals, not official race quality.", status: "STRUCTURED SIGNAL ANSWER", source: top };
+    }
+    var driver = DATA.drivers.find(function (item) {
+      return lower.includes(item.name.toLowerCase()) || (item.aliases || []).some(function (alias) { return lower.includes(alias.toLowerCase()); });
+    });
+    if (driver) {
+      return { title: driver.name + " has " + driver.stats.officialMentions.toLocaleString() + " official mention signals.", text: "The dossier connects " + driver.stats.centralIssueCount + " Central editions, " + driver.stats.momentCount + " editor-reviewed race beats, " + driver.stats.tapeSupportedWins + " recovered wins, and " + driver.stats.tapeSupportedPodiums + " recovered podiums. Tape appearances are not claimed as official starts.", status: "IDENTITY-SAFE ANSWER", driver: driver };
+    }
+    var source = DATA.sources.find(function (item) {
+      return lower.includes(item.track.toLowerCase()) && (lower.includes("race") || lower.includes("won") || lower.includes("winner"));
+    });
+    if (source && /who won|winner/.test(lower)) {
+      if (source.result && source.result.winner) {
+        return { title: source.result.winner + " is tape-supported as the winner.", text: source.result.note, status: "POSITION-SPECIFIC RECEIPT", source: source };
+      }
+      return { title: "The reviewed winner is still open.", text: source.name + " is fully playable, but the result ledger has not yet accepted a position-specific winner receipt.", status: "RESULT UNKNOWN", source: source };
+    }
+    return null;
+  }
+
+  async function runAsk(query) {
+    var box = document.getElementById("askResults");
+    if (!box) return;
+    box.innerHTML = '<div class="ask-loading"><i></i>SCANNING ' + TR_INDEX.length + " TIMED SOURCESâ€¦</div>";
+    var direct = structuredAnswer(query);
+    var terms = query.toLowerCase().split(/[^a-z0-9']+/).filter(function (term) { return term.length >= 3 && !["what", "when", "where", "which", "that", "this", "with", "from", "race"].includes(term); });
+    var searchableSources = state.canon === "official"
+      ? DATA.sources.filter(function (item) { return item.lane === "official"; })
+      : DATA.sources;
+    await Promise.all(searchableSources.map(function (source) { return loadTranscript(source.id); }));
+    var hits = [];
+    searchableSources.forEach(function (source) {
+      (window.HLRN_TR[source.id] || []).forEach(function (line) {
+        var lower = line[1].toLowerCase();
+        var matched = terms.filter(function (term) { return lower.includes(term); });
+        if (matched.length) {
+          hits.push({ source: source, t: line[0], text: line[1], score: matched.length * 10 + (matched.length === terms.length ? 10 : 0) });
+        }
+      });
+    });
+    hits.sort(function (a, b) { return b.score - a.score || String(b.source.date).localeCompare(String(a.source.date)); });
+    var sourceHits = DATA.sources.filter(function (source) {
+      var hay = [source.title, source.name, source.track, source.kind].join(" ").toLowerCase();
+      return terms.some(function (term) { return hay.includes(term); });
+    }).slice(0, 6);
+    var html = direct ? '<section class="direct-answer"><span>' + esc(direct.status) + "</span><h2>" + esc(direct.title) + "</h2><p>" + esc(direct.text) + "</p>" +
+      (direct.source ? '<a href="#/race/' + direct.source.id + '">OPEN RACE FILE â†’</a>' : direct.driver ? '<a href="#/driver/' + direct.driver.id + '">OPEN DRIVER DOSSIER â†’</a>' : direct.season ? '<a href="#/season/' + direct.season.number + '">OPEN SEASON FILE â†’</a>' : "") + "</section>" : "";
+    html += '<section class="ask-hit-section"><header><span>EXACT TRANSCRIPT RECEIPTS</span><b>' + hits.length + " MATCHES</b></header><div class=\"ask-hit-list\">" +
+      (hits.length ? hits.slice(0, 30).map(function (hit) {
+        return '<article><button onclick="__play(\'' + hit.source.id + '\',' + hit.t + ',\'Transcript receipt\')">â–¶ ' + fmtTime(hit.t) + '</button><div><span>' + esc(laneLabel(hit.source.lane)) + " Â· " + esc(sourceTitle(hit.source)) + "</span><p>" + esc(compact(hit.text, 340)) + '</p><a href="#/race/' + hit.source.id + "/t/" + Math.floor(hit.t) + '">OPEN IN RACE FILE</a></div></article>';
+      }).join("") : '<div class="empty-state">No exact transcript line matches every useful term. Try a driver surname, track, or shorter phrase.</div>') + "</div></section>";
+    if (sourceHits.length) html += '<section class="ask-source-section"><header><span>RELATED SIGNAL FILES</span></header><div class="source-grid">' + sourceHits.map(sourceCard).join("") + "</div></section>";
+    box.innerHTML = html;
+  }
+
+  function highlightPage() {
+    var moments = DATA.moments.filter(function (item) {
+      var category = state.highlightCategory === "all" || item.category === state.highlightCategory;
+      return category;
+    }).sort(function (a, b) { return b.score - a.score || b.heat - a.heat; });
+    var official = DATA.sources.filter(function (item) { return item.lane === "official"; });
+    app.innerHTML = '<div class="highlights-page">' + pageHead("HIGHLIGHT CONTROL / REVIEWED EDIT MAPS", "THE RACE,<br><em>CUT TO THE TURN.</em>", "Every public card was written and bounded against a specific HLRN race or companion source. Automated transcript candidates stay out of this library.", [
+      [DATA.moments.length, "EDITOR-REVIEWED CUTS"], [official.length, "OFFICIAL RACE FILES"], [new Set(DATA.moments.map(function (m) { return m.title; })).size, "UNIQUE HEADLINES"],
+    ]) + '<div class="wrap"><section class="last-lap-lottery"><div><span>HLRN RETURN RITUAL</span><h2>LAST LAP LOTTERY</h2><p>One button. One reviewed closing sequence. No generic white-flag filler.</p></div><button onclick="__lastLap()">DROP ME INTO THE FINISH <b>â–¶</b></button></section>' +
+      '<section class="restart-stack"><header><div><span>HLRN SIGNATURE / RACE STORY STACK</span><h2>OPENING. PRESSURE. CLOSING.</h2></div><p>The complete official run, organized by reviewed story phases instead of raw word proximity.</p></header><div class="restart-races">' +
+      official.map(function (source) {
+        var restarts = source.moments || [];
+        return restarts.length ? '<article><a href="#/race/' + source.id + '"><span>S' + source.season + " / R" + source.race + '</span><b>' + esc(source.track) + "</b></a><div>" + restarts.slice(0, 5).map(function (moment) {
+          return '<button onclick="__play(\'' + moment.sourceId + '\',' + moment.t + ',\'' + esc(moment.title) + '\')">' + fmtTime(moment.t) + "</button>";
+        }).join("") + "</div></article>" : "";
+      }).join("") + "</div></section>" +
+      '<section class="highlight-library"><header><div><span>THE REVIEWED CUT LIBRARY</span><h2>PLAYABLE RACE BEATS</h2></div><div class="filter-row"><select onchange="__highlightCategory(this.value)" aria-label="Highlight category">' +
+      ["all", "finish", "result", "battle", "incident", "stage", "record", "interview"].map(function (category) { return '<option value="' + category + '"' + (state.highlightCategory === category ? " selected" : "") + ">" + category.toUpperCase() + "</option>"; }).join("") +
+      "</select></div></header><div class=\"moment-grid\">" + (moments.length ? moments.map(function (item) { return momentCard(item, false); }).join("") : '<div class="empty-state">No reviewed cuts match this category yet.</div>') + "</div></section>" +
+      evidenceNote("HIGHLINE LIVE STAYS A BONUS SHELF.", "All 29 non-league streams remain fully playable and searchable in Highline Live. Their automated candidates are quarantined until they receive the same human editorial pass as the official seasons.") +
+      "</div></div>";
+  }
+  window.__highlightLane = function (value) { state.highlightLane = value; highlightPage(); };
+  window.__highlightCategory = function (value) { state.highlightCategory = value; highlightPage(); };
+  window.__lastLap = function () {
+    var closes = DATA.moments.filter(function (item) { return item.category === "finish" && (state.canon === "all" || item.lane === "official"); });
+    if (!closes.length) return toast("No closing signal is currently indexed");
+    var item = closes[Math.floor(Math.random() * closes.length)];
+    window.__play(item.sourceId, item.t, "Last Lap Lottery");
+  };
+
+  function editionCard(issue) {
+    var image = issue.image ? issue.image.file : (sourceMap[issue.id] || {}).thumb;
+    return '<a class="central-edition-card" href="#/central/' + issue.id + '">' +
+      '<figure><img loading="lazy" src="' + esc(image) + '" alt="HLRN source frame for ' + esc(issue.headline) + '"><span>S' + issue.season + " / EDITION " + String(issue.race).padStart(2, "0") + "</span></figure>" +
+      '<div><small>' + esc(issue.coverLine) + '</small><h3>' + esc(issue.headline) + '</h3><p>' + esc(issue.deck) + '</p><footer><span>' + issue.wordCount + ' EDITORIAL WORDS</span><b>READ EDITION â†’</b></footer></div></a>';
+  }
+
+  function central() {
+    var editions = (DATA.publications || []).slice().sort(function (a, b) { return b.season - a.season || b.race - a.race; });
+    var latest = editions[0];
+    var seasonOne = editions.filter(function (item) { return item.season === 1; });
+    var seasonTwo = editions.filter(function (item) { return item.season === 2; });
+    var latestImage = latest && latest.image ? latest.image.file : (sourceMap[latest.id] || {}).thumb;
+    app.innerHTML = '<div class="central-page newspaper-front"><header class="central-news-mast"><div class="wrap"><span>THE OFFICIAL RACE PAPER OF THE HIGH LINE</span><h1>HIGHLINE <i>CENTRAL</i></h1><div><b>' + editions.length + ' EDITIONS</b><b>' + Number(DATA.records.editorialWordCount || 0).toLocaleString() + ' EDITORIAL WORDS</b><b>ALL CUTS SOURCE-LINKED</b></div></div></header><div class="wrap">' +
+      (latest ? '<section class="central-front-lead"><figure><img src="' + esc(latestImage) + '" alt="HLRN source frame for ' + esc(latest.headline) + '"><figcaption>' + esc((latest.image || {}).caption || "HLRN source frame") + ' / ' + fmtTime((latest.image || {}).t || 0) + '</figcaption></figure><article><span>' + esc(latest.coverLine) + '</span><h2>' + esc(latest.headline) + '</h2><p class="central-deck">' + esc(latest.deck) + '</p><p>' + esc(latest.lead[0]) + '</p><div><a class="button hot" href="#/central/' + latest.id + '">READ THE FULL EDITION</a><button class="button ink" onclick="__play(\'' + latest.id + '\',0,\'' + esc(latest.headline) + '\')">WATCH RACE TAPE</button></div></article><aside><span>INSIDE THIS EDITION</span>' + latest.notebook.map(function (note) { return '<div><b>' + esc(note.label) + '</b><h3>' + esc(note.headline) + '</h3></div>'; }).join("") + '</aside></section>' : "") +
+      '<section class="central-edition-run"><header><span>THE CURRENT RUN</span><h2>SEASON 2 / THE FRONT PAGE</h2></header><div class="central-edition-grid">' + seasonTwo.map(editionCard).join("") + '</div></section>' +
+      '<section class="central-edition-run"><header><span>THE COMPLETE FOUNDING RUN</span><h2>SEASON 1 / SIXTEEN EDITIONS</h2></header><div class="central-edition-grid">' + seasonOne.slice().reverse().map(editionCard).join("") + '</div></section>' +
+      '<section class="central-editorial-code"><span>CENTRAL EDITORIAL CODE</span><h2>Race fact, source receipt, and show-world flavor stay in separate columns.</h2><p>' + esc((DATA.editorialMethodology || {}).showRule || "") + '</p><a href="#/methodology">OPEN THE TRUST CONTRACT â†’</a></section>' +
+      "</div></div>";
+  }
+
+  function centralIssue(id) {
+    var issue = publicationMap[id];
+    var source = sourceMap[id];
+    if (!issue || !source) return central();
+    var phases = ["opening", "middle", "closing"];
+    var result = issue.result || source.result || {};
+    var image = issue.image ? issue.image.file : source.thumb;
+    var allIssues = (DATA.publications || []).slice().sort(function (a, b) { return a.season - b.season || a.race - b.race; });
+    var index = allIssues.findIndex(function (item) { return item.id === issue.id; });
+    var previous = allIssues[index - 1];
+    var next = allIssues[index + 1];
+    app.innerHTML = '<article class="central-issue paper-edition"><header class="paper-mast"><div class="wrap"><div><small>THE OFFICIAL RACE PAPER OF THE HIGH LINE</small><h1>HIGHLINE <i>CENTRAL</i></h1></div><section><b>SEASON ' + issue.season + " / EDITION " + String(issue.race).padStart(2, "0") + '</b><time>' + esc(fmtDate(issue.date).toUpperCase()) + '</time><span>' + issue.wordCount + ' EDITORIAL WORDS</span></section></div></header>' +
+      '<div class="wrap paper-grid"><main><section class="paper-headline"><span>' + esc(issue.coverLine) + '</span><h2>' + esc(issue.headline) + '</h2><p>' + esc(issue.deck) + '</p><div><b>BY HIGHLINE CENTRAL ARCHIVE DESK</b><small>Reviewed against HLRN race and companion tape</small></div></section>' +
+      '<figure class="paper-hero"><img src="' + esc(image) + '" alt="HLRN source frame for ' + esc(issue.headline) + '"><button onclick="__play(\'' + esc((issue.image || {}).sourceId || source.id) + '\',' + Number((issue.image || {}).t || 0) + ',\'' + esc(issue.headline) + '\')">â–¶ PLAY THIS SOURCE FRAME</button><figcaption>' + esc((issue.image || {}).caption || source.name) + ' / HLRN SOURCE / ' + fmtTime((issue.image || {}).t || 0) + '</figcaption></figure>' +
+      '<section class="paper-lead">' + issue.lead.map(function (paragraph, paragraphIndex) { return '<p class="' + (paragraphIndex === 0 ? "dropcap" : "") + '">' + esc(paragraph) + '</p>'; }).join("") + '</section>' +
+      '<section class="paper-three-act"><header><span>THE RACE IN THREE ACTS</span><h2>OPENING / PRESSURE / CLOSING</h2></header>' + phases.map(function (phase, phaseIndex) { var items = issue.moments.filter(function (moment) { return moment.phase === phase; }); return '<div class="paper-act"><b>0' + (phaseIndex + 1) + '</b><h3>' + ["THE BOARD IS SET", "THE RACE TURNS", "THE RESULT ARRIVES"][phaseIndex] + '</h3><div>' + items.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></div>'; }).join("") + '</section>' +
+      '<section class="paper-notebook"><header><span>NOTEBOOK</span><h2>THREE THINGS TO CARRY FORWARD</h2></header><div>' + issue.notebook.map(function (note) { return '<article><span>' + esc(note.label) + '</span><h3>' + esc(note.headline) + '</h3><p>' + esc(note.body) + '</p></article>'; }).join("") + '</div></section>' +
+      '<section class="paper-after-hours"><span>AFTER HOURS / THE SHOW</span><h2>' + esc(issue.afterHours.headline) + '</h2><p>' + esc(issue.afterHours.body) + '</p><button onclick="__play(\'' + esc(issue.afterHours.sourceId) + '\',' + Number(issue.afterHours.t || 0) + ',\'After Hours\')">â–¶ PLAY THE SHOW COLUMN</button></section>' +
+      '<nav class="paper-pagination">' + (previous ? '<a href="#/central/' + previous.id + '">â† ' + esc(previous.headline) + '</a>' : '<span></span>') + (next ? '<a href="#/central/' + next.id + '">' + esc(next.headline) + ' â†’</a>' : '<a href="#/central">CENTRAL INDEX â†’</a>') + '</nav></main><aside>' +
+      '<section class="paper-result"><span>RESULT LEDGER</span><h3>' + (result.winner ? esc(result.winner) : "P1 OPEN") + '</h3>' + ((result.podium || []).length ? '<ol>' + result.podium.map(function (name, resultIndex) { return '<li><b>P' + (resultIndex + 1) + '</b>' + esc(name) + '</li>'; }).join("") + '</ol>' : '') + '<p>' + esc(result.note || "") + '</p>' + (result.receipt ? '<button onclick="__play(\'' + esc(result.receipt.sourceId || source.id) + '\',' + Number(result.receipt.t || 0) + ',\'Result receipt\')">â–¶ PLAY RESULT RECEIPT</button>' : '') + '</section>' +
+      '<section class="paper-facts"><span>EDITION INDEX</span><dl><dt>Track</dt><dd>' + esc(issue.track) + '</dd><dt>Race file</dt><dd>S' + issue.season + ' / R' + issue.race + '</dd><dt>Reviewed cuts</dt><dd>' + issue.moments.length + '</dd><dt>Timed segments</dt><dd>' + source.transcriptLines.toLocaleString() + '</dd><dt>Primary tape</dt><dd><a href="#/race/' + source.id + '">Open deep dive â†’</a></dd></dl></section>' +
+      '<section class="paper-limits"><span>WHAT THIS EDITION DOES NOT CLAIM</span><ul>' + issue.limitations.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join("") + '</ul></section>' +
+      (issue.companion ? '<section class="issue-companion"><span>CONNECTED COMPANION</span><img src="' + esc(issue.companion.thumb) + '" alt=""><h3>' + esc(issue.companion.title) + '</h3><button onclick="__play(\'' + issue.companion.id + '\',0,\'' + esc(issue.companion.title) + '\')">â–¶ PLAY THE SHOW</button></section>' : '') +
+      "</aside></div></article>";
+  }
+
+  function driversPage() {
+    var query = state.driverQuery.toLowerCase();
+    var drivers = DATA.drivers.filter(function (item) {
+      return !query || item.name.toLowerCase().includes(query) || String(item.team || "").toLowerCase().includes(query);
+    });
+    var featured = DATA.drivers.filter(function (item) { return item.image && (item.stats.tapeSupportedPodiums || item.stats.centralIssueCount >= 3); }).sort(function (a, b) {
+      return b.stats.tapeSupportedWins - a.stats.tapeSupportedWins || b.stats.tapeSupportedPodiums - a.stats.tapeSupportedPodiums || b.stats.centralIssueCount - a.stats.centralIssueCount;
+    }).slice(0, 18);
+    app.innerHTML = '<div class="drivers-page">' + pageHead("FRONTLINE GARAGE / DRIVER DOSSIERS", "THE CARS.<br><em>THE RESULTS.</em><br>THE STORIES.", "Source-backed car and race frames lead the garage. Every dossier then connects result receipts, Central coverage, signature tape, track history, and the broader appearance index.", [
+      [DATA.drivers.length, "DOSSIERS"], [DATA.records.driverImageCount, "SOURCE-FRAME DOSSIERS"], [DATA.drivers.filter(function (item) { return item.stats.tapeSupportedWins; }).length, "RECOVERED WINNERS"],
+    ]) + '<div class="wrap">' +
+      (!query ? '<section class="frontline-garage"><header><span>THE FRONT ROW</span><h2>RESULT-BACKED NAMES / CARS ON TAPE</h2><p>Frames are captured from HLRN race or companion programs at the cited second. They are visual dossier artâ€”not a substitute for an owner-supplied car photo archive.</p></header><div class="driver-feature-grid">' + featured.map(driverCard).join("") + '</div></section>' : '') +
+      '<section class="garage-register"><header><div><span>THE COMPLETE IDENTITY REGISTER</span><h2>' + (query ? "SEARCH RESULTS" : "EVERY NORMALIZED DRIVER") + '</h2></div><div class="driver-search"><span>FIND A GARAGE PASS</span><input value="' + esc(state.driverQuery) + '" placeholder="Driver or teamâ€¦" oninput="__driverFilter(this.value)"><b>' + drivers.length + " MATCHES</b></div></header><div class=\"driver-grid\">" + drivers.map(driverCard).join("") + "</div></section>" +
+      evidenceNote("PICTURES ARE SOURCE-ATTRIBUTED, NOT INVENTED.", "The current image pass uses HLRN's own race and companion footage. Where no safely mapped frame exists, the dossier keeps a monogram. Owner-supplied car art can replace or expand these frames later without changing the evidence record.") +
+      "</div></div>";
+  }
+  window.__driverFilter = function (value) { state.driverQuery = value; driversPage(); var input = app.querySelector(".driver-search input"); if (input) { input.focus(); input.setSelectionRange(value.length, value.length); } };
+
+  function driverPage(id) {
+    var driver = driverMap[id];
+    if (!driver) return driversPage();
+    var stats = driver.stats;
+    var sources = driver.appearances.map(function (item) { return sourceMap[item.sourceId]; }).filter(Boolean);
+    var resultRaces = (driver.resultRaceIds || []).map(function (raceId) { return sourceMap[raceId]; }).filter(Boolean);
+    var clippings = (driver.centralIssueIds || []).map(function (issueId) { return publicationMap[issueId]; }).filter(Boolean).sort(function (a, b) { return b.season - a.season || b.race - a.race; });
+    var rankings = DATA.rankings.order.map(function (boardId) {
+      var board = DATA.rankings.boards[boardId];
+      var entry = board.entries.find(function (item) { return item.driverId === driver.id; });
+      return entry ? { board: board, entry: entry } : null;
+    }).filter(Boolean);
+    app.innerHTML = '<article class="driver-page"><section class="driver-hero dossier-hero"><div class="wrap">' +
+      (driver.image ? '<figure><img src="' + esc(driver.image.file) + '" alt="HLRN source frame connected to ' + esc(driver.name) + '"><figcaption><span>' + esc(driver.image.label) + '</span><b>' + esc(driver.image.caption) + '</b><button onclick="__play(\'' + driver.image.sourceId + '\',' + driver.image.t + ',\'' + esc(driver.name) + ' source frame\')">â–¶ ' + fmtTime(driver.image.t) + '</button></figcaption></figure>' : '<div class="driver-hero-mark">' + esc(driver.name.split(/\s+/).map(function (p) { return p[0]; }).slice(0, 2).join("")) + '</div>') +
+      '<div class="driver-identity"><span>DRIVER DOSSIER / ' + esc(String(driver.identityStatus).replace(/-/g, " ").toUpperCase()) + "</span><h1>" + esc(driver.name) + "</h1>" +
+      (driver.team ? "<p>" + esc(driver.team) + "</p>" : "<p>TEAM NOT CONSISTENTLY STATED ON REVIEWED TAPE</p>") +
+      '<div class="dossier-badges">' + (driver.name === "Trevor Haley" ? '<b>SEASON 1 CHAMPION</b>' : '') + (stats.tapeSupportedWins ? '<b>' + stats.tapeSupportedWins + 'Ã— RACE WINNER</b>' : '') + (stats.tapeSupportedPodiums ? '<b>' + stats.tapeSupportedPodiums + 'Ã— RECOVERED PODIUM</b>' : '') + '</div>' +
+      (driver.aliases && driver.aliases.length ? '<small>TRANSCRIPT ALIASES / ' + driver.aliases.map(esc).join(" / ") + "</small>" : "") + '</div><aside><div><b>' + stats.tapeSupportedWins + "</b><span>WINS</span></div><div><b>" + stats.tapeSupportedPodiums + "</b><span>PODIUMS</span></div><div><b>" + stats.centralIssueCount + "</b><span>CENTRAL<br>EDITIONS</span></div><div><b>" + stats.officialSourceCount + "</b><span>OFFICIAL<br>FILES</span></div></aside></div></section>" +
+      '<div class="wrap driver-body"><main><section class="driver-summary dossier-story"><span>THE CAREER READ</span><h2>' + (driver.name === "Trevor Haley" ? "THE CHAMPION AT THE CENTER OF THE STORM" : "A CAREER RECONSTRUCTED FROM THE RACE") + '</h2>' + (driver.story || []).map(function (paragraph) { return '<p>' + esc(paragraph) + '</p>'; }).join("") + '</section>' +
+      (resultRaces.length ? '<section class="driver-results"><div class="section-title"><div><span>THE RESULT FORM</span><h2>RECOVERED TOP-THREE RUNS</h2></div></div><div>' + resultRaces.map(function (race) { var position = race.result.winner === driver.name ? "P1" : "P" + ((race.result.podium || []).indexOf(driver.name) + 1); return '<a href="#/race/' + race.id + '"><b>' + position + '</b><span>S' + race.season + ' / R' + race.race + '</span><h3>' + esc(race.track) + '</h3><small>' + esc(fmtDate(race.date, true)) + '</small></a>'; }).join("") + '</div></section>' : '') +
+      (driver.topMoments.length ? '<section class="driver-moments"><div class="section-title"><div><span>FIVE CLICKS INTO THE CAREER</span><h2>SIGNATURE TAPE</h2></div><p>Only editor-reviewed race beats appear here.</p></div><div class="moment-grid">' + driver.topMoments.slice(0, 6).map(function (item) { return momentCard(item, false); }).join("") + "</div></section>" : "") +
+      (clippings.length ? '<section class="driver-clippings"><div class="section-title"><div><span>FROM HIGHLINE CENTRAL</span><h2>PRESS CLIPPINGS</h2></div><b>' + clippings.length + ' EDITIONS</b></div><div class="clipping-grid">' + clippings.map(function (issue) { return '<a href="#/central/' + issue.id + '"><span>S' + issue.season + ' / ' + String(issue.race).padStart(2, "0") + '</span><h3>' + esc(issue.headline) + '</h3><p>' + esc(issue.deck) + '</p><b>READ EDITION â†’</b></a>'; }).join("") + '</div></section>' : '') +
+      '<section class="driver-sources"><div class="section-title"><div><span>THE FULL TAPE INDEX</span><h2>RACE FILE APPEARANCES</h2></div><p>Appearance is not claimed as an official start.</p></div><div class="source-grid">' + sources.slice(0, 24).map(sourceCard).join("") + "</div></section></main><aside>" +
+      '<section class="driver-fingerprint"><span>TRACK FINGERPRINT</span>' + (driver.topTracks.length ? driver.topTracks.map(function (item) { return '<div><b>' + esc(item.track) + "</b><i><em style=\"width:" + Math.min(100, item.sourceCount * 16) + '%"></em></i><strong>' + item.sourceCount + "</strong></div>"; }).join("") : "<p>No repeated track signal yet.</p>") + "</section>" +
+      '<section class="driver-rank-resume"><span>TAPE RANKING RESUME</span>' + (rankings.length ? rankings.map(function (item) { return '<a href="#/rankings/' + item.board.id + '"><b>#' + item.entry.rank + "</b><div><span>" + esc(item.board.name) + "</span><small>" + item.entry.score + " " + esc(item.board.metric) + "</small></div></a>"; }).join("") : "<p>No current Top 25 placement.</p>") + "</section>" +
+      '<section class="dossier-ledger"><span>EVIDENCE LEDGER</span><dl><dt>Official tape files</dt><dd>' + stats.officialSourceCount + '</dd><dt>Highline Live files</dt><dd>' + stats.liveSourceCount + '</dd><dt>Reviewed race beats</dt><dd>' + stats.momentCount + '</dd><dt>Official name signals</dt><dd>' + stats.officialMentions.toLocaleString() + '</dd><dt>First tape date</dt><dd>' + esc(fmtDate(stats.firstDate, true)) + '</dd><dt>Latest tape date</dt><dd>' + esc(fmtDate(stats.lastDate, true)) + '</dd></dl><p>Mention counts aid discovery. They do not measure pace, fault, starts, points, or ability.</p></section></aside></div></article>';
+  }
+
+  function seasonsPage() {
+    app.innerHTML = '<div class="seasons-page">' + pageHead("THE OFFICIAL ROAD / TWO DISTINCT RUNS", "TWO SEASONS.<br><em>ONE SOURCE OF TRUTH.</em>", "The official lane follows the channel's numbered league run and The Show chronology. Highline Live never leaks into these totals.", [
+      [DATA.records.officialCount, "OFFICIAL RACES"], [DATA.records.officialHours, "OFFICIAL HOURS"], [DATA.seasons.reduce(function (sum, item) { return sum + item.trackCount; }, 0), "SEASON TRACK STOPS"],
+    ]) + '<div class="wrap"><div class="season-pair">' + DATA.seasons.map(function (season) {
+      var races = season.raceIds.map(function (id) { return sourceMap[id]; }).filter(Boolean);
+      var newest = races[races.length - 1];
+      return '<a class="season-panel season-' + season.number + '" href="#/season/' + season.number + '"><div class="season-panel-bg" style="background-image:url(\'' + esc(newest ? newest.thumb : "") + '\')"></div><span>' + esc(season.status.toUpperCase()) + "</span><h2>SEASON <b>" + season.number + "</b></h2><p>" + season.raceCount + " official races Â· " + season.sourceHours + " hours Â· " + season.trackCount + " track stops</p><div><span>" + season.momentCount + " SIGNALS</span><span>" + season.transcriptCoverage + "/" + season.raceCount + " TIMED</span></div><footer>OPEN THE SEASON â†’</footer></a>";
+    }).join("") + '</div><section class="season-boundary"><div><span>CHAMPIONSHIP LEDGER</span><h2>TAPE FIRST. SHEETS NEXT.</h2></div><p>Season 1â€™s champion is supported by a later HLRN channel recap. Season 2 remains active in this snapshot. Full standings, points, starts, and complete finishing orders remain open until owner records arrive.</p></section>' +
+      '<section class="official-roadmap"><div class="section-title"><div><span>SOURCE CHRONOLOGY</span><h2>THE ROAD SO FAR</h2></div></div>' +
+      DATA.seasons.map(function (season) { return '<div class="roadmap-run"><header><b>SEASON ' + season.number + "</b><span>" + esc(season.status.toUpperCase()) + "</span></header><div>" + season.raceIds.map(function (id) {
+        var source = sourceMap[id]; return source ? '<a href="#/race/' + id + '"><b>' + String(source.race).padStart(2, "0") + "</b><span>" + esc(source.track) + "</span><small>" + esc(fmtDate(source.date, true)) + "</small></a>" : "";
+      }).join("") + "</div></div>"; }).join("") + "</section></div></div>";
+  }
+
+  function seasonPage(number) {
+    var season = seasonMap[String(number)];
+    if (!season) return seasonsPage();
+    var races = season.raceIds.map(function (id) { return sourceMap[id]; }).filter(Boolean);
+    var top = races.slice().sort(function (a, b) { return b.heat.score - a.heat.score; })[0];
+    app.innerHTML = '<div class="season-page"><section class="season-hero season-' + season.number + '"><div class="wrap"><div><span>THE OFFICIAL ROAD / ' + esc(season.status.toUpperCase()) + "</span><h1>SEASON <em>" + season.number + "</em></h1><p>" + season.raceCount + " race files across " + season.trackCount + " track stops. " + season.sourceHours + " hours of original HLRN tape.</p></div><aside><b>" + season.transcriptCoverage + "/" + season.raceCount + "</b><span>TIMED RACE FILES</span><b>" + season.resultCoverage + "</b><span>RESULT FILES REVIEWED</span></aside></div></section>" +
+      '<div class="wrap"><section class="season-champion-open"><span>CHAMPIONSHIP STATUS / ' + esc(String(season.championEvidenceStatus || "unknown").toUpperCase()) + '</span><h2>' + (season.champion ? esc(season.champion) : "NOT YET ADJUDICATED") + '</h2><p>' + esc(season.championStatus) + '</p>' + (season.championReceipt ? '<button onclick="__play(\'' + season.championReceipt.sourceId + '\',' + season.championReceipt.t + ',\'Championship receipt\')">â–¶ PLAY CHAMPIONSHIP RECEIPT</button>' : '') + "</section>" +
+      (top ? '<section class="season-feature"><div><span>HIGHEST CURRENT TAPE HEAT</span><h2>' + esc(top.name) + "</h2><p>" + esc(top.recap) + '</p><a href="#/race/' + top.id + '">OPEN THE RACE FILE â†’</a></div>' + sourceCard(top) + "</section>" : "") +
+      '<section class="season-races"><div class="section-title"><div><span>RACE BY RACE</span><h2>THE COMPLETE RUN</h2></div></div><div class="source-grid">' + races.map(sourceCard).join("") + "</div></section>" +
+      packFinder(races) + "</div></div>";
+  }
+
+  function rankingsPage(boardId) {
+    var id = DATA.rankings.boards[boardId] ? boardId : DATA.rankings.order[0];
+    var board = DATA.rankings.boards[id];
+    app.innerHTML = '<div class="rankings-page">' + pageHead("TOP 25 / EVIDENCE-BOUND BOARDS", "RANK WHAT THE<br><em>ARCHIVE CAN PROVE.</em>", "Seven explainable boards separate recovered outcomes, Central coverage, official file presence, and broadcast gravity. No board pretends to be a complete points table.", [
+      [DATA.rankings.order.length, "DISTINCT BOARDS"], [DATA.drivers.length, "NORMALIZED DOSSIERS"], ["0", "CONFIDENCE POINTS"],
+    ]) + '<div class="wrap"><nav class="ranking-tabs">' + DATA.rankings.order.map(function (itemId) {
+      var item = DATA.rankings.boards[itemId]; return '<a class="' + (itemId === id ? "on" : "") + '" href="#/rankings/' + itemId + '"><span>' + esc(item.name) + "</span><b>25</b></a>";
+    }).join("") + '</nav><section class="ranking-method"><span>' + esc(board.metric.toUpperCase()) + "</span><h2>" + esc(board.name) + "</h2><p>" + esc(board.note) + "</p></section><div class=\"ranking-board\">" +
+      board.entries.map(function (entry) {
+        return '<article><b class="rank-num">' + String(entry.rank).padStart(2, "0") + '</b><div class="rank-driver"><span>' + esc(entry.team || "TEAM NOT STATED") + '</span><a href="#/driver/' + entry.driverId + '">' + esc(entry.name) + "</a><small>" + entry.sourceCount + " tape files Â· " + entry.momentCount + " exact moments</small></div><div class=\"rank-score\"><b>" + entry.score.toLocaleString() + "</b><span>" + esc(board.metric) + "</span></div></article>";
+      }).join("") + "</div>" + evidenceNote("THESE ARE NOT DRIVER ABILITY RATINGS.", "Performance data is incomplete. Every board is an archive-impact view with a single visible metric; confidence, owner opinion, team reputation, and unsupported results add zero points.") + "</div></div>";
+  }
+
+  function highlineLive() {
+    var query = state.liveQuery.toLowerCase();
+    var sources = DATA.sources.filter(function (item) {
+      if (item.lane !== "highline-live") return false;
+      if (!query) return true;
+      return [item.title, item.track, item.kind, item.description].join(" ").toLowerCase().includes(query);
+    }).sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+    app.innerHTML = '<div class="live-page">' + pageHead("THE BONUS FREQUENCY / EXPLICITLY NON-CANON", "HIGHLINE <em>LIVE.</em>", "The network's potpourri: partner leagues, throwdowns, memorials, recruitment nights, practice races, format experiments, and one-off shows.", [
+      [DATA.records.liveCount, "COMPLETE BONUS RACES"], [Math.round(DATA.sources.filter(function (s) { return s.lane === "highline-live"; }).reduce(function (sum, s) { return sum + s.duration; }, 0) / 3600), "HOURS"], [DATA.sources.filter(function (s) { return s.lane === "fragment"; }).length, "LEDGER-ONLY FRAGMENTS"],
+    ]) + '<div class="wrap"><section class="live-manifesto"><b>BONUS DOES NOT MEAN BURIED.</b><p>Every complete Highline Live race receives original playback, transcript search, source metadata, tape heat, driver discovery, and a stable race file. Automated moment candidates stay backstage until a human editorial pass; none can alter official Season 1â€“2 totals.</p></section><div class="live-search"><span>SCAN THE BONUS SHELF</span><input value="' + esc(state.liveQuery) + '" placeholder="Track, series, specialâ€¦" oninput="__liveFilter(this.value)"><b>' + sources.length + " FILES</b></div><div class=\"source-grid live-grid\">" + sources.map(sourceCard).join("") + "</div>" +
+      '<section class="fragment-shelf"><div class="section-title"><div><span>PRESERVED WITHOUT PRETENSE</span><h2>FRAGMENTS + TECHNICAL TAPE</h2></div></div><div>' + DATA.sources.filter(function (item) { return item.lane === "fragment"; }).map(function (item) {
+        return '<a href="#/race/' + item.id + '"><b>' + esc(item.title) + "</b><span>" + esc(item.fragmentNote || "Incomplete source") + "</span><em>" + fmtDuration(item.duration) + "</em></a>";
+      }).join("") + "</div></section></div></div>";
+  }
+  window.__liveFilter = function (value) { state.liveQuery = value; highlineLive(); var input = app.querySelector(".live-search input"); if (input) { input.focus(); input.setSelectionRange(value.length, value.length); } };
+
+  function radarForSource(source) {
+    var moments = source.moments || [];
+    return '<section class="source-radar"><header><div><span>HLRN SIGNATURE / HIGH LINE RADAR</span><h2>THE REVIEWED STORY SWEEP</h2></div><p>Position reflects editorial race phase. Each contact opens the cited HLRN source second.</p></header><div class="radar-track"><i class="radar-beam"></i>' +
+      moments.map(function (item, itemIndex) {
+        var phaseBase = item.phase === "opening" ? 12 : item.phase === "closing" ? 76 : 44;
+        var left = Math.min(96, phaseBase + (itemIndex % 4) * 5);
+        return '<button class="' + esc(item.category) + '" style="left:' + left + '%" onclick="__play(\'' + item.sourceId + '\',' + item.t + ',\'' + esc(item.title) + '\')" title="' + esc(item.title) + " Â· " + fmtTime(item.t) + '"><i></i><span>' + fmtTime(item.t) + "</span></button>";
+      }).join("") + '<div class="radar-base"><span>OPENING</span><span>PRESSURE</span><span>CLOSING</span></div></div><div class="radar-legend">' +
+      ["finish", "result", "battle", "incident", "stage", "record", "interview"].map(function (item) { return '<span class="' + item + '"><i></i>' + item.toUpperCase() + "</span>"; }).join("") + "</div></section>";
+  }
+
+  function radarPage() {
+    var sources = DATA.sources.filter(function (item) { return item.lane === "official" && item.isComplete && item.moments.length; }).sort(function (a, b) { return a.season - b.season || a.race - b.race; });
+    app.innerHTML = '<div class="radar-page">' + pageHead("HIGH LINE RADAR / EDITORIAL STORY MAPS", "SEE THE RACE<br><em>BEFORE YOU PRESS PLAY.</em>", "Every sweep maps reviewed opening, pressure, and closing beats. It is a navigable story reconstructionâ€”not official telemetry.", [
+      [sources.length, "ACTIVE SWEEPS"], [sources.reduce(function (sum, item) { return sum + item.moments.length; }, 0), "RADAR CONTACTS"], ["0", "TELEMETRY CLAIMS"],
+    ]) + '<div class="wrap"><div class="radar-stack">' +
+      sources.map(function (source) { return '<article><a href="#/race/' + source.id + '"><span>' + esc(laneLabel(source.lane)) + "</span><h3>" + esc(sourceTitle(source)) + "</h3><small>" + source.heat.score + " TAPE HEAT</small></a>" + radarForSource(source) + "</article>"; }).join("") + "</div>" +
+      evidenceNote("RADAR IS A STORY MAP.", "The dots come only from the 83 editor-reviewed receipts. Highline Live's research candidates remain backstage. Radar positions indicate story phase, not car position, speed, incident blame, or race-control data.") + "</div></div>";
+  }
+  window.__radarLane = function (lane) { state.radarLane = lane; radarPage(); };
+
+  function frequencyPage() {
+    app.innerHTML = '<div class="frequency-page">' + pageHead("HIGHLINE FREQUENCY / THE BOOTH AS A CHARACTER", "WHAT DOES THE<br><em>NETWORK SOUND LIKE?</em>", "Recurring race language becomes a playable frequency board. Counts are phrase hits, not separate events or verified speaker quotes.", [
+      [DATA.phrases.length, "TRACKED FREQUENCIES"], [DATA.phrases.reduce(function (sum, item) { return sum + item.count; }, 0), "PHRASE HITS"], [DATA.records.transcriptSources, "TIMED SOURCES"],
+    ]) + '<div class="wrap"><div class="frequency-board">' + DATA.phrases.map(function (phrase, index) {
+      return '<article><header><span>FREQ ' + String(index + 1).padStart(2, "0") + "</span><b>" + phrase.count.toLocaleString() + "</b></header><h2>" + esc(phrase.label) + "</h2><p>" + phrase.sourceCount + " race sources</p><div>" + phrase.receipts.slice(0, 5).map(function (receipt) {
+        return '<button onclick="__play(\'' + receipt.sourceId + '\',' + receipt.t + ',\'' + esc(phrase.label) + '\')"><span>â–¶ ' + fmtTime(receipt.t) + "</span><small>" + esc(compact(receipt.text, 105)) + "</small></button>";
+      }).join("") + "</div></article>";
+    }).join("") + "</div>" +
+      evidenceNote("PHRASE COUNTS ARE SEARCH COUNTS.", "Rolling captions and repeated booth calls can produce multiple hits around one sequence. The board describes recurring language on the surviving tape; it does not assign a line to a specific speaker without identity review.") + "</div></div>";
+  }
+
+  function recordsPage() {
+    var records = DATA.records;
+    app.innerHTML = '<div class="records-page">' + pageHead("CONTROL ROOM TOTALS / THE TAPE AT A GLANCE", "THE NETWORK<br><em>RECORD BOARD.</em>", "Source metadata, archive coverage, track frequency, runtime, and view countsâ€”kept separate from unavailable competition results.", [
+      [records.sourceCount, "LIVESTREAM SOURCES"], [records.hours, "ARCHIVE HOURS"], [records.views.toLocaleString(), "CAPTURED VIEWS"],
+    ]) + '<div class="wrap"><section class="record-totes"><div><b>' + records.officialCount + "</b><span>OFFICIAL HLRN</span></div><div><b>" + records.liveCount + "</b><span>HIGHLINE LIVE</span></div><div><b>" + records.fragmentCount + "</b><span>FRAGMENTS</span></div><div><b>" + records.driverCount + "</b><span>DRIVER DOSSIERS</span></div><div><b>" + records.momentCount + "</b><span>EXACT MOMENTS</span></div><div><b>" + records.auxiliaryCount + "</b><span>CENTRAL COMPANIONS</span></div></section>" +
+      '<div class="record-columns"><section><span>TRACK PASSPORT</span><h2>MOST VISITED ON TAPE</h2>' + records.tracks.map(function (item, index) { return '<div class="record-row"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(item.track) + "</span><i><em style=\"width:" + Math.min(100, item.sources * 9) + '%"></em></i><strong>' + item.sources + "</strong></div>"; }).join("") + '</section><section><span>MARATHON NIGHTS</span><h2>LONGEST SOURCES</h2>' + records.longest.map(function (item, index) { return '<a class="record-row" href="#/race/' + item.id + '"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(compact(item.name, 42)) + "</span><strong>" + fmtDuration(item.duration) + "</strong></a>"; }).join("") + '</section><section><span>PUBLIC SIGNAL</span><h2>MOST WATCHED</h2>' + records.mostWatched.map(function (item, index) { return '<a class="record-row" href="#/race/' + item.id + '"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(compact(item.name, 42)) + "</span><strong>" + item.views.toLocaleString() + "</strong></a>"; }).join("") + "</section></div>" +
+      evidenceNote("THE RECORD BOARD STOPS AT SOURCE METADATA.", "Views are a captured snapshot and will drift. Track counts are source counts. Competition records, starts, wins, laps led, incidents, and points wait for reviewed results data.") + "</div></div>";
+  }
+
+  function sourcesPage() {
+    var chronological = DATA.sources.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+    app.innerHTML = '<div class="sources-page">' + pageHead("SOURCE LEDGER / NOTHING SILENTLY DISAPPEARS", "EVERY FILE.<br><em>ONE STABLE ID.</em>", "The full livestream shelf, including official races, Highline Live, fragments, transcript coverage, and result state.", [
+      [DATA.sources.length, "SOURCE IDENTITIES"], [DATA.records.transcriptSources, "TIMED"], [DATA.records.fragmentCount, "FRAGMENTS RETAINED"],
+    ]) + '<div class="wrap"><div class="source-table"><header><span>DATE</span><span>LANE</span><span>SOURCE</span><span>TRACK</span><span>EVIDENCE</span><span>RESULTS</span></header>' +
+      chronological.map(function (source) {
+        return '<a href="#/race/' + source.id + '"><time>' + esc(source.date || "UNKNOWN") + "</time><span class=\"table-lane " + source.lane + '">' + esc(laneLabel(source.lane)) + "</span><b>" + esc(sourceTitle(source)) + "</b><span>" + esc(source.track) + "</span><span>" + esc(source.transcriptStatus) + " / " + source.moments.length + " reviewed cuts</span><span>" + esc(source.result.status) + "</span></a>";
+      }).join("") + "</div>" + evidenceNote("SOURCE AVAILABILITY IS PART OF THE RECORD.", "If a video is later removed, the stable source identity remains as a tombstone with its known metadata and prior receipts. Removed tape is never silently repointed to another upload.") + "</div></div>";
+  }
+
+  function methodologyPage() {
+    var policy = DATA.meta.canonPolicy || {};
+    app.innerHTML = '<div class="method-page">' + pageHead("METHODOLOGY / THE TRUST CONTRACT", "FAST TO EXPLORE.<br><em>SLOW TO CLAIM.</em>", "The invisible engine is reusable. HLRNâ€™s canon, vocabulary, visual world, scoring signals, Central desk, and fan rituals are native to this network.", [
+      ["52", "LIVESTREAMS AUDITED"], ["2", "CANON LANES"], ["4", "EVIDENCE STATES"],
+    ]) + '<div class="wrap"><section class="method-grid"><article><span>01 / CANON</span><h2>WHAT COUNTS AS OFFICIAL?</h2><p>' + esc(policy.officialRule || "") + "</p></article><article><span>02 / BONUS</span><h2>WHAT IS HIGHLINE LIVE?</h2><p>" + esc(policy.bonusRule || "") + "</p></article><article><span>03 / FRAGMENTS</span><h2>WHY KEEP PARTIAL TAPE?</h2><p>" + esc(policy.fragmentRule || "") + "</p></article><article><span>04 / RESULTS</span><h2>WHY ARE CELLS OPEN?</h2><p>" + esc(policy.resultRule || "") + "</p></article></section>" +
+      '<section class="evidence-ladder"><span>EVIDENCE LADDER</span><h2>FOUR STATES THAT NEVER BLUR TOGETHER</h2><div><article><b>1</b><h3>RESEARCH CANDIDATE</h3><p>A machine-found timestamp kept backstage. It never becomes a public highlight by proximity alone.</p></article><article><b>2</b><h3>AUTHORED RECEIPT</h3><p>A human-bounded moment or claim tied to the exact source window.</p></article><article><b>3</b><h3>EDITOR REVIEWED</h3><p>Context, identity, title, and relationship checked against the tape.</p></article><article><b>4</b><h3>CREATOR CERTIFIED</h3><p>HLRN or an authorized owner confirms the record.</p></article></div></section>' +
+      '<section class="heat-method"><span>RESEARCH PIPELINE / PUBLIC FIREWALL</span><h2>' + DATA.records.quarantinedCandidateCount + ' CANDIDATES BACKSTAGE. ' + DATA.moments.length + ' REVIEWED CUTS PUBLIC.</h2><p>Tape Heat helps prioritize research. Highline Central and the highlight library publish only authored, source-bounded receipts. The score never writes a headline, assigns a result, or populates a driver signature reel.</p><div>' + ["finish", "battle", "restart", "strategy", "disruption", "booth", "evidence"].map(function (item) { return '<span>' + item.toUpperCase() + "</span>"; }).join("") + "</div></section>" +
+      '<section class="method-unknowns"><div><span>KNOWN NOW</span><ul><li>Source identities and dates</li><li>Original playback URLs</li><li>Official versus bonus lane</li><li>Timed transcript signals</li><li>All 20 official winners</li><li>Season 1 champion receipt</li><li>Channel-authored companion episodes</li></ul></div><div><span>WAITING FOR OWNER RECORDS</span><ul><li>Complete finishing orders</li><li>Official starts and points</li><li>Full standings tables</li><li>Official incident counts</li><li>Complete number and team history</li></ul></div></section></div></div>';
+  }
+
+  function explorePage() {
+    var cards = [
+      ["HIGHLINE LIVE", "The complete non-league potpourri, fully covered and explicitly separated.", "#/highline-live", DATA.records.liveCount + " RACES"],
+      ["HIGH LINE RADAR", "Race story signals plotted across exact source time.", "#/radar", DATA.moments.length + " CONTACTS"],
+      ["HIGHLINE FREQUENCY", "Recurring network language with playable exact receipts.", "#/frequency", DATA.phrases.length + " FREQUENCIES"],
+      ["RECORD BOARD", "Archive totals, runtime, views, tracks, and source records.", "#/records", DATA.records.hours + " HOURS"],
+      ["SOURCE LEDGER", "Every stable livestream identity and evidence state.", "#/sources", DATA.records.sourceCount + " SOURCES"],
+      ["METHODOLOGY", "Canon, evidence states, scoring, unknowns, and corrections.", "#/methodology", "OPEN CONTRACT"],
+    ];
+    app.innerHTML = '<div class="explore-page">' + pageHead("THE DEEP SIGNAL DECK / BEYOND THE MAIN TABS", "THE WHOLE<br><em>NETWORK UNIVERSE.</em>", "Six deeper tools turn the channel archive into a place to investigate, revisit, and correct.", [
+      [cards.length, "DEEP TOOLS"], [DATA.records.auxiliaryCount, "COMPANION FILES"], [DATA.records.fragmentCount, "PRESERVED FRAGMENTS"],
+    ]) + '<div class="wrap"><div class="explore-grid">' + cards.map(function (item, index) {
+      return '<a href="' + item[2] + '"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(item[3]) + "</span><h2>" + esc(item[0]) + "</h2><p>" + esc(item[1]) + "</p><em>OPEN TOOL â†’</em></a>";
+    }).join("") + '</div><section class="explore-rituals"><div><span>RETURN RITUAL</span><h2>LAST LAP LOTTERY</h2><p>Drop into a supported closing signal from anywhere in the network.</p><button onclick="__lastLap()">RUN THE LOTTERY â–¶</button></div><div><span>KEYBOARD RITUAL</span><h2>PRESS H</h2><p>Open the high line from any page and receive a random exact battle signal.</p><button onclick="__openHighLine()">OPEN THE HIGH LINE â–¶</button></div></section></div></div>';
+  }
+
+  function racePage(id, timestamp) {
+    var source = sourceMap[id];
+    if (!source) return home();
+    var moments = source.moments || [];
+    var result = source.result || {};
+    var issue = publicationMap[id];
+    var driverIds = Array.from(new Set(moments.flatMap(function (item) { return item.drivers || []; })));
+    var drivers = driverIds.map(function (driverId) { return driverMap[driverId]; }).filter(Boolean);
+    var heroImage = issue && issue.image ? issue.image.file : source.thumb;
+    var acts = ["opening", "middle", "closing"];
+    app.innerHTML = '<article class="race-page deep-dive"><section class="race-hero"><div class="race-hero-bg" style="background-image:url(\'' + esc(heroImage) + '\')"></div><div class="wrap"><div class="race-crumb"><a href="' + (source.lane === "official" ? "#/season/" + source.season : "#/highline-live") + '">' + esc(laneLabel(source.lane)) + "</a><span>/</span>" + esc(source.name) + "</div><div class=\"race-title\">" + laneBadge(source) + '<span class="race-file-label">' + (source.lane === "official" ? "OFFICIAL RACE DEEP DIVE" : "HIGHLINE LIVE SOURCE FILE") + '</span><h1>' + esc(issue ? issue.headline : source.name) + "</h1><p>" + esc(source.track) + " Â· " + esc(fmtDate(source.date)) + " Â· " + fmtDuration(source.duration) + '</p><div><button class="button hot" onclick="__play(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(sourceTitle(source)) + '\')">â–¶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH FROM START") + '</button><a class="button glass" href="' + esc(source.url) + '" target="_blank" rel="noopener">YOUTUBE SOURCE â†—</a>' + (issue ? '<a class="button glass" href="#/central/' + source.id + '">READ CENTRAL EDITION</a>' : '') + '</div></div><aside>' + heatBar(source) + '<div><b>' + source.moments.length + "</b><span>REVIEWED CUTS</span></div><div><b>" + source.transcriptLines.toLocaleString() + "</b><span>TIMED SEGMENTS</span></div></aside></div></section>" +
+      '<section class="race-facts"><div class="wrap"><div><span>LANE</span><b>' + esc(laneLabel(source.lane)) + "</b></div><div><span>TRACK</span><b>" + esc(source.track) + "</b></div><div><span>FILE</span><b>" + (source.lane === "official" ? "S" + source.season + " / R" + source.race : esc(source.kind)) + "</b></div><div><span>RESULT</span><b>" + esc(result.status || "unknown") + "</b></div><div><span>TRANSCRIPT</span><b>" + esc(source.transcriptStatus) + "</b></div></div></section>" +
+      '<section class="evidence-tower"><div class="wrap"><article class="done"><b>01</b><span>PRIMARY RACE TAPE</span><strong>' + source.transcriptLines.toLocaleString() + ' TIMED SEGMENTS</strong></article><article class="' + (source.companion ? "done" : "") + '"><b>02</b><span>HLRN COMPANION</span><strong>' + (source.companion ? "MATCHED" : "NOT FOUND") + '</strong></article><article class="' + (issue ? "done" : "") + '"><b>03</b><span>EDITORIAL REVIEW</span><strong>' + (issue ? moments.length + " BOUNDED CUTS" : source.candidateCount + " CANDIDATES QUARANTINED") + '</strong></article><article class="' + (result.status !== "unknown" ? "done" : "") + '"><b>04</b><span>RESULT RECEIPT</span><strong>' + esc(String(result.status || "unknown").toUpperCase()) + '</strong></article></div></section>' +
+      '<div class="wrap race-layout"><main>' +
+      (issue ? '<section class="race-recap authored"><span>HIGHLINE CENTRAL RACE READ</span><h2>' + esc(issue.headline) + '</h2><p class="race-deck">' + esc(issue.deck) + '</p>' + issue.lead.map(function (paragraph) { return '<p>' + esc(paragraph) + '</p>'; }).join("") + '<a href="#/central/' + source.id + '">READ THE NEWSPAPER EDITION â†’</a></section>' : '<section class="race-recap"><span>HIGHLINE LIVE / SOURCE-FIRST FILE</span><h2>THE BONUS RACE REMAINS FULLY OPEN</h2><p>' + esc(source.recap) + '</p><p>' + source.candidateCount + ' automated transcript candidates were retained for research but are not published as highlights until a human review gives them unique titles, context, and boundaries.</p></section>') +
+      (moments.length ? radarForSource(source) : '') +
+      (issue ? '<section class="race-three-act"><div class="section-title"><div><span>ORDERED RACE STORY</span><h2>THE NIGHT IN THREE ACTS</h2></div></div>' + acts.map(function (phase, actIndex) { var actMoments = moments.filter(function (moment) { return moment.phase === phase; }); return '<article><header><b>0' + (actIndex + 1) + '</b><div><span>' + ["OPENING", "PRESSURE", "CLOSING"][actIndex] + '</span><h3>' + ["THE BOARD IS SET", "THE RACE CHANGES SHAPE", "THE RESULT ARRIVES"][actIndex] + '</h3></div></header><div class="moment-grid">' + actMoments.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></article>'; }).join("") + '</section>' : '') +
+      '<section class="race-moments"><div class="section-title"><div><span>' + (moments.length ? "THE EDITOR'S CUT" : "SOURCE ACCESS") + '</span><h2>' + (moments.length ? "EVERY REVIEWED ENTRY POINT" : "FULL TAPE, NO FAKE HIGHLIGHTS") + '</h2></div></div>' + (moments.length ? '<div class="moment-grid">' + moments.map(function (item) { return momentCard(item, false); }).join("") + '</div>' : '<div class="empty-state">This bonus file remains playable and searchable. No machine-generated card is promoted as an editorial highlight.</div>') + "</section>" +
+      '<section class="race-transcript"><div class="section-title"><div><span>DEEP TAPE SEARCH</span><h2>SCAN THIS BROADCAST</h2></div></div><div class="race-scan"><input id="raceScanInput" placeholder="Driver, phrase, incident, strategyâ€¦" onkeydown="if(event.key===\'Enter\')__scanRace(\'' + source.id + '\')"><button onclick="__scanRace(\'' + source.id + '\')">SCAN</button></div><div id="raceScanResults"><p>Search only this source and jump to the matching second.</p></div></section></main><aside>' +
+      '<section class="result-bay"><span>RESULT BAY / ' + esc(String(result.status || "unknown").toUpperCase()) + "</span><h3>" + (result.winner ? esc(result.winner) : "WINNER OPEN") + "</h3><p>" + esc(result.note || "") + "</p>" + ((result.podium || []).length > 1 ? '<ol class="podium-list">' + result.podium.map(function (name, index) { return '<li><b>P' + (index + 1) + '</b><span>' + esc(name) + '</span></li>'; }).join("") + '</ol>' : '') + (result.raceStat ? '<small class="race-stat">' + esc(result.raceStat) + '</small>' : '') + (result.ruling ? '<small class="race-ruling">' + esc(result.ruling) + '</small>' : '') + (result.receipt ? '<button onclick="__play(\'' + (result.receipt.sourceId || source.id) + '\',' + result.receipt.t + ',\'Result receipt\')">â–¶ PLAY RESULT RECEIPT</button>' : "") + "</section>" +
+      (source.companion ? '<section class="race-companion"><span>THE SHOW / CONNECTED SOURCE</span><img src="' + esc(source.companion.thumb) + '" alt=""><h3>' + esc(source.companion.title) + '</h3><p>HLRN-authored context and entertainment, separated from the primary scoring lane.</p><button onclick="__play(\'' + source.companion.id + '\',0,\'' + esc(source.companion.title) + '\')">â–¶ PLAY THE SHOW</button>' + (issue ? '<a href="#/central/' + source.id + '">READ CENTRAL EDITION â†’</a>' : '') + '</section>' : "") +
+      (drivers.length ? '<section class="race-drivers"><span>DRIVERS IN REVIEWED STORY</span>' + drivers.slice(0, 18).map(function (driver) { return '<a href="#/driver/' + driver.id + '">' + esc(driver.name) + "</a>"; }).join("") + "</section>" : "") +
+      '<section class="signal-components"><span>TAPE HEAT / DISCOVERY MODEL</span>' + Object.entries(source.heat.components || {}).map(function (entry) { return '<div><b>' + esc(entry[0].toUpperCase()) + '</b><i><em style="width:' + Math.min(100, entry[1] * 5) + '%"></em></i><strong>' + entry[1] + "</strong></div>"; }).join("") + '<p>This score ranks research usefulness. It does not decide the editorial story.</p></section>' +
+      '<section class="source-contract"><span>SOURCE CONTRACT</span><p>Stable ID <code>' + esc(source.id) + "</code></p><p>No race video is copied. Every cut opens HLRN's original upload or its matched companion.</p></section></aside></div></article>";
+    if (timestamp) setTimeout(function () { window.__play(source.id, timestamp, sourceTitle(source)); }, 100);
+  }
+
+  window.__scanRace = async function (id) {
+    var input = document.getElementById("raceScanInput");
+    var box = document.getElementById("raceScanResults");
+    if (!input || !box || !input.value.trim()) return;
+    box.innerHTML = "<p>LOCKING ONTO SOURCEâ€¦</p>";
+    var lines = await loadTranscript(id);
+    var terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    var hits = lines.filter(function (line) { var text = line[1].toLowerCase(); return terms.every(function (term) { return text.includes(term); }); }).slice(0, 60);
+    box.innerHTML = hits.length ? '<div class="race-scan-hits">' + hits.map(function (line) { return '<button onclick="__play(\'' + id + '\',' + line[0] + ',\'Transcript search\')"><b>â–¶ ' + fmtTime(line[0]) + "</b><span>" + esc(compact(line[1], 300)) + "</span></button>"; }).join("") + "</div>" : "<p>No exact line match in this source. Try a shorter phrase or surname.</p>";
+  };
+
+  window.__openHighLine = function () {
+    var battles = DATA.moments.filter(function (item) { return item.category === "battle" && (state.canon === "all" || item.lane === "official"); });
+    if (!battles.length) return toast("The battle frequency is still recovering");
+    var moment = battles[Math.floor(Math.random() * battles.length)];
+    document.body.classList.add("highline-open");
+    setTimeout(function () { document.body.classList.remove("highline-open"); }, 1300);
+    window.__play(moment.sourceId, moment.t, "The high line is open");
+  };
+
+  document.addEventListener("keydown", function (event) {
+    var tag = (document.activeElement || {}).tagName || "";
+    if ((event.key === "h" || event.key === "H") && tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+      window.__openHighLine();
+    }
+    if (event.key === "Escape" && document.body.classList.contains("player-open")) window.__closePlayer();
+  });
+
+  function notFound() {
+    app.innerHTML = '<div class="not-found"><span>NO CARRIER</span><h1>THE SIGNAL MISSED.</h1><p>That route does not exist in the current HLRN archive.</p><a class="button hot" href="#/">RETURN TO CENTRAL</a></div>';
+  }
+
+  function route() {
+    renderNav();
+    var hash = location.hash || "#/";
+    var match;
+    window.scrollTo(0, 0);
+    if (hash === "#/" || hash === "") home();
+    else if (hash === "#/watch") watch();
+    else if (hash === "#/ask") askPage("");
+    else if ((match = hash.match(/^#\/ask\/(.+)$/))) askPage(decodeURIComponent(match[1]));
+    else if (hash === "#/highlights") highlightPage();
+    else if (hash === "#/central") central();
+    else if ((match = hash.match(/^#\/central\/([\w-]+)$/))) centralIssue(match[1]);
+    else if (hash === "#/drivers") driversPage();
+    else if ((match = hash.match(/^#\/driver\/([\w-]+)$/))) driverPage(match[1]);
+    else if (hash === "#/seasons") seasonsPage();
+    else if ((match = hash.match(/^#\/season\/(\d+)$/))) seasonPage(match[1]);
+    else if (hash === "#/rankings") rankingsPage();
+    else if ((match = hash.match(/^#\/rankings\/([\w-]+)$/))) rankingsPage(match[1]);
+    else if (hash === "#/highline-live") highlineLive();
+    else if (hash === "#/radar") radarPage();
+    else if (hash === "#/frequency") frequencyPage();
+    else if (hash === "#/records") recordsPage();
+    else if (hash === "#/sources") sourcesPage();
+    else if (hash === "#/methodology") methodologyPage();
+    else if (hash === "#/explore") explorePage();
+    else if ((match = hash.match(/^#\/race\/([\w-]+)\/t\/(\d+)$/))) racePage(match[1], Number(match[2]));
+    else if ((match = hash.match(/^#\/race\/([\w-]+)$/))) racePage(match[1]);
+    else notFound();
+    var heading = app.querySelector("h1");
+    document.title = (heading ? heading.textContent.replace(/\s+/g, " ").trim() + " Â· " : "") + "HLRN Living Wiki";
+    app.focus({ preventScroll: true });
+  }
+
+  window.addEventListener("hashchange", route);
+  renderFooter();
+  route();
+})();
