@@ -59,11 +59,11 @@ window.TR = window.TR || {};
 var $app = document.getElementById("app");
 var $nav = document.getElementById("nav");
 var $foot = document.getElementById("foot");
-var DEEP_ARCHIVE_URL = "assets/showcase.js?v=54";
-var RACE_DOSSIERS_URL = "assets/source-dossiers.js?v=54";
-var DRIVER_DOSSIERS_URL = "assets/driver-dossiers.js?v=54";
+var DEEP_ARCHIVE_URL = "assets/showcase.js?v=58";
+var RACE_DOSSIERS_URL = "assets/source-dossiers.js?v=58";
+var DRIVER_DOSSIERS_URL = "assets/driver-dossiers.js?v=58";
 var FULL_RESULTS_URL = "assets/full-results-boards.js?v=41a";
-var DRIVER_RANKINGS_URL = "assets/driver-rankings.js?v=53";
+var DRIVER_RANKINGS_URL = "assets/driver-rankings.js?v=58";
 var deepArchivePromise = null;
 var deepArchiveScript = null;
 var raceDossiersPromise = null;
@@ -1215,12 +1215,17 @@ function publicationDateRange(range) {
   if (range.label) return range.label;
   return "SEASON ARCHIVE";
 }
+function sceneEditionName(issue) {
+  if (!issue) return "SCENE EDITION";
+  if (issue.editionLabel) return String(issue.editionLabel).toUpperCase();
+  return "RACE PAPER " + String(issue.seasonIssueNumber || issue.issueNumber || 0).padStart(2, "0");
+}
 function driverPressClippingCard(item, type) {
   var isScene = type === "scene";
   var href = isScene ? "#/scene/" + item.eventId : "#/flashback/" + item.seasonNumber;
   var image = item.heroImage || "assets/vrl-logo.png";
   var eyebrow = isScene
-    ? "VIGILANTE SCENE / " + item.seasonLabel.toUpperCase() + " PAPER " + String(item.seasonIssueNumber || item.issueNumber).padStart(2, "0")
+    ? "VIGILANTE SCENE / " + item.seasonLabel.toUpperCase() + " / " + sceneEditionName(item)
     : "VIGILANTE FLASHBACK / SEASON " + item.seasonNumber;
   var title = isScene ? item.leadStory.headline : item.title;
   var detail = isScene
@@ -1910,9 +1915,9 @@ function sceneIssuesForSeason(value) {
   });
 }
 function scenePublicationLabel(issue) {
-  return issue.publicationType === "race-desk-feature"
-    ? "RACE DESK FEATURE"
-    : "ARCHIVE DESK EDITION";
+  if (issue.publicationType === "race-desk-feature") return "RACE DESK FEATURE";
+  if (issue.publicationType === "archive-desk-feature") return "CURATED ARCHIVE FEATURE";
+  return "ARCHIVE DESK EDITION";
 }
 function sceneCoverCard(issue, featured) {
   var heroEvidence = issue.heroEvidence || {};
@@ -1920,8 +1925,7 @@ function sceneCoverCard(issue, featured) {
     esc(issue.eventId) + '"><div class="scene-cover-image"><img loading="lazy" src="' +
     esc(issue.heroImage) + '" alt="Official VRL source art for ' + esc(issue.raceTitle) +
     '"><span>' + esc(issue.cover.coverLine) + '</span><small>' + esc(scenePublicationLabel(issue)) +
-    '</small></div><div class="scene-cover-copy"><small>' + esc(issue.seasonLabel) + ' / RACE PAPER ' +
-    String(issue.seasonIssueNumber || issue.issueNumber).padStart(2, "0") + ' / ARCHIVE ' +
+    '</small></div><div class="scene-cover-copy"><small>' + esc(issue.seasonLabel) + ' / ' + esc(sceneEditionName(issue)) + ' / ARCHIVE ' +
     String(issue.globalIssueNumber || issue.issueNumber).padStart(3, "0") + '</small><h2>' +
     esc(issue.cover.headline) + '</h2><p>' + esc(issue.cover.deck) + '</p><div><b>' +
     esc(issue.winner || ((issue.resultFormat || {}).outcomeState === "not-applicable" ? "FORMAT HAS NO SINGLE P1" : "P1 REMAINS OPEN")) +
@@ -1934,7 +1938,7 @@ function sceneSeasonShelf(activeSeason) {
     var active = Number(activeSeason) === season.seasonNumber;
     return '<a href="#/scene/season/' + season.seasonNumber + '"' + (active ? ' aria-current="page"' : '') +
       '><span>VIGILANTE SCENE</span><b>' + season.seasonNumber + '</b><em>' + season.issueCount +
-      ' RACE PAPERS</em><small>' + Number(season.wordCount || 0).toLocaleString() + ' WORDS</small></a>';
+      ' EDITIONS</em><small>' + Number(season.wordCount || 0).toLocaleString() + ' WORDS</small></a>';
   }).join("") + '</nav>';
 }
 
@@ -1942,7 +1946,9 @@ function vSceneIndex() {
   var issues = sceneIssueOrder();
   var latest = issues[issues.length - 1];
   var current = sceneIssuesForSeason(15).slice().reverse();
-  var beginning = sceneIssuesForSeason(1).slice(0, 4);
+  var beginning = sceneIssuesForSeason(1).filter(function (issue) {
+    return issue.editionType === "race-paper" || Number(issue.round) > 0;
+  }).slice(0, 4);
   var summary = VIGILANTE_PUBLICATIONS.summary || {};
   var html = '<div class="scene-newsstand scene-archive-newsstand"><div class="wrap"><div class="scene-index-mast"><span>THE COMPLETE RACE PAPER OF THE WEDNESDAY NIGHT WARS</span>' +
     '<h1>VIGILANTE <i>SCENE</i></h1><div><b>SEASONS 1&ndash;15</b><em>' + issues.length +
@@ -1951,11 +1957,10 @@ function vSceneIndex() {
     '<p>Start with the newest Wednesday night, open Season 1 at the beginning, or pull any collected season from the shelf. Every issue carries an editorial race story, three-act race anatomy, uncut first and last laps, full incident windows, voices, supported results, and an exact route back to the official tape.</p>' +
     '<div class="scene-archive-actions"><a href="#/scene/' + esc(latest ? latest.eventId : "") + '">READ THE LATEST ISSUE</a><a href="#/scene/season/1">START AT SEASON 1</a></div></div>' +
     (latest ? '<a class="scene-latest-cover" href="#/scene/' + esc(latest.eventId) + '"><img src="' + esc(latest.heroImage) +
-      '" alt="Latest Vigilante Scene cover"><span>LATEST / ' + esc(latest.seasonLabel) + ' PAPER ' +
-      String(latest.seasonIssueNumber).padStart(2, "0") + '</span><b>' + esc(latest.cover.headline) +
+      '" alt="Latest Vigilante Scene cover"><span>LATEST / ' + esc(latest.seasonLabel) + ' / ' + esc(sceneEditionName(latest)) + '</span><b>' + esc(latest.cover.headline) +
       '</b><em>' + esc(scenePublicationLabel(latest)) + '</em></a>' : '') + '</section>' +
     '<section class="scene-archive-ledger" aria-label="Vigilante Scene archive totals"><div><b>' + issues.length +
-    '</b><span>RACE PAPERS</span></div><div><b>' + sceneArchiveSeasons().length + '</b><span>SEASONS</span></div><div><b>' +
+    '</b><span>EDITIONS</span></div><div><b>' + sceneArchiveSeasons().length + '</b><span>SEASONS</span></div><div><b>' +
     Math.round(Number(summary.sceneWordCount || 0) / 1000).toLocaleString() + 'K</b><span>EDITORIAL WORDS</span></div><div><b>' +
     Number(summary.uniqueReceiptRouteCount || summary.receiptCount || 0).toLocaleString() + '</b><span>UNIQUE TAPE ROUTES</span></div></section>' +
     '<section class="scene-shelf-deck"><header><span>THE COLLECTED RUN</span><h2>CHOOSE A SEASON</h2><p>Fifteen season spines. Every canonical race appears exactly once.</p></header>' +
@@ -2137,12 +2142,35 @@ function vSceneIssue(value) {
   var resultLabel = issue.winner
     ? "SUPPORTED P1"
     : (resultFormat.outcomeState === "not-applicable" ? "NO SINGLE OVERALL P1 IN THIS FORMAT" : "P1 REMAINS OPEN");
+  var supportedPodium = issue.podium || [];
+  var podiumByPosition = {};
+  supportedPodium.forEach(function (item) { podiumByPosition[Number(item.position)] = item; });
+  var podiumStatus = resultFormat.outcomeState === "not-applicable"
+    ? "FORMAT-BOUND RESULT"
+    : (supportedPodium.length === 3 ? "FULL PODIUM VERIFIED" : supportedPodium.length + " OF 3 POSITIONS VERIFIED");
+  var podiumRows = [1, 2, 3].map(function (place) {
+    var item = podiumByPosition[place];
+    if (item) {
+      return '<li><i>P' + place + '</i><div><b>' + esc(item.name) + '</b><small>EXACT SOURCE RECEIPT</small></div></li>';
+    }
+    if (resultFormat.outcomeState === "not-applicable") {
+      return '<li class="open not-applicable"><i>P' + place + '</i><div><b>NOT APPLICABLE</b><small>NO SINGLE OVERALL ORDER IN THIS EVENT FORMAT</small></div></li>';
+    }
+    return '<li class="open"><i>P' + place + '</i><div><b>NOT POSITION-BOUND</b><small>' +
+      (issue.resultRundownReceipt ? "PLAY THE CLOSING RUNDOWN BELOW" : "NO BOUNDED POSITION RECEIPT") +
+      '</small></div></li>';
+  }).join("");
+  var resultBoundary = resultFormat.outcomeState === "not-applicable"
+    ? "This format does not produce one ordinary overall podium."
+    : (supportedPodium.length === 3
+      ? "All three finishing positions are independently attached to exact official-source language."
+      : "Blank positions are deliberate: running order, recap prose and nearby names never become results without an exact position receipt.");
   var heroMedia = heroFrame
     ? '<a class="scene-splash-media" target="_blank" rel="noopener noreferrer" href="' + esc(heroFrame.exactUrl) + '"><img src="' + esc(issue.heroImage) + '" alt="' + esc(heroFrame.alt || ("Official broadcast frame for " + issue.raceTitle)) + '"><span>' + esc(heroEvidence.label) + ' / ' + fmtT(heroFrame.t) + ' / OPEN SOURCE &#8599;</span></a>'
     : '<figure class="scene-splash-media scene-thumbnail-cover"><img src="' + esc(issue.heroImage) + '" alt="Official source thumbnail for ' + esc(issue.raceTitle) + '"><figcaption>' + esc(heroEvidence.label || "Official source thumbnail / not moment proof") + '</figcaption></figure>';
   var html = '<div class="scene-paper"><div class="wrap"><div class="crumb scene-crumb"><a href="#/scene">VIGILANTE SCENE</a> / <a href="#/scene/season/' +
-    issue.seasonNumber + '">' + esc(issue.seasonLabel) + '</a> / RACE PAPER ' + String(issue.seasonIssueNumber).padStart(2, "0") + '</div>' +
-    '<nav class="scene-reader-rail" aria-label="Issue reading controls"><div><b>' + esc(issue.seasonLabel) + ' / ' + String(issue.seasonIssueNumber).padStart(2, "0") + '</b><span>' + esc(scenePublicationLabel(issue)) + '</span></div>' +
+    issue.seasonNumber + '">' + esc(issue.seasonLabel) + '</a> / ' + esc(sceneEditionName(issue)) + '</div>' +
+    '<nav class="scene-reader-rail" aria-label="Issue reading controls"><div><b>' + esc(issue.seasonLabel) + ' / ' + esc(sceneEditionName(issue)) + '</b><span>' + esc(scenePublicationLabel(issue)) + '</span></div>' +
     '<div class="scene-reader-progress" role="progressbar" aria-label="Issue reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div><div class="scene-reader-jumps"><button onclick="__pressJump(\'scene-lead\')">LEAD</button><button onclick="__pressJump(\'scene-laps\')">LAPS</button><button onclick="__pressJump(\'scene-acts\')">THREE ACTS</button><button onclick="__pressJump(\'scene-timeline\')">TIMELINE</button><button onclick="__pressJump(\'scene-results\')">RESULTS</button><button onclick="__pressJump(\'scene-sources\')">SOURCES</button></div><button onclick="__shareScene()">SHARE</button><button onclick="__printScene()">PRINT</button></nav>' +
     '<header class="scene-masthead"><div><span>THE COMPLETE RACE PAPER OF THE WEDNESDAY NIGHT WARS</span><h1>VIGILANTE <i>SCENE</i></h1></div><section><b>' + esc(fmtDate(issue.date).toUpperCase()) + '</b><em>' + esc(issue.cover.edition.toUpperCase()) + '</em><small>' + Number(issue.wordCount || 0).toLocaleString() + ' EDITORIAL WORDS / ' + (issue.turningPoints || []).length + ' TURNING POINTS / ' + (issue.sourceParts || []).length + ' SOURCE PARTS</small></section></header>' +
     '<div class="scene-rule"><span>' + esc(issue.track || "TRACK NOT ESTABLISHED") + '</span><b>' + esc(issue.raceTitle) + '</b><em>' + esc(scenePublicationLabel(issue)) + ' / ' + esc(resultLabel) + '</em></div>' +
@@ -2150,8 +2178,8 @@ function vSceneIssue(value) {
     '<div class="scene-story-grid"><article class="scene-story-copy" id="scene-lead"><div class="scene-byline"><span>RACE NIGHT LEAD</span><b>BY ' + esc(issue.leadStory.byline.toUpperCase()) + '</b></div><h2>' + esc(issue.leadStory.headline) + '</h2>' +
     issue.leadStory.paragraphs.map(function (paragraph, index) { return '<p' + (index === 0 ? ' class="dropcap"' : '') + '>' + esc(paragraph) + '</p>'; }).join("") +
     '<div class="scene-play-grid"><h3>PLAY THE LEAD STORY</h3>' + issue.leadStory.receipts.slice(0, 6).map(function (receipt) { return pressReceiptButton(receipt, receipt.label); }).join("") + '</div></article>' +
-    '<aside class="scene-scorecard"><span>RACE-DAY SCORECARD</span><h3>' + esc(resultLabel) + '</h3>' +
-    ((issue.podium || []).length ? '<ol>' + issue.podium.map(function (item) { return '<li><i>P' + item.position + '</i><b>' + esc(item.name) + '</b></li>'; }).join("") + '</ol>' : '<p class="scene-result-open">The issue does not manufacture a podium from running order or recap prose.</p>') +
+    '<aside class="scene-scorecard"><span>RACE-DAY RESULT LEDGER</span><h3>' + esc(podiumStatus) + '</h3>' +
+    '<p class="scene-result-status">' + esc(resultBoundary) + '</p><ol>' + podiumRows + '</ol>' +
     (issue.winnerReceipt ? pressReceiptButton(issue.winnerReceipt, "Play the winner call", "press-receipt primary") : '') +
     '<div class="scene-facts">' + (issue.facts || []).map(function (fact) { var factValue = fact.unit === "seconds" ? fmtT(fact.value) : fact.value; return '<div><b>' + esc(factValue == null ? "N/A" : factValue) + '</b><span>' + esc(fact.label) + (fact.unit && fact.unit !== "seconds" ? ' / ' + esc(fact.unit) : '') + '</span></div>'; }).join("") + '</div>' +
     (reel ? '<button class="scene-highlight-play" onclick="__playHighlight(\'' + esc(issue.eventId) + '\',\'fast\')"><span>&#9654;</span><b>WATCH THE FAST RECAP</b><small>' + fmtT((reel.fastRecap || {}).editDurationSeconds) + ' / full first and last laps</small></button>' : '') +
@@ -2357,7 +2385,7 @@ function seasonWarRoom(label, season, rules) {
       String(round).padStart(2, "0") + '</b><em>CHECKERED</em></div><a class="season-war-frame" href="#/scene/' +
       esc(issue.eventId) + '"><img loading="lazy" src="' + esc(issue.heroImage) +
       '" alt="Reviewed official-broadcast frame for ' + esc(issue.raceTitle) +
-      '"><span>OPEN VIGILANTE SCENE ' + String(issue.seasonIssueNumber || issue.issueNumber).padStart(2, "0") +
+      '"><span>OPEN VIGILANTE SCENE ' + esc(sceneEditionName(issue)) +
       ' &rarr;</span></a><div class="season-war-copy"><span>' + esc(fmtDate(issue.date).toUpperCase()) +
       ' / ' + esc((issue.track || "TRACK NOT ESTABLISHED").toUpperCase()) + ' / COMPLETED ARCHIVE FILE</span><h3>' +
       esc(cover.coverLine || issue.raceTitle) + '</h3><p>' +
@@ -2547,7 +2575,7 @@ function vRace(id, startAt) {
     (r.round ? ' / ROUND ' + r.round : '') + ' / ' + esc(fmtDate(r.date).toUpperCase()) +
     '</em></div>' +
     (sceneIssue ? '<a class="race-scene-cta" href="#/scene/' + esc(sceneIssue.eventId) +
-      '"><span>VIGILANTE SCENE / ISSUE ' + String(sceneIssue.seasonIssueNumber || sceneIssue.issueNumber).padStart(2, "0") +
+      '"><span>VIGILANTE SCENE / ' + esc(sceneEditionName(sceneIssue)) +
       '</span><b>' + esc(sceneIssue.cover.headline) +
       '</b><em>READ THE RACE-DAY EDITION &rarr;</em></a>' : '') +
     '</div><section class="race-fact-strip" aria-label="Static reviewed race evidence tower">' +

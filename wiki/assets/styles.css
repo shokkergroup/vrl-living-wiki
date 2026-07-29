@@ -2372,9 +2372,16 @@ h2.page { font-family: var(--disp); font-size: clamp(28px, 4.5vw, 42px); letter-
 .scene-scorecard { align-self: start; padding: 17px; border: 1px solid #817d72; background: rgba(255,255,255,.28); }
 .scene-scorecard>span { color: var(--paper-red); font: 700 9px var(--mono); letter-spacing: 1.4px; }
 .scene-scorecard>h3 { margin: 3px 0 10px; font: 30px var(--disp); }
+.scene-result-status { margin: -3px 0 13px; color: #555148; font: 11px/1.45 var(--mono); }
 .scene-scorecard ol { margin: 0 0 12px; padding: 0; list-style: none; border-top: 3px solid var(--ink); }
-.scene-scorecard li { display: grid; grid-template-columns: 42px 1fr; align-items: center; border-bottom: 1px solid #8f8b80; min-height: 45px; }
+.scene-scorecard li { display: grid; grid-template-columns: 42px 1fr; align-items: center; border-bottom: 1px solid #8f8b80; min-height: 52px; }
 .scene-scorecard li i { color: var(--paper-red); font: 24px var(--disp); font-style: normal; }
+.scene-scorecard li div { display: grid; gap: 2px; }
+.scene-scorecard li b { font: 700 12px/1.15 var(--mono); }
+.scene-scorecard li small { color: #746e62; font: 700 7px/1.25 var(--mono); letter-spacing: .55px; }
+.scene-scorecard li.open { background: repeating-linear-gradient(-45deg,transparent,transparent 5px,rgba(72,67,59,.035) 5px,rgba(72,67,59,.035) 10px); }
+.scene-scorecard li.open i,.scene-scorecard li.open b { color: #777167; }
+.scene-scorecard li.not-applicable { opacity: .76; }
 .scene-facts { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; margin: 13px 0; background: #aaa495; }
 .scene-facts>div { padding: 10px; background: #ded6c3; }
 .scene-facts b { display: block; font: 27px var(--disp); }
