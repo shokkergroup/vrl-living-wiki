@@ -18,9 +18,9 @@ The public, source-linked living archive of the
 
 ## Core experience
 
-The VRL engine's evidence architecture is preservedâ€”stable source identities,
+The VRL engine's evidence architecture is preserved—stable source identities,
 lazy timed transcripts, exact YouTube recovery links, unknown-safe result
-boundaries, hash routes, and explainable rankingsâ€”but HLRN has its own visual
+boundaries, hash routes, and explainable rankings—but HLRN has its own visual
 world and features: **Highline Central**, **The Show** companion shelf,
 **Race Radar**, **Pack Finder**, **Highline Frequency**, **Last Lap Lottery**,
 and the separate **Highline Live** bonus lane.
