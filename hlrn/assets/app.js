@@ -28,6 +28,14 @@
   var seasonMap = Object.fromEntries(DATA.seasons.map(function (item) { return [String(item.number), item]; }));
   var publicationMap = Object.fromEntries((DATA.publications || []).map(function (item) { return [item.id, item]; }));
   var loadedTranscripts = {};
+  function storedList(key) {
+    try {
+      var value = JSON.parse(localStorage.getItem(key) || "[]");
+      return Array.isArray(value) ? value : [];
+    } catch (error) {
+      return [];
+    }
+  }
   var state = {
     canon: localStorage.getItem("hlrn.canon") || "official",
     watchMood: "latest",
@@ -36,6 +44,16 @@
     liveQuery: "",
     driverQuery: "",
     radarLane: "official",
+    garageQuery: "",
+    timelineLane: "all",
+    resultSeason: "all",
+    studioQuery: "",
+    studioCategory: "all",
+    raceNightMood: "closing",
+    raceNightSize: 6,
+    compareA: localStorage.getItem("hlrn.compareA") || "trevor-haley",
+    compareB: localStorage.getItem("hlrn.compareB") || "nick-bowman",
+    replayIds: storedList("hlrn.replay").filter(function (id) { return !!momentMap[id]; }),
   };
 
   function esc(value) {
@@ -125,7 +143,8 @@
       "<h3>" + esc(moment.title) + "</h3>" +
       (compactMode ? "" : "<p>" + esc(moment.summary) + "</p>") +
       (driverLinks ? '<div class="driver-chips">' + driverLinks + "</div>" : "") +
-      '<footer><a href="#/race/' + esc(moment.raceId || moment.sourceId) + '">OPEN RACE DEEP DIVE</a><span class="review-state editor-reviewed">EDITOR REVIEWED</span></footer></div></article>';
+      '<footer><div class="moment-actions"><a href="#/race/' + esc(moment.raceId || moment.sourceId) + '">OPEN RACE DEEP DIVE</a><button onclick="__queueMoment(\'' + esc(moment.id) + '\')">' +
+      (state.replayIds.indexOf(moment.id) >= 0 ? "IN REPLAY" : "+ REPLAY") + '</button><button onclick="__shareMoment(\'' + esc(moment.id) + '\')">SHARE</button></div><span class="review-state editor-reviewed">EDITOR REVIEWED</span></footer></div></article>';
   }
 
   function driverCard(driver) {
@@ -163,9 +182,24 @@
     var explore = [
       ["#/explore", "Explore deck"],
       ["#/highline-live", "Highline Live"],
+      ["#/results", "Results Room"],
+      ["#/garage", "Visual Garage"],
+      ["#/compare", "Driver Compare"],
+      ["#/battle-lines", "Battle Lines"],
+      ["#/tracks", "Track Atlas"],
+      ["#/timeline", "Signal Timeline"],
+      ["#/finish-vault", "Finish Vault"],
+      ["#/storylines", "Story Paths"],
+      ["#/the-show", "The Show"],
+      ["#/race-night", "Race Night Mixer"],
+      ["#/studio", "Lore Studio"],
+      ["#/pulse", "What’s New"],
       ["#/radar", "High Line Radar"],
       ["#/frequency", "Highline Frequency"],
       ["#/records", "Record Board"],
+      ["#/evidence-ledger", "Evidence Ledger"],
+      ["#/unknowns", "Open Records"],
+      ["#/corrections", "Corrections Desk"],
       ["#/sources", "Source Ledger"],
       ["#/methodology", "Methodology"],
     ];
@@ -183,7 +217,8 @@
       '<details class="explore-menu"><summary class="' + (explore.some(function (item) { return isOn(item[0]); }) ? "on" : "") + '">Explore</summary><div>' +
       explore.map(navLink).join("") + "</div></details></nav>" +
       '<div class="nav-controls"><button class="canon-switch ' + esc(state.canon) + '" onclick="__toggleCanon()" title="Switch between official HLRN and the whole network archive"><i></i><span>' +
-      (state.canon === "official" ? "OFFICIAL" : "ALL TAPE") + '</span></button><button class="nav-search" onclick="location.hash=\'#/ask\'" aria-label="Search the archive">⌕</button></div></div>' +
+      (state.canon === "official" ? "OFFICIAL" : "ALL TAPE") + '</span></button><a class="replay-chip" href="#/replay" aria-label="Open replay builder"><b>' +
+      state.replayIds.length + '</b><span>REPLAY</span></a><button class="nav-search" onclick="location.hash=\'#/ask\'" aria-label="Search the archive">⌕</button></div></div>' +
       '<div class="signal-rail"><i></i><span>HIGH LINE RACING NETWORK</span><b></b></div>';
   }
 
@@ -191,8 +226,8 @@
     footer.innerHTML = '<div class="wrap footer-grid"><div class="footer-brand"><img src="assets/media/hlrn-avatar.jpg" alt="High Line Racing Network"><div><b>HLRN LIVING WIKI</b><p>A SHOKKER LORE creator memory world.</p></div></div>' +
       '<div><b>THE SOURCE PROMISE</b><p>Every playable receipt returns to the original High Line Racing Network upload. The wiki copies no race video.</p></div>' +
       '<div><b>THE RESULT PROMISE</b><p>Unknown stays unknown. Official sheets can be added later without breaking race or driver routes.</p></div>' +
-      '<div class="footer-links"><a href="#/methodology">Methodology</a><a href="#/sources">Source ledger</a><a href="' + esc(DATA.meta.channelUrl) + '" target="_blank" rel="noopener">YouTube channel ↗</a></div></div>' +
-      '<div class="footer-bottom"><span>SNAPSHOT ' + esc(DATA.meta.snapshotDate || "") + '</span><span>PRESS H ANYWHERE TO OPEN THE HIGH LINE</span></div>';
+      '<div class="footer-links"><a href="#/pulse">What’s new</a><a href="#/studio">Lore Studio</a><a href="#/corrections">Corrections</a><a href="#/methodology">Methodology</a><a href="#/sources">Source ledger</a><a href="' + esc(DATA.meta.channelUrl) + '" target="_blank" rel="noopener">YouTube channel ↗</a></div></div>' +
+      '<div class="footer-bottom"><span>SNAPSHOT ' + esc(DATA.meta.snapshotDate || "") + '</span><span>PRESS H ANYWHERE TO OPEN THE HIGH LINE · ' + state.replayIds.length + ' CUTS IN YOUR REPLAY</span></div>';
   }
 
   window.__toggleNav = function (button) {
@@ -223,16 +258,219 @@
     setTimeout(function () { toastRoot.innerHTML = ""; }, 2200);
   }
 
+  function persistReplay() {
+    localStorage.setItem("hlrn.replay", JSON.stringify(state.replayIds));
+    renderNav();
+    renderFooter();
+  }
+
+  function replayManifest() {
+    return state.replayIds.map(function (id, index) {
+      var moment = momentMap[id];
+      if (!moment) return null;
+      var source = sourceMap[moment.sourceId] || DATA.auxiliary.find(function (item) { return item.id === moment.sourceId; }) || {};
+      return {
+        order: index + 1,
+        id: moment.id,
+        title: moment.title,
+        summary: moment.summary,
+        category: moment.category,
+        phase: moment.phase,
+        sourceId: moment.sourceId,
+        raceId: moment.raceId || moment.sourceId,
+        sourceTitle: moment.sourceLabel || source.title || source.name || moment.sourceId,
+        start: moment.t,
+        end: moment.end,
+        reviewStatus: moment.reviewStatus,
+        contextRisk: "Verify final in/out points, rights, and surrounding context before publishing.",
+        playbackUrl: location.origin + location.pathname + "#/race/" + (moment.raceId || moment.sourceId) + "/t/" + Math.floor(moment.t),
+        youtubeUrl: "https://www.youtube.com/watch?v=" + moment.sourceId + "&t=" + Math.floor(moment.t) + "s",
+      };
+    }).filter(Boolean);
+  }
+
+  function copyText(text, success) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast(success || "Copied to clipboard"); }).catch(function () { toast("Copy was blocked by the browser"); });
+      return;
+    }
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    toast(success || "Copied to clipboard");
+  }
+
+  function downloadText(filename, text, type) {
+    var blob = new Blob([text], { type: type || "application/json" });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  window.__queueMoment = function (id) {
+    if (!momentMap[id]) return;
+    var index = state.replayIds.indexOf(id);
+    if (index >= 0) {
+      state.replayIds.splice(index, 1);
+      toast("Cut removed from your replay");
+    } else {
+      state.replayIds.push(id);
+      toast("Cut added to your replay");
+    }
+    persistReplay();
+    if ((location.hash || "").indexOf("#/replay") === 0) replayPage();
+  };
+
+  window.__queueMomentSet = function (encodedIds) {
+    var ids = decodeURIComponent(encodedIds || "").split(",").filter(function (id) { return !!momentMap[id]; });
+    ids.forEach(function (id) {
+      if (state.replayIds.indexOf(id) < 0) state.replayIds.push(id);
+    });
+    persistReplay();
+    toast(ids.length + " reviewed cuts added to your replay");
+  };
+
+  window.__shareMoment = function (id) {
+    var moment = momentMap[id];
+    if (!moment) return;
+    var url = location.origin + location.pathname + "#/race/" + (moment.raceId || moment.sourceId) + "/t/" + Math.floor(moment.t);
+    var text = moment.title + " — " + moment.summary + " " + url;
+    if (navigator.share) {
+      navigator.share({ title: moment.title + " · HLRN Living Wiki", text: moment.summary, url: url }).catch(function () {});
+    } else {
+      copyText(text, "Exact HLRN receipt copied");
+    }
+  };
+
+  window.__playReplay = function (index) {
+    var ids = state.replayIds;
+    if (!ids.length) return toast("Your replay is empty");
+    var normalized = ((Number(index) || 0) % ids.length + ids.length) % ids.length;
+    var moment = momentMap[ids[normalized]];
+    if (!moment) return;
+    window.__play(moment.sourceId, moment.t, moment.title, moment.end);
+  };
+
+  window.__moveReplay = function (index, direction) {
+    var from = Number(index);
+    var to = from + Number(direction);
+    if (from < 0 || to < 0 || from >= state.replayIds.length || to >= state.replayIds.length) return;
+    var moved = state.replayIds.splice(from, 1)[0];
+    state.replayIds.splice(to, 0, moved);
+    persistReplay();
+    replayPage();
+  };
+
+  window.__clearReplay = function () {
+    state.replayIds = [];
+    persistReplay();
+    replayPage();
+    toast("Replay cleared");
+  };
+
+  window.__downloadReplay = function (format) {
+    var manifest = replayManifest();
+    if (!manifest.length) return toast("Add a reviewed cut first");
+    if (format === "csv") {
+      var cells = function (value) { return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"'; };
+      var keys = ["order", "title", "category", "sourceId", "raceId", "start", "end", "reviewStatus", "youtubeUrl", "summary", "contextRisk"];
+      var csv = keys.join(",") + "\n" + manifest.map(function (row) { return keys.map(function (key) { return cells(row[key]); }).join(","); }).join("\n");
+      downloadText("hlrn-replay-manifest.csv", csv, "text/csv");
+    } else {
+      downloadText("hlrn-replay-manifest.json", JSON.stringify({ generatedAt: new Date().toISOString(), archiveSnapshot: DATA.meta.snapshotDate, cuts: manifest }, null, 2));
+    }
+    toast("Replay manifest prepared");
+  };
+
+  window.__copyReplay = function () {
+    var manifest = replayManifest();
+    if (!manifest.length) return toast("Add a reviewed cut first");
+    copyText(manifest.map(function (row) {
+      return String(row.order).padStart(2, "0") + " · " + row.title + " · " + fmtTime(row.start) + "–" + fmtTime(row.end) + "\n" + row.youtubeUrl;
+    }).join("\n\n"), "Replay rundown copied");
+  };
+
+  window.__shareRace = function (id) {
+    var source = sourceMap[id];
+    if (!source) return;
+    var url = location.origin + location.pathname + "#/race/" + id;
+    var title = sourceTitle(source) + " · HLRN Living Wiki";
+    if (navigator.share) navigator.share({ title: title, text: source.recap, url: url }).catch(function () {});
+    else copyText(title + "\n" + source.recap + "\n" + url, "Race deep dive copied");
+  };
+
+  window.__downloadRacePack = function (id) {
+    var source = sourceMap[id];
+    if (!source) return;
+    var issue = publicationMap[id] || null;
+    var pack = {
+      schema: "hlrn-source-pack/v1",
+      generatedAt: new Date().toISOString(),
+      source: {
+        id: source.id,
+        title: sourceTitle(source),
+        date: source.date,
+        lane: source.lane,
+        track: source.track,
+        season: source.season,
+        race: source.race,
+        duration: source.duration,
+        url: source.url,
+        transcriptStatus: source.transcriptStatus,
+      },
+      result: source.result,
+      editorial: issue ? {
+        headline: issue.headline,
+        deck: issue.deck,
+        lead: issue.lead,
+        notebook: issue.notebook,
+        limitations: issue.limitations,
+      } : null,
+      reviewedCuts: (source.moments || []).map(function (moment) {
+        return {
+          id: moment.id,
+          title: moment.title,
+          summary: moment.summary,
+          sourceId: moment.sourceId,
+          start: moment.t,
+          end: moment.end,
+          category: moment.category,
+          phase: moment.phase,
+          reviewStatus: moment.reviewStatus,
+        };
+      }),
+      boundary: "This research pack preserves source-linked archive data. Verify context, rights, owner records, and final copy before reuse.",
+    };
+    downloadText("hlrn-" + id + "-source-pack.json", JSON.stringify(pack, null, 2));
+    toast("Race source pack prepared");
+  };
+
   window.__play = function (id, timestamp, title, end) {
     var source = sourceMap[id] || DATA.auxiliary.find(function (item) { return item.id === id; });
     if (!source) return;
     var start = Math.max(0, Number(timestamp) || 0);
     var label = title || sourceTitle(source);
     var youtube = "https://www.youtube.com/watch?v=" + encodeURIComponent(id) + "&t=" + Math.floor(start) + "s";
+    var replayIndex = state.replayIds.findIndex(function (momentId) {
+      var item = momentMap[momentId];
+      return item && item.sourceId === id && Math.abs(Number(item.t) - start) < 2;
+    });
     playerRoot.innerHTML = '<div class="player-backdrop" onclick="__closePlayer()"></div><aside class="player-drawer" role="dialog" aria-modal="true" aria-label="HLRN source player">' +
       '<header><div><span>ORIGINAL NETWORK TAPE / ' + fmtTime(start) + "</span><b>" + esc(label) + '</b></div><button onclick="__closePlayer()" aria-label="Close player">×</button></header>' +
       '<div class="player-video"><iframe src="https://www.youtube-nocookie.com/embed/' + esc(id) + "?autoplay=1&rel=0&start=" + Math.floor(start) + '" title="' + esc(label) + '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>' +
-      '<footer><div><span>SOURCE</span><b>' + esc(source.title || source.name || id) + '</b></div><a href="' + youtube + '" target="_blank" rel="noopener">RECOVER ON YOUTUBE ↗</a></footer></aside>';
+      '<footer><div><span>SOURCE</span><b>' + esc(source.title || source.name || id) + '</b></div><div class="player-actions">' +
+      (replayIndex >= 0 ? '<button onclick="__playReplay(' + (replayIndex + 1) + ')">NEXT REPLAY CUT ▶</button>' : '') +
+      '<a href="' + youtube + '" target="_blank" rel="noopener">RECOVER ON YOUTUBE ↗</a></div></footer></aside>';
     document.body.classList.add("player-open");
   };
   window.__closePlayer = function () {
@@ -246,7 +484,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-3";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-4";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);
@@ -282,6 +520,7 @@
       '<section class="route-console"><div class="wrap"><header><span>CHOOSE YOUR FREQUENCY</span><h2>EIGHT WAYS INTO THE NETWORK</h2></header><div class="route-grid">' +
       featureRoutes.map(function (item) { return '<a href="' + item[3] + '"><b>' + item[0] + '</b><span>' + item[1] + '</span><p>' + item[2] + '</p><em>OPEN ↗</em></a>'; }).join("") +
       '</div></div></section>' +
+      '<section class="home-native-tools"><div class="wrap"><header><span>BUILT FOR HLRN / NOT IN THE VRL TEMPLATE</span><h2>WATCH IT. COMPARE IT. CUT IT. BRING IT BACK.</h2></header><div><a href="#/race-night"><b>RACE NIGHT MIXER</b><span>Build a reviewed multi-race itinerary by mood.</span></a><a href="#/compare"><b>DRIVER COMPARE</b><span>Side-by-side counts with no hidden verdict.</span></a><a href="#/replay"><b>REPLAY BUILDER</b><span>Save, order, play, copy, and export exact cuts.</span></a><a href="#/studio"><b>LORE STUDIO</b><span>Turn archive research into a guarded edit manifest.</span></a><a href="#/pulse"><b>WHAT’S NEW</b><span>Return to the source delta this browser remembers.</span></a></div></div></section>' +
       '<section class="home-current"><div class="wrap"><div class="section-title"><div><span>THE OFFICIAL ROAD</span><h2>HOT SIGNALS FROM THE SEASONS</h2></div><a href="#/seasons">ALL OFFICIAL RACES →</a></div><div class="source-grid">' + hotOfficial.map(sourceCard).join("") + "</div></div></section>" +
       '<section class="central-tease"><div class="wrap"><div class="central-word"><span>RACE DESK / COMPANION SHOW / EXACT TAPE</span><h2>HIGHLINE<br><em>CENTRAL</em></h2><p>The league already has something VRL never did: its own short-form companion show. Central pairs each race file with The Show whenever the channel published one.</p><a class="button hot" href="#/central">OPEN THE DESK</a></div>' +
       '<div class="central-screen"><span>THE SHOW CONNECTION</span>' +
@@ -684,16 +923,481 @@
       '<section class="method-unknowns"><div><span>KNOWN NOW</span><ul><li>Source identities and dates</li><li>Original playback URLs</li><li>Official versus bonus lane</li><li>Timed transcript signals</li><li>All 20 official winners</li><li>Season 1 champion receipt</li><li>Channel-authored companion episodes</li></ul></div><div><span>WAITING FOR OWNER RECORDS</span><ul><li>Complete finishing orders</li><li>Official starts and points</li><li>Full standings tables</li><li>Official incident counts</li><li>Complete number and team history</li></ul></div></section></div></div>';
   }
 
+  function officialRaces() {
+    return DATA.sources.filter(function (source) { return source.lane === "official"; });
+  }
+
+  function driverByName(name) {
+    var lower = String(name || "").toLowerCase();
+    return DATA.drivers.find(function (driver) {
+      return driver.name.toLowerCase() === lower || (driver.aliases || []).some(function (alias) { return alias.toLowerCase() === lower; });
+    }) || null;
+  }
+
+  function trackSlug(value) {
+    return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  function trackGroups() {
+    var groups = {};
+    DATA.sources.forEach(function (source) {
+      var track = source.track || "Track not stated";
+      if (!groups[track]) groups[track] = { track: track, slug: trackSlug(track), sources: [], moments: [], results: [] };
+      groups[track].sources.push(source);
+      groups[track].moments = groups[track].moments.concat(source.moments || []);
+      if (source.result && source.result.winner) groups[track].results.push({ source: source, result: source.result });
+    });
+    return Object.values(groups).sort(function (a, b) {
+      var aOfficial = a.sources.filter(function (source) { return source.lane === "official"; }).length;
+      var bOfficial = b.sources.filter(function (source) { return source.lane === "official"; }).length;
+      return bOfficial - aOfficial || b.sources.length - a.sources.length || a.track.localeCompare(b.track);
+    });
+  }
+
+  function relationshipRows() {
+    var pairs = {};
+    DATA.moments.forEach(function (moment) {
+      var ids = Array.from(new Set((moment.drivers || []).filter(function (id) { return !!driverMap[id]; }))).sort();
+      for (var i = 0; i < ids.length; i += 1) {
+        for (var j = i + 1; j < ids.length; j += 1) {
+          var key = ids[i] + "|" + ids[j];
+          if (!pairs[key]) pairs[key] = { a: ids[i], b: ids[j], moments: [], tracks: new Set(), sources: new Set() };
+          pairs[key].moments.push(moment);
+          pairs[key].tracks.add(moment.track);
+          pairs[key].sources.add(moment.raceId || moment.sourceId);
+        }
+      }
+    });
+    return Object.values(pairs).map(function (pair) {
+      pair.tracks = Array.from(pair.tracks);
+      pair.sourceCount = pair.sources.size;
+      return pair;
+    }).sort(function (a, b) { return b.moments.length - a.moments.length || b.sourceCount - a.sourceCount; });
+  }
+
+  function replayPage() {
+    var manifest = replayManifest();
+    app.innerHTML = '<div class="replay-page">' + pageHead("YOUR EDIT / LOCAL TO THIS BROWSER", "BUILD A<br><em>HIGHLINE REPLAY.</em>", "Save reviewed cuts from anywhere in the wiki, reorder them, play the rundown, copy it, or export an editor-ready manifest. Nothing here rewrites the archive.", [
+      [manifest.length, "CUTS IN REPLAY"], [new Set(manifest.map(function (item) { return item.raceId; })).size, "RACE FILES"], [manifest.reduce(function (sum, item) { return sum + Math.max(0, Number(item.end) - Number(item.start)); }, 0), "EDIT SECONDS"],
+    ]) + '<div class="wrap"><section class="replay-console"><div><span>PERSISTENT FAN + CREATOR TOOL</span><h2>THE RUNNING ORDER</h2><p>Your list stays in this browser. Every exported row carries source ID, race ID, exact bounds, review state, original YouTube URL, and a mandatory context check.</p></div><div class="replay-actions"><button onclick="__playReplay(0)">PLAY FROM CUT 01 ▶</button><button onclick="__copyReplay()">COPY RUNDOWN</button><button onclick="__downloadReplay(\'json\')">EXPORT JSON</button><button onclick="__downloadReplay(\'csv\')">EXPORT CSV</button><button class="danger" onclick="__clearReplay()">CLEAR</button></div></section>' +
+      (manifest.length ? '<ol class="replay-list">' + manifest.map(function (item, index) {
+        var moment = momentMap[item.id];
+        return '<li><b>' + String(index + 1).padStart(2, "0") + '</b><button class="replay-play" onclick="__playReplay(' + index + ')">▶ ' + fmtTime(item.start) + '</button><div><span>' + esc(item.category.toUpperCase()) + ' / ' + esc(item.sourceTitle) + '</span><h3>' + esc(item.title) + '</h3><p>' + esc(item.summary) + '</p><small>' + esc(item.reviewStatus.toUpperCase()) + ' · VERIFY FINAL CONTEXT BEFORE PUBLISHING</small></div><aside><button onclick="__moveReplay(' + index + ',-1)" aria-label="Move up">↑</button><button onclick="__moveReplay(' + index + ',1)" aria-label="Move down">↓</button><button onclick="__queueMoment(\'' + esc(moment.id) + '\')" aria-label="Remove">×</button></aside></li>';
+      }).join("") + '</ol>' : '<section class="replay-empty"><span>NO CUTS YET</span><h2>START IN HIGHLIGHTS, A DRIVER DOSSIER, CENTRAL, OR A STORY PATH.</h2><a class="button hot" href="#/highlights">OPEN REVIEWED CUTS</a></section>') +
+      evidenceNote("A REPLAY IS NEW EDITORIAL COPY, NOT NEW EVIDENCE.", "Ordering cuts can imply a story. The manifest preserves the original source and context warning so a human editor can check the complete sequence before publishing.") + '</div></div>';
+  }
+
+  function resultsPage() {
+    var season = state.resultSeason;
+    var races = officialRaces().filter(function (source) { return season === "all" || String(source.season) === season; })
+      .sort(function (a, b) { return a.season - b.season || a.race - b.race; });
+    var wins = {};
+    officialRaces().forEach(function (source) {
+      if (source.result && source.result.winner) wins[source.result.winner] = (wins[source.result.winner] || 0) + 1;
+    });
+    var leaders = Object.entries(wins).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+    app.innerHTML = '<div class="results-room">' + pageHead("RESULT CONTROL / POSITION-SPECIFIC RECEIPTS", "THE RESULT<br><em>ROOM.</em>", "Every official winner is recovered from a position-specific HLRN receipt. Podiums appear only where the current tape supports the full order.", [
+      [officialRaces().length, "OFFICIAL WINNERS"], [leaders.length, "WINNING DRIVERS"], [officialRaces().filter(function (source) { return (source.result.podium || []).length >= 3; }).length, "FULL PODIUMS"],
+    ]) + '<div class="wrap"><nav class="results-filter"><button class="' + (season === "all" ? "on" : "") + '" onclick="__resultSeason(\'all\')">ALL</button><button class="' + (season === "1" ? "on" : "") + '" onclick="__resultSeason(\'1\')">SEASON 1</button><button class="' + (season === "2" ? "on" : "") + '" onclick="__resultSeason(\'2\')">SEASON 2</button></nav><section class="winner-wire"><header><span>RECOVERED WIN TOTALS</span><h2>THE WINNER WIRE</h2></header><div>' +
+      leaders.map(function (entry, index) { var driver = driverByName(entry[0]); return '<a href="' + (driver ? "#/driver/" + driver.id : "#/results") + '"><b>' + String(index + 1).padStart(2, "0") + '</b><span>' + esc(entry[0]) + '</span><strong>' + entry[1] + '</strong></a>'; }).join("") +
+      '</div></section><section class="result-ledger"><header><span>RACE-BY-RACE LEDGER</span><h2>' + (season === "all" ? "BOTH OFFICIAL SEASONS" : "SEASON " + season) + '</h2></header><div>' + races.map(function (source) {
+        var result = source.result || {};
+        return '<article><a class="result-thumb" href="#/race/' + source.id + '"><img loading="lazy" src="' + esc((publicationMap[source.id] || {}).image ? publicationMap[source.id].image.file : source.thumb) + '" alt=""><span>S' + source.season + ' / R' + String(source.race).padStart(2, "0") + '</span></a><div><small>' + esc(source.track) + ' / ' + esc(fmtDate(source.date, true).toUpperCase()) + '</small><h3>' + esc(result.winner || "WINNER OPEN") + '</h3><p>' + esc(result.note || "") + '</p>' + ((result.podium || []).length ? '<ol>' + result.podium.map(function (name, index) { return '<li><b>P' + (index + 1) + '</b>' + esc(name) + '</li>'; }).join("") + '</ol>' : '<span class="open-cell">FULL ORDER OPEN</span>') + '</div><aside>' + (result.receipt ? '<button onclick="__play(\'' + esc(result.receipt.sourceId || source.id) + '\',' + Number(result.receipt.t || 0) + ',\'Result receipt\')">PLAY RECEIPT ▶</button>' : '') + '<a href="#/central/' + source.id + '">READ CENTRAL</a><a href="#/race/' + source.id + '">OPEN FILE</a></aside></article>';
+      }).join("") + '</div></section>' + evidenceNote("WINNER COVERAGE IS COMPLETE; CLASSIFICATION COVERAGE IS NOT.", "The ledger refuses to turn a winner receipt into a full finishing order. Starts, points, laps led, and standings remain open until owner records are supplied.") + '</div></div>';
+  }
+  window.__resultSeason = function (season) { state.resultSeason = season; resultsPage(); window.scrollTo(0, 0); };
+
+  function winnersPage() {
+    var names = Array.from(new Set(officialRaces().map(function (source) { return (source.result || {}).winner; }).filter(Boolean)));
+    var drivers = names.map(driverByName).filter(Boolean).sort(function (a, b) { return b.stats.tapeSupportedWins - a.stats.tapeSupportedWins; });
+    app.innerHTML = '<div class="winners-page">' + pageHead("WINNER’S GARAGE / RECOVERED OUTCOMES", "THE DRIVERS WHO<br><em>REACHED P1.</em>", "A visual winner index built only from recovered official result receipts.", [
+      [names.length, "UNIQUE WINNERS"], [officialRaces().length, "OFFICIAL WINS"], [drivers.filter(function (driver) { return !!driver.image; }).length, "WINNERS WITH SOURCE FRAMES"],
+    ]) + '<div class="wrap"><div class="winner-garage">' + drivers.map(driverCard).join("") + '</div><a class="result-room-link" href="#/results"><span>OPEN THE COMPLETE LEDGER</span><b>ALL 20 RESULT RECEIPTS →</b></a></div></div>';
+  }
+
+  function garagePage() {
+    var query = state.garageQuery.toLowerCase();
+    var mapped = DATA.drivers.filter(function (driver) {
+      if (!driver.image) return false;
+      return !query || [driver.name, driver.team, driver.image.caption, driver.image.label].join(" ").toLowerCase().includes(query);
+    }).sort(function (a, b) { return b.stats.officialSourceCount - a.stats.officialSourceCount || b.stats.totalMentions - a.stats.totalMentions; });
+    app.innerHTML = '<div class="garage-page">' + pageHead("THE FRONTLINE GARAGE / HLRN SOURCE FRAMES", "SEE THE CARS.<br><em>OPEN THE DOSSIERS.</em>", "Every image is a frame from HLRN’s own tape with its source ID and timestamp retained. It is visual dossier art, not proof of ownership or paint history.", [
+      [mapped.length, "FRAMES SHOWN"], [DATA.records.driverImageCount, "MAPPED DOSSIERS"], [DATA.drivers.length - DATA.records.driverImageCount, "HONEST FALLBACKS"],
+    ]) + '<div class="wrap"><section class="garage-search"><span>FILTER THE GARAGE</span><input value="' + esc(state.garageQuery) + '" placeholder="Driver, team, or caption…" oninput="__garageFilter(this.value)"><a href="#/photo-desk">OPEN BROADCAST CONTACT SHEET →</a></section><div class="visual-garage-grid">' +
+      mapped.map(function (driver) { return '<article><figure><img loading="lazy" src="' + esc(driver.image.file) + '" alt="HLRN source frame associated with ' + esc(driver.name) + '"><button onclick="__play(\'' + esc(driver.image.sourceId) + '\',' + Number(driver.image.t || 0) + ',\'' + esc(driver.name) + ' source frame\')">▶ ' + fmtTime(driver.image.t || 0) + '</button><figcaption>' + esc(driver.image.caption || driver.image.label) + '</figcaption></figure><div><span>' + esc(driver.team || "TEAM NOT STATED") + '</span><h2>' + esc(driver.name) + '</h2><p>' + driver.stats.officialSourceCount + ' official files · ' + driver.stats.centralIssueCount + ' Central editions</p><a href="#/driver/' + driver.id + '">OPEN DRIVER DOSSIER →</a></div></article>'; }).join("") +
+      '</div>' + evidenceNote("WHY SOME DRIVERS STILL USE MONOGRAMS.", "A transcript mention can identify a name without giving the archive a safe visual frame. Unmapped dossiers remain visible and searchable; they do not borrow another driver’s car.") + '</div></div>';
+  }
+  window.__garageFilter = function (value) {
+    state.garageQuery = value;
+    garagePage();
+    var input = app.querySelector(".garage-search input");
+    if (input) { input.focus(); input.setSelectionRange(value.length, value.length); }
+  };
+
+  function photoDeskPage() {
+    var editions = (DATA.publications || []).filter(function (issue) { return !!issue.image; });
+    var drivers = DATA.drivers.filter(function (driver) { return !!driver.image; });
+    app.innerHTML = '<div class="photo-desk-page">' + pageHead("BROADCAST CONTACT SHEET / SOURCE-ATTRIBUTED IMAGERY", "THE PHOTO<br><em>DESK.</em>", "Central fronts and driver dossiers gathered into one visual index. Every frame can reopen the exact HLRN source second.", [
+      [editions.length + drivers.length, "PUBLISHED FRAMES"], [editions.length, "CENTRAL FRONTS"], [drivers.length, "DRIVER FRAMES"],
+    ]) + '<div class="wrap"><section class="contact-sheet"><header><span>RACE PAPER FRAMES</span><h2>TWENTY OFFICIAL NIGHTS</h2></header><div>' + editions.map(function (issue) {
+      return '<figure><img loading="lazy" src="' + esc(issue.image.file) + '" alt=""><button onclick="__play(\'' + esc(issue.image.sourceId) + '\',' + Number(issue.image.t || 0) + ',\'' + esc(issue.headline) + '\')">▶ ' + fmtTime(issue.image.t || 0) + '</button><figcaption><b>' + esc(issue.headline) + '</b><a href="#/central/' + issue.id + '">S' + issue.season + ' / R' + issue.race + '</a></figcaption></figure>';
+    }).join("") + '</div></section><section class="contact-sheet"><header><span>GARAGE FRAMES</span><h2>THE MAPPED FIELD</h2></header><div>' + drivers.map(function (driver) {
+      return '<figure><img loading="lazy" src="' + esc(driver.image.file) + '" alt=""><button onclick="__play(\'' + esc(driver.image.sourceId) + '\',' + Number(driver.image.t || 0) + ',\'' + esc(driver.name) + '\')">▶ ' + fmtTime(driver.image.t || 0) + '</button><figcaption><b>' + esc(driver.name) + '</b><a href="#/driver/' + driver.id + '">DOSSIER</a></figcaption></figure>';
+    }).join("") + '</div></section></div></div>';
+  }
+
+  function comparePage() {
+    var a = driverMap[state.compareA] || driverMap["trevor-haley"] || DATA.drivers[0];
+    var b = driverMap[state.compareB] || driverMap["nick-bowman"] || DATA.drivers[1];
+    if (a.id === b.id) b = DATA.drivers.find(function (driver) { return driver.id !== a.id; }) || b;
+    var eligible = DATA.drivers.filter(function (driver) { return driver.stats.sourceCount > 0; }).sort(function (x, y) { return y.stats.officialSourceCount - x.stats.officialSourceCount || y.stats.totalMentions - x.stats.totalMentions; });
+    var commonIds = (a.appearances || []).map(function (item) { return item.sourceId; }).filter(function (id) { return (b.appearances || []).some(function (item) { return item.sourceId === id; }); });
+    var shared = DATA.moments.filter(function (moment) { return (moment.drivers || []).includes(a.id) && (moment.drivers || []).includes(b.id); });
+    var metrics = [
+      ["TAPE-SUPPORTED WINS", "tapeSupportedWins", Math.max(1, a.stats.tapeSupportedWins, b.stats.tapeSupportedWins)],
+      ["RECOVERED PODIUMS", "tapeSupportedPodiums", Math.max(1, a.stats.tapeSupportedPodiums, b.stats.tapeSupportedPodiums)],
+      ["OFFICIAL FILES", "officialSourceCount", Math.max(1, a.stats.officialSourceCount, b.stats.officialSourceCount)],
+      ["CENTRAL EDITIONS", "centralIssueCount", Math.max(1, a.stats.centralIssueCount, b.stats.centralIssueCount)],
+      ["REVIEWED MOMENTS", "momentCount", Math.max(1, a.stats.momentCount, b.stats.momentCount)],
+      ["FRONT-PACK SIGNALS", "frontPackSignals", Math.max(1, a.stats.frontPackSignals, b.stats.frontPackSignals)],
+    ];
+    function options(selected) { return eligible.map(function (driver) { return '<option value="' + driver.id + '"' + (driver.id === selected ? " selected" : "") + '>' + esc(driver.name) + '</option>'; }).join(""); }
+    function compareDriver(driver, side) {
+      return '<article class="compare-driver ' + side + '">' + (driver.image ? '<img src="' + esc(driver.image.file) + '" alt="">' : '<div class="compare-monogram">' + esc(driver.name.split(" ").map(function (part) { return part[0]; }).slice(0, 2).join("")) + '</div>') + '<span>' + esc(driver.team || "TEAM NOT STATED") + '</span><h2>' + esc(driver.name) + '</h2><a href="#/driver/' + driver.id + '">OPEN DOSSIER →</a></article>';
+    }
+    app.innerHTML = '<div class="compare-page">' + pageHead("SIDE-BY-SIDE / NO HIDDEN VERDICT", "DRIVER<br><em>COMPARE.</em>", "Compare recovered outcomes, archive presence, and reviewed story coverage. This tool never turns transcript volume into a skill rating.", [
+      [commonIds.length, "SHARED SOURCE FILES"], [shared.length, "SHARED REVIEWED CUTS"], ["0", "ABILITY POINTS"],
+    ]) + '<div class="wrap"><section class="compare-selectors"><label>LANE A<select onchange="__compareDriver(\'a\',this.value)">' + options(a.id) + '</select></label><span>VERSUS</span><label>LANE B<select onchange="__compareDriver(\'b\',this.value)">' + options(b.id) + '</select></label></section><section class="compare-stage">' + compareDriver(a, "a") + '<div class="compare-metrics">' + metrics.map(function (metric) {
+      var av = Number(a.stats[metric[1]] || 0), bv = Number(b.stats[metric[1]] || 0);
+      return '<div><span>' + metric[0] + '</span><section><b>' + av + '</b><i><em style="width:' + (av / metric[2] * 100) + '%"></em></i></section><section><b>' + bv + '</b><i><em style="width:' + (bv / metric[2] * 100) + '%"></em></i></section></div>';
+    }).join("") + '</div>' + compareDriver(b, "b") + '</section><section class="compare-evidence"><div><span>SHARED REVIEWED TAPE</span><h2>' + esc(a.name) + ' + ' + esc(b.name) + '</h2>' + (shared.length ? '<div class="moment-grid">' + shared.map(function (moment) { return momentCard(moment, true); }).join("") + '</div>' : '<p>No editor-reviewed cut currently names both drivers.</p>') + '</div><aside><span>COMMON SOURCE FILES</span>' + commonIds.slice(0, 20).map(function (id) { var source = sourceMap[id]; return source ? '<a href="#/race/' + id + '"><b>' + esc(sourceTitle(source)) + '</b><small>' + esc(source.track) + '</small></a>' : ''; }).join("") + '</aside></section>' +
+      evidenceNote("COMPARISON IS DESCRIPTIVE, NOT PREDICTIVE.", "Official sheets are incomplete. The bars compare only visible counts named above and add no confidence, reputation, or machine-inferred performance points.") + '</div></div>';
+  }
+  window.__compareDriver = function (side, id) {
+    if (!driverMap[id]) return;
+    if (side === "a") state.compareA = id; else state.compareB = id;
+    localStorage.setItem(side === "a" ? "hlrn.compareA" : "hlrn.compareB", id);
+    comparePage();
+  };
+  window.__setComparePair = function (a, b) {
+    if (!driverMap[a] || !driverMap[b]) return;
+    state.compareA = a;
+    state.compareB = b;
+    localStorage.setItem("hlrn.compareA", a);
+    localStorage.setItem("hlrn.compareB", b);
+    location.hash = "#/compare";
+  };
+
+  function battleLinesPage() {
+    var pairs = relationshipRows();
+    app.innerHTML = '<div class="battle-lines-page">' + pageHead("REVIEWED CO-OCCURRENCE / NOT A FEUD GENERATOR", "BATTLE<br><em>LINES.</em>", "See which drivers repeatedly share editor-reviewed race beats. A line means shared evidence—not hostility, intent, or an official rivalry.", [
+      [pairs.length, "EVIDENCE-BOUND PAIRS"], [pairs.reduce(function (sum, pair) { return sum + pair.moments.length; }, 0), "SHARED CUT LINKS"], ["0", "INFERRED FEUDS"],
+    ]) + '<div class="wrap"><section class="battle-map"><header><span>STRONGEST SHARED STORY LINES</span><h2>OPEN A PAIR. PLAY EVERY RECEIPT.</h2></header><div>' + pairs.slice(0, 36).map(function (pair, index) {
+      var a = driverMap[pair.a], b = driverMap[pair.b];
+      return '<a href="#/battle-lines/' + pair.a + '/' + pair.b + '" style="--strength:' + Math.min(100, 24 + pair.moments.length * 11) + '%"><b>' + String(index + 1).padStart(2, "0") + '</b><div><span>' + esc(a.name) + '</span><i><em></em></i><span>' + esc(b.name) + '</span></div><small>' + pair.moments.length + ' REVIEWED CUTS · ' + pair.sourceCount + ' RACE FILES · ' + pair.tracks.length + ' TRACKS</small></a>';
+    }).join("") + '</div></section>' + evidenceNote("WHY THIS IS CALLED A BATTLE LINE.", "The relationship exists only because both normalized identities occur in the same reviewed moment. The page does not infer contact, blame, friendship, rivalry, or team status.") + '</div></div>';
+  }
+
+  function battleLinePage(aId, bId) {
+    var ids = [aId, bId].sort();
+    var pair = relationshipRows().find(function (item) { return item.a === ids[0] && item.b === ids[1]; });
+    var a = driverMap[aId], b = driverMap[bId];
+    if (!pair || !a || !b) return battleLinesPage();
+    var common = Array.from(pair.sources).map(function (id) { return sourceMap[id]; }).filter(Boolean);
+    app.innerHTML = '<div class="battle-detail">' + pageHead("BATTLE LINE / SHARED REVIEWED STORY", esc(a.name.toUpperCase()) + '<br><em>× ' + esc(b.name.toUpperCase()) + '</em>', "Every card below names both drivers in one human-reviewed, source-bounded HLRN beat.", [
+      [pair.moments.length, "SHARED CUTS"], [pair.sourceCount, "RACE FILES"], [pair.tracks.length, "TRACKS"],
+    ]) + '<div class="wrap"><section class="battle-portrait"><a href="#/driver/' + a.id + '">' + (a.image ? '<img src="' + esc(a.image.file) + '" alt="">' : '<b>' + esc(a.name) + '</b>') + '<span>' + esc(a.name) + '</span></a><div><i></i><b>REVIEWED<br>CONNECTION</b><i></i></div><a href="#/driver/' + b.id + '">' + (b.image ? '<img src="' + esc(b.image.file) + '" alt="">' : '<b>' + esc(b.name) + '</b>') + '<span>' + esc(b.name) + '</span></a></section><section class="battle-receipts"><header><span>THE COMPLETE SHARED CUT</span><h2>PLAY THE LINE IN ORDER</h2><button onclick="__queueMomentSet(\'' + encodeURIComponent(pair.moments.map(function (moment) { return moment.id; }).join(",")) + '\')">ADD ALL TO REPLAY</button></header><div class="moment-grid">' + pair.moments.slice().sort(function (x, y) { return String(x.season).localeCompare(String(y.season)) || Number(x.race) - Number(y.race) || x.t - y.t; }).map(function (moment) { return momentCard(moment, false); }).join("") + '</div></section><section class="battle-files"><span>SHARED RACE FILES</span>' + common.map(function (source) { return '<a href="#/race/' + source.id + '"><b>' + esc(sourceTitle(source)) + '</b><small>' + esc(source.track) + ' · ' + esc(fmtDate(source.date, true)) + '</small></a>'; }).join("") + '</section><button class="compare-jump" onclick="__setComparePair(\'' + a.id + '\',\'' + b.id + '\')">COMPARE THEIR ARCHIVE RECORDS →</button></div></div>';
+  }
+
+  function tracksPage() {
+    var groups = trackGroups();
+    app.innerHTML = '<div class="tracks-page">' + pageHead("TRACK ATLAS / EVERY NETWORK STOP", "THE HIGH LINE<br><em>HAS AN ADDRESS.</em>", "Open a track to see its official races, Highline Live appearances, winners, reviewed cuts, and strongest tape signal.", [
+      [groups.length, "TRACK LABELS"], [groups.filter(function (group) { return group.track !== "Track not stated"; }).length, "NAMED STOPS"], [groups.reduce(function (sum, group) { return sum + group.results.length; }, 0), "RESULT RECEIPTS"],
+    ]) + '<div class="wrap"><div class="track-atlas">' + groups.map(function (group, index) {
+      var official = group.sources.filter(function (source) { return source.lane === "official"; });
+      var live = group.sources.filter(function (source) { return source.lane === "highline-live"; });
+      var hottest = group.sources.slice().sort(function (a, b) { return b.heat.score - a.heat.score; })[0];
+      return '<a class="' + (group.track === "Track not stated" ? "unknown" : "") + '" href="#/track/' + group.slug + '"><b>' + String(index + 1).padStart(2, "0") + '</b><span>' + (group.track === "Track not stated" ? "OPEN METADATA CELL" : official.length ? "OFFICIAL STOP" : "HIGHLINE LIVE STOP") + '</span><h2>' + esc(group.track) + '</h2><div><strong>' + official.length + '<small>OFFICIAL</small></strong><strong>' + live.length + '<small>LIVE</small></strong><strong>' + group.moments.length + '<small>CUTS</small></strong><strong>' + (hottest ? hottest.heat.score : 0) + '<small>TOP HEAT</small></strong></div><em>OPEN TRACK FILE →</em></a>';
+    }).join("") + '</div>' + evidenceNote("TRACK NAMES FOLLOW THE SOURCE REGISTRY.", "Track not stated is preserved as an explicit metadata gap. It is never guessed from a thumbnail, paint scheme, or nearby upload title.") + '</div></div>';
+  }
+
+  function trackPage(slug) {
+    var group = trackGroups().find(function (item) { return item.slug === slug; });
+    if (!group) return tracksPage();
+    var drivers = {};
+    group.moments.forEach(function (moment) { (moment.drivers || []).forEach(function (id) { drivers[id] = (drivers[id] || 0) + 1; }); });
+    var driverRows = Object.entries(drivers).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 20);
+    app.innerHTML = '<div class="track-page">' + pageHead("TRACK FILE / " + esc(group.track.toUpperCase()), esc(group.track.toUpperCase()) + '<br><em>ON THE TAPE.</em>', "Every source, reviewed beat, and recovered result attached to this registry label.", [
+      [group.sources.length, "SOURCE FILES"], [group.moments.length, "REVIEWED CUTS"], [group.results.length, "RECOVERED WINNERS"],
+    ]) + '<div class="wrap"><section class="track-results"><header><span>WINNER BOARD</span><h2>RECOVERED RESULTS</h2></header>' + (group.results.length ? group.results.map(function (row) {
+      return '<article><b>S' + row.source.season + ' / R' + row.source.race + '</b><h3>' + esc(row.result.winner) + '</h3><span>' + esc(fmtDate(row.source.date, true)) + '</span>' + (row.result.receipt ? '<button onclick="__play(\'' + esc(row.result.receipt.sourceId || row.source.id) + '\',' + Number(row.result.receipt.t || 0) + ',\'Track result receipt\')">PLAY RESULT ▶</button>' : '') + '</article>';
+    }).join("") : '<p>No official winner receipt is attached to this track label.</p>') + '</section><section class="track-sources"><header><span>COMPLETE SOURCE SHELF</span><h2>' + esc(group.track) + '</h2></header><div class="source-grid">' + group.sources.map(sourceCard).join("") + '</div></section><section class="track-story"><main><header><span>REVIEWED TRACK STORY</span><h2>EVERY EDITORIAL ENTRY POINT</h2></header><div class="moment-grid">' + (group.moments.length ? group.moments.map(function (moment) { return momentCard(moment, false); }).join("") : '<div class="empty-state">No reviewed editorial cuts yet. The source files remain playable and searchable.</div>') + '</div></main><aside><span>MOST-SEEN IN REVIEWED CUTS</span>' + driverRows.map(function (row) { var driver = driverMap[row[0]]; return driver ? '<a href="#/driver/' + driver.id + '"><b>' + esc(driver.name) + '</b><span>' + row[1] + ' cuts</span></a>' : ''; }).join("") + '</aside></section></div></div>';
+  }
+
+  function timelinePage() {
+    var lane = state.timelineLane;
+    var sources = DATA.sources.filter(function (source) { return lane === "all" || source.lane === lane; }).sort(function (a, b) { return String(a.date).localeCompare(String(b.date)); });
+    var years = Array.from(new Set(sources.map(function (source) { return String(source.date || "UNKNOWN").slice(0, 4); })));
+    app.innerHTML = '<div class="timeline-page">' + pageHead("CHRONOLOGY / THE NETWORK IN ORDER", "SIGNAL<br><em>TIMELINE.</em>", "Scrub the official seasons and bonus shelf as one dated record without letting Highline Live alter championship chronology.", [
+      [sources.length, "VISIBLE SOURCES"], [years.length, "CALENDAR YEARS"], [DATA.records.fragmentCount, "FRAGMENTS PRESERVED"],
+    ]) + '<div class="wrap"><nav class="timeline-filter"><button class="' + (lane === "all" ? "on" : "") + '" onclick="__timelineLane(\'all\')">ALL TAPE</button><button class="' + (lane === "official" ? "on" : "") + '" onclick="__timelineLane(\'official\')">OFFICIAL</button><button class="' + (lane === "highline-live" ? "on" : "") + '" onclick="__timelineLane(\'highline-live\')">HIGHLINE LIVE</button><button class="' + (lane === "fragment" ? "on" : "") + '" onclick="__timelineLane(\'fragment\')">FRAGMENTS</button></nav><div class="signal-timeline">' + sources.map(function (source, index) {
+      var result = source.result || {};
+      return '<article class="' + esc(source.lane) + '"><time>' + esc(fmtDate(source.date, true).toUpperCase()) + '</time><i></i><div><span>' + esc(laneLabel(source.lane)) + (source.lane === "official" ? ' / S' + source.season + ' R' + source.race : '') + '</span><h2><a href="#/race/' + source.id + '">' + esc(sourceTitle(source)) + '</a></h2><p>' + esc(source.track) + ' · ' + fmtDuration(source.duration) + ' · ' + source.moments.length + ' reviewed cuts</p>' + (result.winner ? '<strong>WINNER / ' + esc(result.winner) + '</strong>' : '<small>' + esc(source.result.status || source.transcriptStatus) + '</small>') + '</div><aside><b>' + source.heat.score + '</b><span>TAPE HEAT</span><button onclick="__play(\'' + source.id + '\',0,\'' + esc(sourceTitle(source)) + '\')">▶</button></aside></article>';
+    }).join("") + '</div></div></div>';
+  }
+  window.__timelineLane = function (lane) { state.timelineLane = lane; timelinePage(); window.scrollTo(0, 0); };
+
+  function finishVaultPage() {
+    var moments = DATA.moments.filter(function (moment) { return moment.phase === "closing" || ["finish", "result"].includes(moment.category); }).sort(function (a, b) { return b.season - a.season || b.race - a.race || b.t - a.t; });
+    var raceCount = new Set(moments.map(function (moment) { return moment.raceId; })).size;
+    app.innerHTML = '<div class="finish-vault-page">' + pageHead("CHECKERED FLAG INDEX / EDITOR-REVIEWED ONLY", "THE FINISH<br><em>VAULT.</em>", "Closing battles, final-lap calls, rulings, and result reads—each with a unique title and an exact route back to the source.", [
+      [moments.length, "CLOSING CUTS"], [raceCount, "OFFICIAL RACES"], [new Set(moments.map(function (moment) { return moment.title; })).size, "UNIQUE TITLES"],
+    ]) + '<div class="wrap"><section class="finish-controls"><div><span>RETURN RITUAL</span><h2>DROP INTO A REAL FINISH</h2><p>The rejected generic white-flag template cannot enter this vault.</p></div><button onclick="__lastLap()">LAST LAP LOTTERY ▶</button><button onclick="__queueMomentSet(\'' + encodeURIComponent(moments.slice(0, 10).map(function (moment) { return moment.id; }).join(",")) + '\')">BUILD A 10-CUT REEL</button></section><div class="finish-tape">' + moments.map(function (moment, index) {
+      var source = sourceMap[moment.raceId] || {};
+      return '<article><b>' + String(index + 1).padStart(2, "0") + '</b><div><span>S' + moment.season + ' / R' + moment.race + ' / ' + esc(moment.track) + '</span><h2>' + esc(moment.title) + '</h2><p>' + esc(moment.summary) + '</p><div><button onclick="__play(\'' + moment.sourceId + '\',' + moment.t + ',\'' + esc(moment.title) + '\')">▶ ' + fmtTime(moment.t) + '</button><button onclick="__queueMoment(\'' + moment.id + '\')">+ REPLAY</button><a href="#/race/' + (moment.raceId || moment.sourceId) + '">RACE FILE</a></div></div><aside>' + (source.result && source.result.winner ? '<span>RESULT</span><b>' + esc(source.result.winner) + '</b>' : '<span>EDITORIAL CUT</span><b>' + esc(moment.category) + '</b>') + '</aside></article>';
+    }).join("") + '</div></div></div>';
+  }
+
+  function storyPaths() {
+    var trevor = driverMap["trevor-haley"];
+    var uniqueByRace = function (items, max) {
+      var seen = new Set();
+      return items.filter(function (moment) {
+        var key = moment.raceId || moment.sourceId;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }).slice(0, max);
+    };
+    var results = uniqueByRace(DATA.moments.filter(function (moment) { return moment.category === "result"; }).sort(function (a, b) { return a.season - b.season || a.race - b.race; }), 20);
+    var superspeedway = DATA.moments.filter(function (moment) { return /talladega|daytona|superspeedway/i.test(moment.track); }).slice(0, 14);
+    var seasonTwo = DATA.moments.filter(function (moment) { return moment.season === 2; });
+    var battle = DATA.moments.filter(function (moment) { return moment.category === "battle"; }).slice(0, 14);
+    return [
+      { id: "champion-storm", label: "THE CHAMPION FILE", title: "Trevor Haley: The Center of the Storm", deck: "Stage strength, late-race pressure, the finale ruling, and the Season 2 Iowa answer.", moments: (trevor ? trevor.topMoments : []).slice(0, 12), accent: "red" },
+      { id: "winner-wire", label: "THE RESULT RUN", title: "Twenty Nights, Twenty Recovered Winners", deck: "A chronological playable path through position-specific result reads.", moments: results, accent: "gold" },
+      { id: "superspeedway-pressure", label: "THE AIR MOVES", title: "Superspeedway Pressure", deck: "Daytona, Talladega, and iRacing Superspeedway through the battles that made the cut.", moments: superspeedway, accent: "cyan" },
+      { id: "season-two-signal", label: "THE CURRENT SEASON", title: "Season 2: The Signal Changes", deck: "The four-race current run from Daytona through EchoPark.", moments: seasonTwo, accent: "violet" },
+      { id: "side-by-side", label: "THE PACK FILE", title: "Side by Side on the High Line", deck: "The strongest editor-reviewed battle entries across the official seasons.", moments: battle, accent: "green" },
+    ];
+  }
+
+  function storylinesPage() {
+    var paths = storyPaths();
+    app.innerHTML = '<div class="storylines-page">' + pageHead("PLAYABLE EDITORIAL PATHS / BEGINNING TO END", "FOLLOW THE<br><em>STORY.</em>", "Curated paths connect exact moments without cutting them loose from their race, driver, result, or Central context.", [
+      [paths.length, "AUTHORED PATHS"], [paths.reduce(function (sum, path) { return sum + path.moments.length; }, 0), "SEQUENCED CUTS"], ["100%", "SOURCE RETURN"],
+    ]) + '<div class="wrap"><div class="story-path-grid">' + paths.map(function (path, index) {
+      var first = path.moments[0], source = first ? sourceMap[first.raceId] : null;
+      return '<a class="' + path.accent + '" href="#/storyline/' + path.id + '"><span>' + esc(path.label) + '</span><b>' + String(index + 1).padStart(2, "0") + '</b><h2>' + esc(path.title) + '</h2><p>' + esc(path.deck) + '</p><div><strong>' + path.moments.length + ' CUTS</strong><strong>' + new Set(path.moments.map(function (moment) { return moment.raceId; })).size + ' RACES</strong></div><em>OPEN STORY PATH →</em>' + (source ? '<img src="' + esc((publicationMap[source.id] || {}).image ? publicationMap[source.id].image.file : source.thumb) + '" alt="">' : '') + '</a>';
+    }).join("") + '</div>' + evidenceNote("A STORY PATH IS AN AUTHORED READING ORDER.", "It does not create new results or causal claims. Each card retains its existing reviewed summary, source bounds, and race route.") + '</div></div>';
+  }
+
+  function storylinePage(id) {
+    var path = storyPaths().find(function (item) { return item.id === id; });
+    if (!path) return storylinesPage();
+    app.innerHTML = '<div class="storyline-page ' + path.accent + '">' + pageHead(path.label, esc(path.title.toUpperCase()) + '<br><em>PLAY THE PATH.</em>', path.deck, [
+      [path.moments.length, "REVIEWED CUTS"], [new Set(path.moments.map(function (moment) { return moment.raceId; })).size, "RACE FILES"], [new Set(path.moments.flatMap(function (moment) { return moment.drivers || []; })).size, "DRIVER DOSSIERS"],
+    ]) + '<div class="wrap"><section class="storyline-control"><button onclick="__play(\'' + esc((path.moments[0] || {}).sourceId) + '\',' + Number((path.moments[0] || {}).t || 0) + ',\'' + esc(path.title) + '\')">START THE STORY ▶</button><button onclick="__queueMomentSet(\'' + encodeURIComponent(path.moments.map(function (moment) { return moment.id; }).join(",")) + '\')">ADD FULL PATH TO REPLAY</button><a href="#/storylines">ALL STORY PATHS</a></section><ol class="storyline-run">' + path.moments.map(function (moment, index) {
+      return '<li><b>' + String(index + 1).padStart(2, "0") + '</b>' + momentCard(moment, false) + '</li>';
+    }).join("") + '</ol></div></div>';
+  }
+
+  function theShowPage() {
+    var rows = officialRaces().filter(function (source) { return !!source.companion; }).sort(function (a, b) { return b.season - a.season || b.race - a.race; });
+    app.innerHTML = '<div class="show-page">' + pageHead("THE SHOW / HLRN’S COMPANION UNIVERSE", "RACE FACTS.<br><em>AFTER-HOURS FLAVOR.</em>", "The companion episodes are mapped to official races but kept in their own evidence lane so comedy, characters, sponsor gags, and fictional press conferences never become race-control fact.", [
+      [rows.length, "MATCHED COMPANIONS"], [(DATA.publications || []).length, "AFTER HOURS COLUMNS"], [rows.reduce(function (sum, source) { return sum + Number((source.companion || {}).duration || 0); }, 0), "COMPANION SECONDS"],
+    ]) + '<div class="wrap"><section class="show-manifesto"><span>HLRN-NATIVE ADVANTAGE</span><h2>THE RACE HAS A SECOND VOICE.</h2><p>Central reads the race. The Show remembers how HLRN laughed about it, argued around it, and turned the week into a network universe.</p></section><div class="show-shelf">' + rows.map(function (source) {
+      var issue = publicationMap[source.id], companion = source.companion;
+      return '<article><figure><img loading="lazy" src="' + esc(companion.thumb) + '" alt=""><button onclick="__play(\'' + companion.id + '\',0,\'' + esc(companion.title) + '\')">PLAY THE SHOW ▶</button></figure><div><span>S' + source.season + ' / R' + source.race + ' · CONNECTED TO ' + esc(source.track) + '</span><h2>' + esc(companion.title) + '</h2>' + (issue && issue.afterHours ? '<h3>' + esc(issue.afterHours.headline) + '</h3><p>' + esc(issue.afterHours.body) + '</p><button onclick="__play(\'' + issue.afterHours.sourceId + '\',' + Number(issue.afterHours.t || 0) + ',\'After Hours\')">PLAY AFTER HOURS CUT ▶</button>' : '') + '<a href="#/central/' + source.id + '">READ THE CENTRAL EDITION →</a></div></article>';
+    }).join("") + '</div>' + evidenceNote("THE SHOW IS CONTEXT, NOT AN OFFICIAL RESULT SHEET.", "The companion lane can support a channel-authored recap or championship statement. Entertainment segments remain labeled and do not silently override race tape or owner records.") + '</div></div>';
+  }
+
+  function raceNightMoments() {
+    var mood = state.raceNightMood;
+    var pool = DATA.moments.filter(function (moment) {
+      if (mood === "battle") return moment.category === "battle";
+      if (mood === "results") return moment.category === "result";
+      if (mood === "opening") return moment.phase === "opening";
+      if (mood === "chaos") return ["incident", "restart"].includes(moment.category);
+      if (mood === "closing") return moment.phase === "closing" || ["finish", "result"].includes(moment.category);
+      return true;
+    }).sort(function (a, b) { return b.score - a.score || b.heat - a.heat || a.season - b.season || a.race - b.race; });
+    var picked = [], seen = new Set();
+    pool.forEach(function (moment) {
+      if (picked.length >= state.raceNightSize) return;
+      var key = moment.raceId || moment.sourceId;
+      if (seen.has(key) && pool.length >= state.raceNightSize * 2) return;
+      seen.add(key);
+      picked.push(moment);
+    });
+    return picked;
+  }
+
+  function raceNightPage() {
+    var picks = raceNightMoments();
+    var seconds = picks.reduce(function (sum, moment) { return sum + Math.max(20, Number(moment.end) - Number(moment.t)); }, 0);
+    app.innerHTML = '<div class="race-night-page">' + pageHead("FAN MIXER / A DIFFERENT NIGHT EVERY TIME", "BUILD YOUR<br><em>RACE NIGHT.</em>", "Choose a mood and a cut count. The mixer assembles one reviewed moment per race where possible, then sends the whole itinerary to your persistent replay.", [
+      [picks.length, "SELECTED CUTS"], [new Set(picks.map(function (moment) { return moment.raceId; })).size, "RACE FILES"], [fmtDuration(seconds), "EST. CUT TIME"],
+    ]) + '<div class="wrap"><section class="mixer-board"><div><span>MOOD</span><div>' + ["closing", "battle", "results", "opening", "chaos", "surprise"].map(function (mood) { return '<button class="' + (state.raceNightMood === mood ? "on" : "") + '" onclick="__raceNightMood(\'' + mood + '\')">' + mood.toUpperCase() + '</button>'; }).join("") + '</div></div><div><span>LENGTH</span><div>' + [3, 6, 9, 12].map(function (size) { return '<button class="' + (state.raceNightSize === size ? "on" : "") + '" onclick="__raceNightSize(' + size + ')">' + size + ' CUTS</button>'; }).join("") + '</div></div><aside><button onclick="__queueMomentSet(\'' + encodeURIComponent(picks.map(function (moment) { return moment.id; }).join(",")) + '\')">SEND MIX TO REPLAY ▶</button></aside></section><ol class="mixer-run">' + picks.map(function (moment, index) {
+      var source = sourceMap[moment.raceId] || {};
+      return '<li><b>' + String(index + 1).padStart(2, "0") + '</b><div><span>' + esc(moment.category.toUpperCase()) + ' / ' + esc(moment.track) + '</span><h2>' + esc(moment.title) + '</h2><p>' + esc(moment.summary) + '</p><button onclick="__play(\'' + moment.sourceId + '\',' + moment.t + ',\'' + esc(moment.title) + '\')">▶ ' + fmtTime(moment.t) + '</button></div><aside><small>' + (source.season ? 'SEASON ' + source.season + ' / RACE ' + source.race : esc(laneLabel(source.lane))) + '</small><a href="#/race/' + (moment.raceId || moment.sourceId) + '">OPEN FILE →</a></aside></li>';
+    }).join("") + '</ol>' + evidenceNote("THE MIXER SELECTS FROM THE REVIEWED LIBRARY ONLY.", "It never pulls the 424 quarantined machine candidates into a fan itinerary. Mood is a visible category or story-phase filter, not a hidden taste score.") + '</div></div>';
+  }
+  window.__raceNightMood = function (mood) { state.raceNightMood = mood; raceNightPage(); };
+  window.__raceNightSize = function (size) { state.raceNightSize = Number(size); raceNightPage(); };
+
+  function studioResults() {
+    var query = state.studioQuery.toLowerCase();
+    return DATA.moments.filter(function (moment) {
+      if (state.studioCategory !== "all" && moment.category !== state.studioCategory) return false;
+      if (!query) return true;
+      var driverNames = (moment.drivers || []).map(function (id) { return (driverMap[id] || {}).name || ""; });
+      return [moment.title, moment.summary, moment.track, moment.sourceLabel, moment.category].concat(driverNames).join(" ").toLowerCase().includes(query);
+    }).sort(function (a, b) { return b.score - a.score || b.heat - a.heat; });
+  }
+
+  function studioPage() {
+    var results = studioResults();
+    var queue = replayManifest();
+    var categories = Array.from(new Set(DATA.moments.map(function (moment) { return moment.category; }))).sort();
+    app.innerHTML = '<div class="studio-page">' + pageHead("CREATOR WORKFLOW / RESEARCH TO EDIT MANIFEST", "HIGHLINE<br><em>LORE STUDIO.</em>", "Search the reviewed editorial layer, build a shortlist, export exact source bounds, and route official data corrections without touching canon by hand.", [
+      [results.length, "MATCHING CUTS"], [queue.length, "SHORTLISTED"], [DATA.records.quarantinedCandidateCount, "CANDIDATES BACKSTAGE"],
+    ]) + '<div class="wrap"><section class="studio-cockpit"><div><span>RESEARCH FILTER</span><input id="studioQuery" value="' + esc(state.studioQuery) + '" placeholder="Driver, track, beat, story…" onkeydown="if(event.key===\'Enter\')__studioFilter()"><select id="studioCategory"><option value="all">ALL CATEGORIES</option>' + categories.map(function (category) { return '<option value="' + category + '"' + (category === state.studioCategory ? " selected" : "") + '>' + category.toUpperCase() + '</option>'; }).join("") + '</select><button onclick="__studioFilter()">RUN REVIEWED SEARCH</button></div><aside><span>EXPORT DESK</span><button onclick="__copyReplay()">COPY RUNDOWN</button><button onclick="__downloadReplay(\'json\')">JSON MANIFEST</button><button onclick="__downloadReplay(\'csv\')">CSV MANIFEST</button><a href="#/result-intake">OWNER RESULT INTAKE →</a></aside></section><section class="studio-workflow"><article class="done"><b>01</b><span>DISCOVER</span><p>' + DATA.records.quarantinedCandidateCount + ' machine candidates remain private research input.</p></article><article class="done"><b>02</b><span>REVIEW</span><p>' + DATA.moments.length + ' exact cuts have unique authored titles and boundaries.</p></article><article class="' + (queue.length ? "done" : "") + '"><b>03</b><span>SHORTLIST</span><p>' + queue.length + ' cuts are in this browser’s replay.</p></article><article><b>04</b><span>VERIFY + PUBLISH</span><p>A human checks rights, context, in/out points, final copy, and platform policy.</p></article></section><div class="studio-layout"><main><header><span>REVIEWED RESEARCH RESULTS</span><h2>' + results.length + ' CUTS READY TO INSPECT</h2></header><div class="moment-grid">' + results.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></main><aside><span>CURRENT SHORTLIST</span><h2>' + queue.length + ' CUTS</h2>' + (queue.length ? queue.map(function (item) { return '<button onclick="__play(\'' + item.sourceId + '\',' + item.start + ',\'' + esc(item.title) + '\')"><b>' + String(item.order).padStart(2, "0") + '</b><span>' + esc(item.title) + '</span><small>' + fmtTime(item.start) + '</small></button>'; }).join("") : '<p>Add a reviewed cut from any public moment card.</p>') + '<a href="#/replay">OPEN FULL REPLAY BUILDER →</a></aside></div>' +
+      evidenceNote("LORE STUDIO DOES NOT APPROVE A CLIP.", "The export is a research manifest, not rights clearance, creator approval, guaranteed performance, or final edit authorization.") + '</div></div>';
+  }
+  window.__studioFilter = function () {
+    var query = document.getElementById("studioQuery");
+    var category = document.getElementById("studioCategory");
+    state.studioQuery = query ? query.value.trim() : "";
+    state.studioCategory = category ? category.value : "all";
+    studioPage();
+  };
+
+  function pulsePage() {
+    var previous;
+    try { previous = JSON.parse(localStorage.getItem("hlrn.pulse") || "null"); } catch (error) { previous = null; }
+    var sourceIds = DATA.sources.map(function (source) { return source.id; });
+    var newSources = previous && Array.isArray(previous.sourceIds) ? DATA.sources.filter(function (source) { return previous.sourceIds.indexOf(source.id) < 0; }) : DATA.sources.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 6);
+    var firstVisit = !previous;
+    var latest = officialRaces().slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })[0];
+    var latestLive = DATA.sources.filter(function (source) { return source.lane === "highline-live"; }).sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })[0];
+    localStorage.setItem("hlrn.pulse", JSON.stringify({ snapshot: DATA.meta.snapshotDate, sourceIds: sourceIds, visitedAt: new Date().toISOString() }));
+    app.innerHTML = '<div class="pulse-page">' + pageHead("RETURN RITUAL / THE ARCHIVE SINCE YOUR LAST CHECK", "WHAT’S NEW<br><em>ON THE HIGH LINE?</em>", firstVisit ? "This browser is checking in for the first time. The Pulse starts with the newest published source files." : newSources.length ? newSources.length + " source files were not present at your last saved check-in." : "No new source identity has entered this published snapshot since your last check-in.", [
+      [newSources.length, firstVisit ? "STARTING FILES" : "NEW SOURCES"], [DATA.records.centralIssueCount, "CENTRAL EDITIONS"], [DATA.meta.snapshotDate, "ARCHIVE SNAPSHOT"],
+    ]) + '<div class="wrap"><section class="pulse-hero"><div><span>LATEST OFFICIAL SIGNAL</span><h2>' + esc(sourceTitle(latest)) + '</h2><p>' + esc(latest.recap) + '</p><a href="#/race/' + latest.id + '">OPEN RACE FILE →</a></div><div><span>LATEST HIGHLINE LIVE</span><h2>' + esc(sourceTitle(latestLive)) + '</h2><p>' + esc(latestLive.recap) + '</p><a href="#/race/' + latestLive.id + '">OPEN BONUS FILE →</a></div></section><section class="pulse-delta"><header><span>' + (firstVisit ? "YOUR STARTING BOARD" : "SINCE YOUR LAST VISIT") + '</span><h2>' + (newSources.length ? "FILES TO OPEN" : "THE PUBLISHED SOURCE SET IS UNCHANGED") + '</h2></header>' + (newSources.length ? '<div class="source-grid">' + newSources.map(sourceCard).join("") + '</div>' : '<div class="pulse-clear"><i></i><b>ALL CAUGHT UP</b><p>Try Last Lap Lottery or generate a fresh Race Night instead.</p><a href="#/race-night">BUILD A RACE NIGHT →</a></div>') + '</section><section class="pulse-open-work"><header><span>WHAT THE ARCHIVE STILL NEEDS</span><h2>OPEN OWNER RECORDS</h2></header><div><a href="#/unknowns"><b>' + (DATA.drivers.length - DATA.records.driverImageCount) + '</b><span>DRIVER DOSSIERS WITHOUT A SAFE SOURCE FRAME</span></a><a href="#/unknowns"><b>' + DATA.sources.filter(function (source) { return source.track === "Track not stated"; }).length + '</b><span>SOURCE FILES WITH TRACK NOT STATED</span></a><a href="#/result-intake"><b>' + officialRaces().filter(function (source) { return (source.result.podium || []).length < 3; }).length + '</b><span>OFFICIAL RACES WITHOUT A FULL PODIUM</span></a></div></section></div></div>';
+  }
+
+  function evidenceLedgerPage() {
+    var resultRows = officialRaces().map(function (source) { return { source: source, result: source.result || {} }; });
+    var championRows = DATA.seasons.filter(function (season) { return !!season.champion; });
+    app.innerHTML = '<div class="evidence-ledger-page">' + pageHead("PUBLIC CLAIM INDEX / SOURCE + STATE + LIMIT", "THE EVIDENCE<br><em>LEDGER.</em>", "The archive’s highest-impact public claims gathered in one place: winners, championship status, reviewed editorial cuts, and their explicit evidence state.", [
+      [resultRows.length, "WINNER CLAIMS"], [championRows.length, "CHAMPION CLAIMS"], [DATA.moments.length, "EDITORIAL RECEIPTS"],
+    ]) + '<div class="wrap"><section class="claim-table"><header><span>CLAIM</span><span>STATE</span><span>SOURCE</span><span>LIMIT</span><span>RECEIPT</span></header>' + championRows.map(function (season) {
+      return '<article><div><b>SEASON ' + season.number + ' CHAMPION</b><span>' + esc(season.champion) + '</span></div><strong>CHANNEL-SUPPORTED</strong><code>' + esc((season.championReceipt || {}).sourceId || "OPEN") + '</code><p>Not a substitute for a complete points table.</p>' + (season.championReceipt ? '<button onclick="__play(\'' + season.championReceipt.sourceId + '\',' + Number(season.championReceipt.t || 0) + ',\'Championship receipt\')">▶ ' + fmtTime(season.championReceipt.t || 0) + '</button>' : '<span>OPEN</span>') + '</article>';
+    }).join("") + resultRows.map(function (row) {
+      return '<article><div><b>S' + row.source.season + ' / R' + row.source.race + ' WINNER</b><span>' + esc(row.result.winner || "OPEN") + '</span></div><strong>' + esc(String(row.result.status || "unknown").toUpperCase()) + '</strong><code>' + esc((row.result.receipt || {}).sourceId || row.source.id) + '</code><p>' + ((row.result.podium || []).length >= 3 ? "Podium recovered; full classification still open." : "Winner supported; full order remains open.") + '</p>' + (row.result.receipt ? '<button onclick="__play(\'' + esc(row.result.receipt.sourceId || row.source.id) + '\',' + Number(row.result.receipt.t || 0) + ',\'Result receipt\')">▶ ' + fmtTime(row.result.receipt.t || 0) + '</button>' : '<span>OPEN</span>') + '</article>';
+    }).join("") + '</section><section class="editorial-ledger"><header><span>EDITORIAL CONTRACT</span><h2>' + DATA.moments.length + ' PUBLIC CUTS / ' + DATA.records.quarantinedCandidateCount + ' PRIVATE CANDIDATES</h2></header><div>' + Object.entries(DATA.moments.reduce(function (counts, moment) { counts[moment.category] = (counts[moment.category] || 0) + 1; return counts; }, {})).sort(function (a, b) { return b[1] - a[1]; }).map(function (entry) { return '<a href="#/highlights"><b>' + entry[1] + '</b><span>' + esc(entry[0].toUpperCase()) + '</span><small>EDITOR REVIEWED</small></a>'; }).join("") + '</div></section>' + evidenceNote("THE LEDGER DOES NOT HIDE DISAGREEMENT OR MISSING DATA.", "A future owner record may add detail or correct a recovered claim through an append-only correction. Stable source and race IDs remain unchanged.") + '</div></div>';
+  }
+
+  function unknownsPage() {
+    var missingImages = DATA.drivers.filter(function (driver) { return !driver.image; });
+    var missingTracks = DATA.sources.filter(function (source) { return source.track === "Track not stated"; });
+    var partialPodiums = officialRaces().filter(function (source) { return (source.result.podium || []).length < 3; });
+    app.innerHTML = '<div class="unknowns-page">' + pageHead("OPEN RECORDS / UNKNOWN IS A VALID STATE", "WHAT THE WIKI<br><em>DOES NOT KNOW.</em>", "A visible backlog is safer than silent invention. Each gap below has a stable target and a route for owner-supplied evidence.", [
+      [missingImages.length, "IMAGE GAPS"], [missingTracks.length, "TRACK GAPS"], [partialPodiums.length, "PODIUM GAPS"],
+    ]) + '<div class="wrap"><section class="unknown-board"><article><span>VISUAL IDENTITY</span><h2>' + missingImages.length + ' DOSSIERS NEED A SAFE FRAME</h2><p>A transcript name is not enough to assign a car. These pages keep monograms until an HLRN frame can be source-attributed.</p><div>' + missingImages.slice(0, 30).map(function (driver) { return '<a href="#/driver/' + driver.id + '">' + esc(driver.name) + '</a>'; }).join("") + '</div><a href="#/garage">SEE THE MAPPED GARAGE →</a></article><article><span>SOURCE METADATA</span><h2>' + missingTracks.length + ' FILES SAY TRACK NOT STATED</h2><p>No track is guessed from nearby uploads or visual resemblance.</p><div>' + missingTracks.slice(0, 18).map(function (source) { return '<a href="#/race/' + source.id + '">' + esc(compact(sourceTitle(source), 36)) + '</a>'; }).join("") + '</div><a href="#/corrections">PREPARE A CORRECTION →</a></article><article><span>OFFICIAL RESULTS</span><h2>' + partialPodiums.length + ' RACES NEED MORE THAN A WINNER</h2><p>All official winners have receipts. Full fields, starts, points, standings, and most podiums still wait for owner sheets.</p><div>' + partialPodiums.slice(0, 18).map(function (source) { return '<a href="#/race/' + source.id + '">S' + source.season + ' R' + source.race + ' · ' + esc(source.track) + '</a>'; }).join("") + '</div><a href="#/result-intake">OPEN OWNER RESULT INTAKE →</a></article></section><section class="unknown-policy"><span>THE REFUSAL CONTRACT</span><h2>NO IMAGE BORROWING. NO RESULT INFERENCE. NO SILENT REPOINTING.</h2><p>Future records enrich the same stable IDs. They do not erase the source path that existed before the correction.</p></section></div></div>';
+  }
+
+  function correctionPacket() {
+    var source = document.getElementById("correctionSource");
+    var time = document.getElementById("correctionTime");
+    var type = document.getElementById("correctionType");
+    var detail = document.getElementById("correctionDetail");
+    var authority = document.getElementById("correctionAuthority");
+    return {
+      schema: "shokker-lore-correction/v1",
+      archive: "HLRN Living Wiki",
+      sourceId: source ? source.value : "",
+      timestampSeconds: time ? Number(time.value || 0) : 0,
+      correctionType: type ? type.value : "",
+      proposedCorrection: detail ? detail.value.trim() : "",
+      authorityOrContact: authority ? authority.value.trim() : "",
+      state: "submitted-for-review",
+      rule: "Append-only review required. Do not overwrite canon automatically.",
+    };
+  }
+
+  function correctionsPage() {
+    var options = DATA.sources.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).map(function (source) { return '<option value="' + source.id + '">' + esc(fmtDate(source.date, true) + " · " + sourceTitle(source)) + '</option>'; }).join("");
+    app.innerHTML = '<div class="corrections-page">' + pageHead("CORRECTIONS DESK / APPEND-ONLY TRUST WORKFLOW", "FIX THE RECORD.<br><em>KEEP THE RECEIPT.</em>", "Prepare a source-bounded correction packet for owner or editor review. This browser tool never changes the public archive by itself.", [
+      [DATA.sources.length, "STABLE SOURCE IDS"], [DATA.records.centralIssueCount, "REVIEWABLE EDITIONS"], ["0", "SILENT OVERWRITES"],
+    ]) + '<div class="wrap"><section class="correction-desk"><form onsubmit="event.preventDefault();__buildCorrection()"><label>SOURCE FILE<select id="correctionSource">' + options + '</select></label><label>TIMESTAMP IN SECONDS<input id="correctionTime" type="number" min="0" value="0"></label><label>ISSUE TYPE<select id="correctionType"><option>result</option><option>driver identity</option><option>track metadata</option><option>team or number</option><option>editorial context</option><option>removed source</option><option>other</option></select></label><label class="wide">PROPOSED CORRECTION<textarea id="correctionDetail" placeholder="State exactly what is wrong, what should replace it, and what evidence supports the change."></textarea></label><label class="wide">AUTHORITY OR CONTACT<textarea id="correctionAuthority" placeholder="Owner, official sheet, source URL, or contact name."></textarea></label><button type="submit">BUILD REVIEW PACKET</button></form><aside><span>REVIEW PACKET</span><pre id="correctionOutput">Complete the form to create an append-only correction packet.</pre><div><button onclick="__copyCorrection()">COPY JSON</button><button onclick="__downloadCorrection()">DOWNLOAD JSON</button></div></aside></section><section class="correction-flow"><article><b>01</b><h3>LOCATE</h3><p>Stable source ID and exact timestamp.</p></article><article><b>02</b><h3>PROPOSE</h3><p>Old claim, proposed correction, and authority.</p></article><article><b>03</b><h3>REVIEW</h3><p>Editor checks source, scope, and downstream routes.</p></article><article><b>04</b><h3>APPEND</h3><p>Correction ships with prior state preserved.</p></article></section>' + evidenceNote("THIS FORM IS A PACKET BUILDER, NOT A SUBMISSION ENDPOINT.", "Copy or download the packet and send it to the archive owner/editor. No public claim changes until an authorized review and a new build pass all gates.") + '</div></div>';
+  }
+  window.__buildCorrection = function () {
+    var packet = correctionPacket();
+    localStorage.setItem("hlrn.correctionDraft", JSON.stringify(packet));
+    var output = document.getElementById("correctionOutput");
+    if (output) output.textContent = JSON.stringify(packet, null, 2);
+  };
+  window.__copyCorrection = function () { copyText(JSON.stringify(correctionPacket(), null, 2), "Correction packet copied"); };
+  window.__downloadCorrection = function () { downloadText("hlrn-correction-packet.json", JSON.stringify(correctionPacket(), null, 2)); };
+
+  function resultIntakePacket() {
+    var race = document.getElementById("resultRace");
+    var winner = document.getElementById("resultWinner");
+    var p2 = document.getElementById("resultP2");
+    var p3 = document.getElementById("resultP3");
+    var receipt = document.getElementById("resultReceipt");
+    var timestamp = document.getElementById("resultTimestamp");
+    var ruling = document.getElementById("resultRuling");
+    return {
+      schema: "hlrn-owner-result-intake/v1",
+      raceId: race ? race.value : "",
+      proposedResult: { winner: winner ? winner.value.trim() : "", podium: [winner ? winner.value.trim() : "", p2 ? p2.value.trim() : "", p3 ? p3.value.trim() : ""].filter(Boolean), ruling: ruling ? ruling.value.trim() : "" },
+      receipt: { sourceId: receipt ? receipt.value.trim() : "", timestampSeconds: timestamp ? Number(timestamp.value || 0) : 0 },
+      reviewState: "owner-input-pending-authentication",
+      requiredChecks: ["identity normalization", "position-specific source review", "race and driver downstream rebuild", "regression QA"],
+    };
+  }
+
+  function resultIntakePage() {
+    var races = officialRaces().map(function (source) { return '<option value="' + source.id + '">S' + source.season + ' R' + source.race + ' · ' + esc(source.track) + ' · CURRENT: ' + esc((source.result || {}).winner || "OPEN") + '</option>'; }).join("");
+    app.innerHTML = '<div class="result-intake-page">' + pageHead("OWNER WORKFLOW / STRUCTURED RESULT PATCH", "ADD THE SHEET.<br><em>DON’T BREAK THE ARCHIVE.</em>", "Turn an owner-supplied result into a review packet that can update races, drivers, rankings, Central, and Ask without changing stable IDs.", [
+      [officialRaces().length, "TARGET RACES"], [DATA.drivers.length, "IDENTITIES TO NORMALIZE"], ["4", "DOWNSTREAM CHECKS"],
+    ]) + '<div class="wrap"><section class="intake-desk"><form onsubmit="event.preventDefault();__buildResultIntake()"><label>OFFICIAL RACE<select id="resultRace">' + races + '</select></label><label>WINNER<input id="resultWinner" placeholder="Exact official name"></label><label>P2<input id="resultP2" placeholder="Optional"></label><label>P3<input id="resultP3" placeholder="Optional"></label><label>RECEIPT SOURCE ID<input id="resultReceipt" placeholder="YouTube source ID or owner sheet ID"></label><label>RECEIPT TIMESTAMP<input id="resultTimestamp" type="number" min="0" value="0"></label><label class="wide">RULING / NOTES<textarea id="resultRuling" placeholder="DQ, penalty, scoring note, or sheet authority."></textarea></label><button type="submit">BUILD RESULT PATCH</button></form><aside><span>OWNER INTAKE PACKET</span><pre id="resultOutput">Complete the owner-supplied fields. The packet remains pending until authenticated.</pre><div><button onclick="__copyResultIntake()">COPY JSON</button><button onclick="__downloadResultIntake()">DOWNLOAD JSON</button></div></aside></section><section class="downstream-map"><span>ONE PATCH / SIX GUARDED CONSUMERS</span><div><b>RACE FILE</b><i>→</i><b>DRIVER FORM</b><i>→</i><b>RESULTS ROOM</b><i>→</i><b>RANKINGS</b><i>→</i><b>CENTRAL</b><i>→</i><b>ASK</b></div><p>The build pipeline regenerates every consumer from the accepted ledger. No page receives a one-off manual edit.</p></section>' + evidenceNote("OWNER INPUT IS HIGHER AUTHORITY, NOT AUTOMATIC TRUTH.", "The source and identity still require authentication and scope review. Conflicts are preserved and corrections remain append-only.") + '</div></div>';
+  }
+  window.__buildResultIntake = function () { var output = document.getElementById("resultOutput"); if (output) output.textContent = JSON.stringify(resultIntakePacket(), null, 2); };
+  window.__copyResultIntake = function () { copyText(JSON.stringify(resultIntakePacket(), null, 2), "Result intake packet copied"); };
+  window.__downloadResultIntake = function () { downloadText("hlrn-owner-result-intake.json", JSON.stringify(resultIntakePacket(), null, 2)); };
+
   function explorePage() {
     var cards = [
       ["HIGHLINE LIVE", "The complete non-league potpourri, fully covered and explicitly separated.", "#/highline-live", DATA.records.liveCount + " RACES"],
+      ["RESULTS ROOM", "All 20 recovered official winners with position-specific receipts.", "#/results", "20 / 20 WINNERS"],
+      ["VISUAL GARAGE", "Source-attributed HLRN frames connected to driver dossiers.", "#/garage", DATA.records.driverImageCount + " CARS"],
+      ["PHOTO DESK", "Every published Central and driver frame in one playable contact sheet.", "#/photo-desk", (DATA.records.driverImageCount + DATA.records.centralIssueCount) + " FRAMES"],
+      ["DRIVER COMPARE", "Side-by-side outcomes and archive presence with no hidden skill verdict.", "#/compare", "LIVE TOOL"],
+      ["BATTLE LINES", "Driver pairs connected only by shared reviewed race beats.", "#/battle-lines", relationshipRows().length + " PAIRS"],
+      ["TRACK ATLAS", "Every named stop, result, source file, and reviewed cut.", "#/tracks", trackGroups().length + " LABELS"],
+      ["SIGNAL TIMELINE", "Official seasons, bonus tape, and fragments in chronological order.", "#/timeline", DATA.records.sourceCount + " FILES"],
+      ["FINISH VAULT", "Unique, editor-reviewed closing cuts and result reads.", "#/finish-vault", DATA.moments.filter(function (moment) { return moment.phase === "closing"; }).length + " CUTS"],
+      ["STORY PATHS", "Authored sequences through champions, winners, packs, and Season 2.", "#/storylines", storyPaths().length + " PATHS"],
+      ["THE SHOW", "HLRN’s companion universe and separated After Hours columns.", "#/the-show", DATA.records.centralIssueCount + " MATCHES"],
+      ["RACE NIGHT MIXER", "Build a reviewed multi-race itinerary by mood and length.", "#/race-night", "FAN MIXER"],
+      ["REPLAY BUILDER", "Save, order, play, copy, and export exact source cuts.", "#/replay", state.replayIds.length + " SAVED"],
+      ["LORE STUDIO", "Creator research, shortlist, and manifest workflow.", "#/studio", "CREATOR DESK"],
+      ["WHAT’S NEW", "A browser-local return ritual that remembers the prior source set.", "#/pulse", "RETURN RITUAL"],
       ["HIGH LINE RADAR", "Race story signals plotted across exact source time.", "#/radar", DATA.moments.length + " CONTACTS"],
       ["HIGHLINE FREQUENCY", "Recurring network language with playable exact receipts.", "#/frequency", DATA.phrases.length + " FREQUENCIES"],
       ["RECORD BOARD", "Archive totals, runtime, views, tracks, and source records.", "#/records", DATA.records.hours + " HOURS"],
+      ["EVIDENCE LEDGER", "Winner and champion claims with state, source, limit, and receipt.", "#/evidence-ledger", "OPEN CLAIMS"],
+      ["OPEN RECORDS", "Image, track, podium, standings, and metadata gaps made visible.", "#/unknowns", "NO GUESSING"],
+      ["CORRECTIONS DESK", "Build an append-only source-bounded correction packet.", "#/corrections", "TRUST TOOL"],
+      ["OWNER RESULT INTAKE", "Prepare a structured result patch for authenticated review.", "#/result-intake", "OWNER TOOL"],
       ["SOURCE LEDGER", "Every stable livestream identity and evidence state.", "#/sources", DATA.records.sourceCount + " SOURCES"],
       ["METHODOLOGY", "Canon, evidence states, scoring, unknowns, and corrections.", "#/methodology", "OPEN CONTRACT"],
     ];
-    app.innerHTML = '<div class="explore-page">' + pageHead("THE DEEP SIGNAL DECK / BEYOND THE MAIN TABS", "THE WHOLE<br><em>NETWORK UNIVERSE.</em>", "Six deeper tools turn the channel archive into a place to investigate, revisit, and correct.", [
+    app.innerHTML = '<div class="explore-page">' + pageHead("THE DEEP SIGNAL DECK / BEYOND THE MAIN TABS", "THE WHOLE<br><em>NETWORK UNIVERSE.</em>", "Twenty-four deeper tools turn the channel archive into a place to investigate, compare, build, revisit, export, and correct.", [
       [cards.length, "DEEP TOOLS"], [DATA.records.auxiliaryCount, "COMPANION FILES"], [DATA.records.fragmentCount, "PRESERVED FRAGMENTS"],
     ]) + '<div class="wrap"><div class="explore-grid">' + cards.map(function (item, index) {
       return '<a href="' + item[2] + '"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(item[3]) + "</span><h2>" + esc(item[0]) + "</h2><p>" + esc(item[1]) + "</p><em>OPEN TOOL →</em></a>";
@@ -710,7 +1414,7 @@
     var drivers = driverIds.map(function (driverId) { return driverMap[driverId]; }).filter(Boolean);
     var heroImage = issue && issue.image ? issue.image.file : source.thumb;
     var acts = ["opening", "middle", "closing"];
-    app.innerHTML = '<article class="race-page deep-dive"><section class="race-hero"><div class="race-hero-bg" style="background-image:url(\'' + esc(heroImage) + '\')"></div><div class="wrap"><div class="race-crumb"><a href="' + (source.lane === "official" ? "#/season/" + source.season : "#/highline-live") + '">' + esc(laneLabel(source.lane)) + "</a><span>/</span>" + esc(source.name) + "</div><div class=\"race-title\">" + laneBadge(source) + '<span class="race-file-label">' + (source.lane === "official" ? "OFFICIAL RACE DEEP DIVE" : "HIGHLINE LIVE SOURCE FILE") + '</span><h1>' + esc(issue ? issue.headline : source.name) + "</h1><p>" + esc(source.track) + " · " + esc(fmtDate(source.date)) + " · " + fmtDuration(source.duration) + '</p><div><button class="button hot" onclick="__play(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(sourceTitle(source)) + '\')">▶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH FROM START") + '</button><a class="button glass" href="' + esc(source.url) + '" target="_blank" rel="noopener">YOUTUBE SOURCE ↗</a>' + (issue ? '<a class="button glass" href="#/central/' + source.id + '">READ CENTRAL EDITION</a>' : '') + '</div></div><aside>' + heatBar(source) + '<div><b>' + source.moments.length + "</b><span>REVIEWED CUTS</span></div><div><b>" + source.transcriptLines.toLocaleString() + "</b><span>TIMED SEGMENTS</span></div></aside></div></section>" +
+    app.innerHTML = '<article class="race-page deep-dive"><section class="race-hero"><div class="race-hero-bg" style="background-image:url(\'' + esc(heroImage) + '\')"></div><div class="wrap"><div class="race-crumb"><a href="' + (source.lane === "official" ? "#/season/" + source.season : "#/highline-live") + '">' + esc(laneLabel(source.lane)) + "</a><span>/</span>" + esc(source.name) + "</div><div class=\"race-title\">" + laneBadge(source) + '<span class="race-file-label">' + (source.lane === "official" ? "OFFICIAL RACE DEEP DIVE" : "HIGHLINE LIVE SOURCE FILE") + '</span><h1>' + esc(issue ? issue.headline : source.name) + "</h1><p>" + esc(source.track) + " · " + esc(fmtDate(source.date)) + " · " + fmtDuration(source.duration) + '</p><div><button class="button hot" onclick="__play(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(sourceTitle(source)) + '\')">▶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH FROM START") + '</button><a class="button glass" href="' + esc(source.url) + '" target="_blank" rel="noopener">YOUTUBE SOURCE ↗</a>' + (issue ? '<a class="button glass" href="#/central/' + source.id + '">READ CENTRAL EDITION</a>' : '') + '<button class="button glass" onclick="__shareRace(\'' + source.id + '\')">SHARE FILE</button><button class="button glass" onclick="__downloadRacePack(\'' + source.id + '\')">SOURCE PACK ↓</button></div></div><aside>' + heatBar(source) + '<div><b>' + source.moments.length + "</b><span>REVIEWED CUTS</span></div><div><b>" + source.transcriptLines.toLocaleString() + "</b><span>TIMED SEGMENTS</span></div></aside></div></section>" +
       '<section class="race-facts"><div class="wrap"><div><span>LANE</span><b>' + esc(laneLabel(source.lane)) + "</b></div><div><span>TRACK</span><b>" + esc(source.track) + "</b></div><div><span>FILE</span><b>" + (source.lane === "official" ? "S" + source.season + " / R" + source.race : esc(source.kind)) + "</b></div><div><span>RESULT</span><b>" + esc(result.status || "unknown") + "</b></div><div><span>TRANSCRIPT</span><b>" + esc(source.transcriptStatus) + "</b></div></div></section>" +
       '<section class="evidence-tower"><div class="wrap"><article class="done"><b>01</b><span>PRIMARY RACE TAPE</span><strong>' + source.transcriptLines.toLocaleString() + ' TIMED SEGMENTS</strong></article><article class="' + (source.companion ? "done" : "") + '"><b>02</b><span>HLRN COMPANION</span><strong>' + (source.companion ? "MATCHED" : "NOT FOUND") + '</strong></article><article class="' + (issue ? "done" : "") + '"><b>03</b><span>EDITORIAL REVIEW</span><strong>' + (issue ? moments.length + " BOUNDED CUTS" : source.candidateCount + " CANDIDATES QUARANTINED") + '</strong></article><article class="' + (result.status !== "unknown" ? "done" : "") + '"><b>04</b><span>RESULT RECEIPT</span><strong>' + esc(String(result.status || "unknown").toUpperCase()) + '</strong></article></div></section>' +
       '<div class="wrap race-layout"><main>' +
@@ -778,9 +1482,31 @@
     else if (hash === "#/rankings") rankingsPage();
     else if ((match = hash.match(/^#\/rankings\/([\w-]+)$/))) rankingsPage(match[1]);
     else if (hash === "#/highline-live") highlineLive();
+    else if (hash === "#/results") resultsPage();
+    else if (hash === "#/winners") winnersPage();
+    else if (hash === "#/garage") garagePage();
+    else if (hash === "#/photo-desk") photoDeskPage();
+    else if (hash === "#/compare") comparePage();
+    else if (hash === "#/battle-lines") battleLinesPage();
+    else if ((match = hash.match(/^#\/battle-lines\/([\w-]+)\/([\w-]+)$/))) battleLinePage(match[1], match[2]);
+    else if (hash === "#/tracks") tracksPage();
+    else if ((match = hash.match(/^#\/track\/([\w-]+)$/))) trackPage(match[1]);
+    else if (hash === "#/timeline") timelinePage();
+    else if (hash === "#/finish-vault") finishVaultPage();
+    else if (hash === "#/storylines") storylinesPage();
+    else if ((match = hash.match(/^#\/storyline\/([\w-]+)$/))) storylinePage(match[1]);
+    else if (hash === "#/the-show") theShowPage();
+    else if (hash === "#/race-night") raceNightPage();
+    else if (hash === "#/replay") replayPage();
+    else if (hash === "#/studio") studioPage();
+    else if (hash === "#/pulse") pulsePage();
     else if (hash === "#/radar") radarPage();
     else if (hash === "#/frequency") frequencyPage();
     else if (hash === "#/records") recordsPage();
+    else if (hash === "#/evidence-ledger") evidenceLedgerPage();
+    else if (hash === "#/unknowns") unknownsPage();
+    else if (hash === "#/corrections") correctionsPage();
+    else if (hash === "#/result-intake") resultIntakePage();
     else if (hash === "#/sources") sourcesPage();
     else if (hash === "#/methodology") methodologyPage();
     else if (hash === "#/explore") explorePage();

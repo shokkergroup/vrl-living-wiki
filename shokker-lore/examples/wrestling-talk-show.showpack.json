@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "shokker-lore/channel-pack/v2",
+  "identity": {
+    "id": "backstage-tape-room",
+    "name": "Backstage Tape Room",
+    "tagline": "Every story, take, match, and wrestling lesson—back on the tape.",
+    "primaryPlatform": "YouTube",
+    "creators": ["Veteran host", "Co-host"]
+  },
+  "canon": {
+    "include": [
+      "Full episodes, livestreams, and owner-approved specials from the official show channel"
+    ],
+    "exclude": [
+      "Shorts that duplicate an indexed long-form source",
+      "Unrelated uploads from a broader network feed"
+    ],
+    "exceptions": [
+      "Owner-approved interviews on partner channels may enter the guest-tape lane"
+    ],
+    "officialSourcePriority": [
+      "Official full episode",
+      "Owner-approved partner upload"
+    ]
+  },
+  "sourceLanes": [
+    {
+      "id": "full-show",
+      "label": "Main Event Tapes",
+      "purpose": "Canonical full episodes and livestreams.",
+      "inclusionRule": "A full episode or livestream published by the official show channel.",
+      "public": true
+    },
+    {
+      "id": "guest-tape",
+      "label": "Road Tapes",
+      "purpose": "Substantial owner-approved appearances on partner channels.",
+      "inclusionRule": "The owner approves the source and a listed creator makes a substantial wrestling-related contribution.",
+      "public": true
+    }
+  ],
+  "taxonomy": {
+    "entities": [
+      {
+        "id": "source",
+        "label": "Tape",
+        "definition": "One canonical indexed upload."
+      },
+      {
+        "id": "person",
+        "label": "Wrestling Person",
+        "definition": "A canonical wrestler, promoter, booker, manager, announcer, host, or guest."
+      },
+      {
+        "id": "promotion",
+        "label": "Promotion",
+        "definition": "A canonical wrestling company, territory, or promotion."
+      },
+      {
+        "id": "event",
+        "label": "Event",
+        "definition": "A named card, show, pay-per-view, or historical event."
+      },
+      {
+        "id": "match",
+        "label": "Match",
+        "definition": "A specifically identified wrestling match."
+      },
+      {
+        "id": "angle",
+        "label": "Angle",
+        "definition": "A named or bounded storyline, booking angle, or program."
+      },
+      {
+        "id": "concept",
+        "label": "Craft Concept",
+        "definition": "A recurring subject such as psychology, safety, selling, production, or booking."
+      }
+    ],
+    "relationships": [
+      {
+        "id": "discusses",
+        "label": "Discusses",
+        "definition": "A bounded receipt explicitly discusses the entity."
+      },
+      {
+        "id": "compares",
+        "label": "Compares",
+        "definition": "A bounded receipt explicitly compares two people, matches, eras, or approaches."
+      },
+      {
+        "id": "revisits",
+        "label": "Revisits",
+        "definition": "A later receipt explicitly returns to an earlier indexed subject."
+      }
+    ],
+    "receipts": [
+      {
+        "id": "analysis",
+        "label": "Tape Study",
+        "definition": "A bounded analysis of wrestling performance, production, safety, psychology, or booking."
+      },
+      {
+        "id": "story",
+        "label": "Backstage Story",
+        "definition": "A bounded personal or reported story with attributable source context."
+      },
+      {
+        "id": "prediction",
+        "label": "Booking Forecast",
+        "definition": "A bounded prediction about a future wrestling outcome."
+      },
+      {
+        "id": "reaction",
+        "label": "Bell Reaction",
+        "definition": "A bounded response to current wrestling news or an event."
+      },
+      {
+        "id": "correction",
+        "label": "Tape Correction",
+        "definition": "A bounded correction or clarification."
+      }
+    ],
+    "structuredLedgers": [
+      {
+        "id": "event-ledger",
+        "label": "Event Ledger",
+        "definition": "Reviewed mappings among events, dates, promotions, matches, and sources."
+      },
+      {
+        "id": "take-ledger",
+        "label": "Take Ledger",
+        "definition": "Strong documented takes, later follow-ups, and unresolved state."
+      }
+    ]
+  },
+  "evidencePolicy": {
+    "publicMinimum": "timestamp-validated-human-curated-candidate",
+    "timestampRequired": true,
+    "speakerPolicy": "Use caption speakers only when diarization or human review supports them.",
+    "corrections": "append-only",
+    "preserveContradictions": true,
+    "unknownIsValid": true
+  },
+  "voice": {
+    "principles": [
+      "Sound like a wrestling tape room, not a corporate sports database",
+      "Let stories be colorful while evidence labels stay precise",
+      "Separate personal recollection, analysis, and independently reviewed fact"
+    ],
+    "bannedPhrases": [
+      "sports entertainment content hub",
+      "definitive truth",
+      "the first time ever"
+    ],
+    "askLabel": "Search the Territory",
+    "receiptLabel": "Tape Receipt",
+    "unknownLabel": "Not settled on the available tape",
+    "correctionLabel": "Tape-room correction"
+  },
+  "visualWorld": {
+    "metaphor": "A backstage tape library connected to a territory promoter's wall map.",
+    "mood": ["lived-in", "authoritative", "analog", "theatrical"],
+    "typography": ["condensed event-poster display", "clean grotesk body", "typewriter receipt labels"],
+    "color": ["ring-canvas cream", "arena black", "territory red", "old-gold accent"],
+    "texture": ["VHS labels", "event posters", "road maps", "booking sheets"],
+    "motion": ["tape cueing", "match-card reveals", "territory lines drawing"],
+    "avoid": ["generic red-and-black fight branding", "championship-belt wallpaper", "WWAM neon horror styling"],
+    "recognitionTest": "Without a logo, the first screen must feel like an opinionated wrestling tape room and territory office."
+  },
+  "experiences": {
+    "completeArchive": {
+      "id": "complete-tape-library",
+      "label": "The Complete Tape Library",
+      "job": "Browse every episode by person, promotion, event, match, angle, and concept.",
+      "interaction": "Filterable tape wall with source dossiers and exact playback.",
+      "evidence": "Canonical source registry and source-scoped receipts."
+    },
+    "fanFrontDoors": [
+      {
+        "id": "search-territory",
+        "label": "Search the Territory",
+        "job": "Find everything the show documented about a wrestler, promotion, event, or idea.",
+        "interaction": "Structured answer plus exact playable supporting receipts.",
+        "evidence": "Structured ledgers first, entity-related receipts second, source-scoped transcript corroboration last."
+      },
+      {
+        "id": "angle-atlas",
+        "label": "Angle Atlas",
+        "job": "Explore the people, events, matches, and stories connected by the archive.",
+        "interaction": "Interactive territory-style relationship map.",
+        "evidence": "Receipt-backed edges with relationship limitations visible."
+      },
+      {
+        "id": "take-timeline",
+        "label": "Take Timeline",
+        "job": "Follow documented analysis of one person or subject over time.",
+        "interaction": "Chronological playable path with source and era filters.",
+        "evidence": "Bounded receipts ordered by source date; chronology does not prove a changed mind."
+      }
+    ],
+    "creatorTools": [
+      {
+        "id": "producer-packet",
+        "label": "Producer Packet",
+        "job": "Prepare everything previously said about a planned subject.",
+        "interaction": "Generate a source-linked packet with prior takes, stories, gaps, and open questions.",
+        "evidence": "Canonical entities, ledgers, corrections, and exact receipts."
+      },
+      {
+        "id": "hot-tag-clip-desk",
+        "label": "Hot Tag Clip Desk",
+        "job": "Find strong stories, lessons, reactions, and current-event resurfacing opportunities.",
+        "interaction": "Review channel-specific edit plans with exact windows and risk labels.",
+        "evidence": "Bounded receipts plus clearly non-archival promotional suggestions."
+      }
+    ],
+    "signatureMechanics": [
+      {
+        "id": "build-a-card",
+        "label": "Build a Card",
+        "job": "Let fans create a fantasy card from archive subjects.",
+        "interaction": "Select people or matches and receive a playable evidence path for the card.",
+        "evidence": "Canonical entity selection and exact supporting receipts; the fan's booking prose remains non-evidence."
+      },
+      {
+        "id": "booking-ledger",
+        "label": "Booking Ledger",
+        "job": "Compare a documented forecast with later indexed material.",
+        "interaction": "Open, supported, contradicted, mixed, and unresolved forecast dockets.",
+        "evidence": "Reviewed before/after receipts and append-only adjudication."
+      }
+    ],
+    "returnRitual": {
+      "id": "this-week-on-the-territory",
+      "label": "This Week on the Territory",
+      "job": "Give fans a weekly reason to return.",
+      "interaction": "A current wrestling-news route into newly relevant old tape.",
+      "evidence": "New-source receipts plus manually reviewed relevance links to older sources."
+    }
+  },
+  "clipSystem": {
+    "enabled": true,
+    "candidateSignals": [
+      { "id": "named-star", "label": "Named wrestler or event", "weight": 16 },
+      { "id": "decisive-claim", "label": "Decisive or surprising claim", "weight": 16 },
+      { "id": "story-payoff", "label": "Backstage story payoff", "weight": 16 },
+      { "id": "teaching-value", "label": "Practical teaching value", "weight": 14 },
+      { "id": "emotion-humor", "label": "Emotional or comic turn", "weight": 14 },
+      { "id": "standalone", "label": "Standalone clarity", "weight": 14 },
+      { "id": "current-relevance", "label": "Current relevance", "weight": 10 }
+    ],
+    "riskRules": [
+      "Hold unverified backstage allegations for human review.",
+      "Do not infer a speaker from captions alone.",
+      "Distinguish personal recollection from independently reviewed fact.",
+      "Recheck why an old moment is newly relevant before packaging it."
+    ],
+    "deliverables": [
+      "Exact source and timestamp",
+      "Proposed edit window",
+      "Why it surfaced",
+      "Context and rights risk",
+      "Suggested non-archival hook and title"
+    ],
+    "humanApprovalRequired": true,
+    "viralityClaim": false,
+    "feedbackInputs": ["selected", "rejected", "needs context", "final runtime", "retention", "shares"]
+  },
+  "updateContract": {
+    "stages": ["discover", "quarantine", "review", "promote"],
+    "cadence": "Within three business days of each approved full episode.",
+    "sourceOfTruth": "The official show channel plus owner-approved partner sources.",
+    "removalPolicy": "tombstone"
+  },
+  "measurement": {
+    "fan": ["archive searches", "exact-source plays", "old-source plays", "fantasy cards created"],
+    "creator": ["producer packets used", "clip candidates adopted", "measured research time saved"],
+    "trust": ["correction rate", "receipt coverage", "unknowns preserved", "speaker holds"],
+    "notYetObserved": ["revenue lift", "subscriber lift", "membership lift"]
+  }
+}

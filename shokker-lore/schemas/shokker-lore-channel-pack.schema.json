@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shokkerlore.com/schemas/channel-pack-v2.json",
+  "title": "SHOKKER LORE Channel Pack V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "identity",
+    "canon",
+    "sourceLanes",
+    "taxonomy",
+    "evidencePolicy",
+    "voice",
+    "visualWorld",
+    "experiences",
+    "clipSystem",
+    "updateContract",
+    "measurement"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "shokker-lore/channel-pack/v2" },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "tagline", "primaryPlatform", "creators"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "tagline": { "type": "string", "minLength": 1 },
+        "primaryPlatform": { "type": "string", "minLength": 1 },
+        "creators": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "canon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["include", "exclude", "exceptions", "officialSourcePriority"],
+      "properties": {
+        "include": { "$ref": "#/$defs/nonEmptyStrings" },
+        "exclude": { "$ref": "#/$defs/strings" },
+        "exceptions": { "$ref": "#/$defs/strings" },
+        "officialSourcePriority": { "$ref": "#/$defs/nonEmptyStrings" }
+      }
+    },
+    "sourceLanes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "purpose", "inclusionRule", "public"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "label": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "minLength": 1 },
+          "inclusionRule": { "type": "string", "minLength": 1 },
+          "public": { "type": "boolean" }
+        }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entities", "relationships", "receipts", "structuredLedgers"],
+      "properties": {
+        "entities": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/taxonomyItem" }
+        },
+        "relationships": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/taxonomyItem" }
+        },
+        "receipts": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/taxonomyItem" }
+        },
+        "structuredLedgers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/taxonomyItem" }
+        }
+      }
+    },
+    "evidencePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publicMinimum",
+        "timestampRequired",
+        "speakerPolicy",
+        "corrections",
+        "preserveContradictions",
+        "unknownIsValid"
+      ],
+      "properties": {
+        "publicMinimum": {
+          "enum": [
+            "machine-surfaced",
+            "timestamp-validated-human-curated-candidate",
+            "editor-verified",
+            "creator-certified"
+          ]
+        },
+        "timestampRequired": { "type": "boolean" },
+        "speakerPolicy": { "type": "string", "minLength": 1 },
+        "corrections": { "enum": ["append-only"] },
+        "preserveContradictions": { "const": true },
+        "unknownIsValid": { "const": true }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "principles",
+        "bannedPhrases",
+        "askLabel",
+        "receiptLabel",
+        "unknownLabel",
+        "correctionLabel"
+      ],
+      "properties": {
+        "principles": { "$ref": "#/$defs/nonEmptyStrings" },
+        "bannedPhrases": { "$ref": "#/$defs/strings" },
+        "askLabel": { "type": "string", "minLength": 1 },
+        "receiptLabel": { "type": "string", "minLength": 1 },
+        "unknownLabel": { "type": "string", "minLength": 1 },
+        "correctionLabel": { "type": "string", "minLength": 1 }
+      }
+    },
+    "visualWorld": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metaphor",
+        "mood",
+        "typography",
+        "color",
+        "texture",
+        "motion",
+        "avoid",
+        "recognitionTest"
+      ],
+      "properties": {
+        "metaphor": { "type": "string", "minLength": 1 },
+        "mood": { "$ref": "#/$defs/nonEmptyStrings" },
+        "typography": { "$ref": "#/$defs/nonEmptyStrings" },
+        "color": { "$ref": "#/$defs/nonEmptyStrings" },
+        "texture": { "$ref": "#/$defs/nonEmptyStrings" },
+        "motion": { "$ref": "#/$defs/nonEmptyStrings" },
+        "avoid": { "$ref": "#/$defs/nonEmptyStrings" },
+        "recognitionTest": { "type": "string", "minLength": 1 }
+      }
+    },
+    "experiences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completeArchive",
+        "fanFrontDoors",
+        "creatorTools",
+        "signatureMechanics",
+        "returnRitual"
+      ],
+      "properties": {
+        "completeArchive": { "$ref": "#/$defs/experience" },
+        "fanFrontDoors": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "$ref": "#/$defs/experience" }
+        },
+        "creatorTools": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/experience" }
+        },
+        "signatureMechanics": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/experience" }
+        },
+        "returnRitual": { "$ref": "#/$defs/experience" }
+      }
+    },
+    "clipSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "candidateSignals",
+        "riskRules",
+        "deliverables",
+        "humanApprovalRequired",
+        "viralityClaim",
+        "feedbackInputs"
+      ],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "candidateSignals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "weight"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "label": { "type": "string", "minLength": 1 },
+              "weight": { "type": "number", "minimum": 0 }
+            }
+          }
+        },
+        "riskRules": { "$ref": "#/$defs/nonEmptyStrings" },
+        "deliverables": { "$ref": "#/$defs/nonEmptyStrings" },
+        "humanApprovalRequired": { "const": true },
+        "viralityClaim": { "const": false },
+        "feedbackInputs": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "updateContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stages", "cadence", "sourceOfTruth", "removalPolicy"],
+      "properties": {
+        "stages": {
+          "const": ["discover", "quarantine", "review", "promote"]
+        },
+        "cadence": { "type": "string", "minLength": 1 },
+        "sourceOfTruth": { "type": "string", "minLength": 1 },
+        "removalPolicy": { "const": "tombstone" }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fan", "creator", "trust", "notYetObserved"],
+      "properties": {
+        "fan": { "$ref": "#/$defs/nonEmptyStrings" },
+        "creator": { "$ref": "#/$defs/nonEmptyStrings" },
+        "trust": { "$ref": "#/$defs/nonEmptyStrings" },
+        "notYetObserved": { "$ref": "#/$defs/strings" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "strings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "taxonomyItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "definition"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "job", "interaction", "evidence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "minLength": 1 },
+        "job": { "type": "string", "minLength": 1 },
+        "interaction": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

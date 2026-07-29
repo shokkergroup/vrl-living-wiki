@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "shokker-lore/channel-pack/v2",
+  "identity": {
+    "id": "signal-stack-ai",
+    "name": "Signal Stack AI",
+    "tagline": "The AI news archive that shows what changed and who said what when.",
+    "primaryPlatform": "YouTube",
+    "creators": ["Host", "Research producer"]
+  },
+  "canon": {
+    "include": [
+      "Long-form news, analysis, interviews, and livestreams on the official channel"
+    ],
+    "exclude": [
+      "Shorts that only excerpt an indexed long-form source",
+      "Unrelated personal uploads"
+    ],
+    "exceptions": [
+      "Owner-approved guest appearances may enter a separate source lane"
+    ],
+    "officialSourcePriority": [
+      "Official channel upload",
+      "Owner-approved guest source"
+    ]
+  },
+  "sourceLanes": [
+    {
+      "id": "analysis",
+      "label": "Briefings",
+      "purpose": "Canonical long-form AI news and analysis.",
+      "inclusionRule": "Published on the official channel and primarily about AI technology, companies, research, policy, or business.",
+      "public": true
+    },
+    {
+      "id": "guest-desk",
+      "label": "Field Reports",
+      "purpose": "Owner-approved appearances on other channels.",
+      "inclusionRule": "Explicitly approved by the owner and includes a substantial contribution from a listed creator.",
+      "public": true
+    }
+  ],
+  "taxonomy": {
+    "entities": [
+      {
+        "id": "source",
+        "label": "Source",
+        "definition": "One canonical indexed upload."
+      },
+      {
+        "id": "company",
+        "label": "Company",
+        "definition": "An AI company, platform owner, or relevant institution."
+      },
+      {
+        "id": "model",
+        "label": "Model",
+        "definition": "A named model or stable model family."
+      },
+      {
+        "id": "product",
+        "label": "Product",
+        "definition": "A user-facing AI product, API, or service."
+      },
+      {
+        "id": "paper",
+        "label": "Paper",
+        "definition": "A specifically identified research publication."
+      },
+      {
+        "id": "person",
+        "label": "Person",
+        "definition": "A canonical host, guest, researcher, executive, or public official."
+      }
+    ],
+    "relationships": [
+      {
+        "id": "discusses",
+        "label": "Discusses",
+        "definition": "A bounded receipt explicitly discusses the entity."
+      },
+      {
+        "id": "compares",
+        "label": "Compares",
+        "definition": "A bounded receipt explicitly compares at least two entities."
+      },
+      {
+        "id": "follows-up",
+        "label": "Follows Up",
+        "definition": "A later bounded receipt explicitly revisits an earlier documented subject or claim."
+      }
+    ],
+    "receipts": [
+      {
+        "id": "launch",
+        "label": "Launch Signal",
+        "definition": "A bounded discussion of a specific launch or release."
+      },
+      {
+        "id": "claim",
+        "label": "Claim",
+        "definition": "A bounded, attributable assertion made in the indexed source."
+      },
+      {
+        "id": "prediction",
+        "label": "Forecast",
+        "definition": "A bounded statement about a future, testable outcome."
+      },
+      {
+        "id": "explanation",
+        "label": "Explainer",
+        "definition": "A bounded segment that explains a concept or consequence."
+      },
+      {
+        "id": "correction",
+        "label": "Correction",
+        "definition": "A bounded correction or clarification."
+      }
+    ],
+    "structuredLedgers": [
+      {
+        "id": "launch-ledger",
+        "label": "Launch Ledger",
+        "definition": "Reviewed launch dates, products, companies, versions, and source receipts."
+      },
+      {
+        "id": "claim-watch",
+        "label": "Claim Watch",
+        "definition": "Strong claims, predictions, later evidence, and unresolved state."
+      }
+    ]
+  },
+  "evidencePolicy": {
+    "publicMinimum": "timestamp-validated-human-curated-candidate",
+    "timestampRequired": true,
+    "speakerPolicy": "Do not identify a speaker from undiarized captions alone.",
+    "corrections": "append-only",
+    "preserveContradictions": true,
+    "unknownIsValid": true
+  },
+  "voice": {
+    "principles": [
+      "Fast but sourced",
+      "Explain consequence before hype",
+      "Separate what was said then from what is true now"
+    ],
+    "bannedPhrases": [
+      "game-changing",
+      "revolutionary",
+      "the first ever"
+    ],
+    "askLabel": "Ask the Briefing Room",
+    "receiptLabel": "Source Signal",
+    "unknownLabel": "Unresolved in the indexed record",
+    "correctionLabel": "Briefing correction"
+  },
+  "visualWorld": {
+    "metaphor": "A live intelligence desk connected to an experimental model lab.",
+    "mood": ["precise", "kinetic", "editorial", "high-signal"],
+    "typography": ["technical grotesk", "legible mono for receipts"],
+    "color": ["electric cyan", "signal amber", "near-black", "paper white"],
+    "texture": ["schematics", "signal traces", "annotated briefing paper"],
+    "motion": ["status changes", "timeline sweeps", "signal pulses"],
+    "avoid": ["generic robot heads", "purple gradient SaaS cards", "fake terminal rain"],
+    "recognitionTest": "Without the logo, the first screen must read as a live AI intelligence desk, not a generic technology blog."
+  },
+  "experiences": {
+    "completeArchive": {
+      "id": "briefing-archive",
+      "label": "The Complete Briefing Archive",
+      "job": "Browse every canonical show by date, company, model, product, and subject.",
+      "interaction": "Filterable archive with source dossiers and exact playback.",
+      "evidence": "Canonical source registry and source-scoped receipts."
+    },
+    "fanFrontDoors": [
+      {
+        "id": "what-changed",
+        "label": "What Changed This Week",
+        "job": "See the meaningful additions and corrections across recent shows.",
+        "interaction": "A dated change board with playable source signals.",
+        "evidence": "Reviewed launch, claim, correction, and comparison receipts."
+      },
+      {
+        "id": "model-time-machine",
+        "label": "Model Time Machine",
+        "job": "Follow coverage of one model or company across time.",
+        "interaction": "Chronological receipt path with version and source filters.",
+        "evidence": "Entity-resolved, bounded receipts ordered by publication date."
+      },
+      {
+        "id": "ask-briefing-room",
+        "label": "Ask the Briefing Room",
+        "job": "Answer archive questions and play the support.",
+        "interaction": "Structured answer followed by a two-to-six-stop playable trail.",
+        "evidence": "Structured ledgers first, then related receipts, then source-scoped transcript corroboration."
+      }
+    ],
+    "creatorTools": [
+      {
+        "id": "research-desk",
+        "label": "Research Desk",
+        "job": "Prepare a model, company, or launch packet before recording.",
+        "interaction": "Generate a source-linked briefing with prior coverage, open claims, and gaps.",
+        "evidence": "Canonical entities, ledgers, corrections, and exact receipts."
+      },
+      {
+        "id": "clip-radar",
+        "label": "Clip Radar",
+        "job": "Find timely, standalone explanations and consequential claims.",
+        "interaction": "Review ranked edit plans with exact windows and risk labels.",
+        "evidence": "Bounded receipts plus an explicitly non-archival edit proposal."
+      }
+    ],
+    "signatureMechanics": [
+      {
+        "id": "claim-watch-room",
+        "label": "Claim Watch",
+        "job": "Track a documented forecast without inventing an outcome.",
+        "interaction": "Open, supported, contradicted, mixed, and unresolved claim dockets.",
+        "evidence": "Reviewed before/after receipts and an append-only adjudication record."
+      },
+      {
+        "id": "launch-room",
+        "label": "Launch Room",
+        "job": "Understand one launch across initial report, analysis, comparison, and correction.",
+        "interaction": "An interactive briefing wall centered on a reviewed launch ledger.",
+        "evidence": "Launch ledger plus source-scoped receipts."
+      }
+    ],
+    "returnRitual": {
+      "id": "weekly-signal-drop",
+      "label": "Weekly Signal Drop",
+      "job": "Give fans a recurring reason to return.",
+      "interaction": "A weekly playable path through the most consequential new archive additions.",
+      "evidence": "Newly promoted receipts with visible dates and review state."
+    }
+  },
+  "clipSystem": {
+    "enabled": true,
+    "candidateSignals": [
+      { "id": "timeliness", "label": "Timeliness", "weight": 18 },
+      { "id": "consequence", "label": "Audience consequence", "weight": 18 },
+      { "id": "standalone", "label": "Standalone clarity", "weight": 18 },
+      { "id": "named-entity", "label": "Named model or company", "weight": 12 },
+      { "id": "novelty", "label": "Novelty", "weight": 12 },
+      { "id": "claim-strength", "label": "Testable claim strength", "weight": 12 },
+      { "id": "low-context-debt", "label": "Low context debt", "weight": 10 }
+    ],
+    "riskRules": [
+      "Recheck time-sensitive facts at edit time.",
+      "Do not present a host prediction as fact.",
+      "Keep promotional copy separate from archival wording.",
+      "Hold candidates with ambiguous speaker identity."
+    ],
+    "deliverables": [
+      "Exact source and timestamp",
+      "Proposed edit window",
+      "Why it surfaced",
+      "Context and staleness risk",
+      "Suggested non-archival hook and title"
+    ],
+    "humanApprovalRequired": true,
+    "viralityClaim": false,
+    "feedbackInputs": ["selected", "rejected", "final runtime", "retention", "shares", "saves"]
+  },
+  "updateContract": {
+    "stages": ["discover", "quarantine", "review", "promote"],
+    "cadence": "Within two business days of each approved long-form upload.",
+    "sourceOfTruth": "The official channel feed plus owner-approved guest sources.",
+    "removalPolicy": "tombstone"
+  },
+  "measurement": {
+    "fan": ["archive searches", "exact-source plays", "old-source plays", "return visits"],
+    "creator": ["research packets used", "clip candidates adopted", "measured prep time saved"],
+    "trust": ["correction rate", "receipt coverage", "unknowns preserved", "stale facts caught"],
+    "notYetObserved": ["revenue lift", "subscriber lift", "sponsor lift"]
+  }
+}
