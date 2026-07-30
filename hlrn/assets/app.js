@@ -1030,7 +1030,7 @@
   window.__highlightCategory = function (value) { state.highlightCategory = value; highlightPage(); };
   window.__lastLap = function () {
     var closes = DATA.moments.filter(function (item) { return item.category === "finish" && (state.canon === "all" || item.lane === "official"); });
-    if (!closes.length) return toast("No closing signal is currently indexed");
+    if (!closes.length) return toast("No supported race close is currently indexed");
     var item = closes[Math.floor(Math.random() * closes.length)];
     window.__play(item.sourceId, item.t, "Last Lap Lottery");
   };
@@ -2011,7 +2011,7 @@
       [cards.length, "DEEP TOOLS"], [DATA.records.auxiliaryCount, "COMPANION FILES"], [DATA.records.fragmentCount, "PRESERVED FRAGMENTS"],
     ]) + '<div class="wrap"><div class="explore-grid">' + cards.map(function (item, index) {
       return '<a href="' + item[2] + '"><b>' + String(index + 1).padStart(2, "0") + "</b><span>" + esc(item[3]) + "</span><h2>" + esc(item[0]) + "</h2><p>" + esc(item[1]) + "</p><em>OPEN TOOL →</em></a>";
-    }).join("") + '</div><section class="explore-rituals"><div><span>RETURN RITUAL</span><h2>LAST LAP LOTTERY</h2><p>Drop into a supported closing signal from anywhere in the network.</p><button onclick="__lastLap()">RUN THE LOTTERY ▶</button></div><div><span>KEYBOARD RITUAL</span><h2>PRESS H</h2><p>Open the high line from any page and receive a random exact battle signal.</p><button onclick="__openHighLine()">OPEN THE HIGH LINE ▶</button></div></section></div></div>';
+    }).join("") + '</div><section class="explore-rituals"><div><span>RETURN RITUAL</span><h2>LAST LAP LOTTERY</h2><p>Drop into a supported closing moment from anywhere in the network.</p><button onclick="__lastLap()">RUN THE LOTTERY ▶</button></div><div><span>KEYBOARD RITUAL</span><h2>PRESS H</h2><p>Open the high line from any page and receive a random exact battle signal.</p><button onclick="__openHighLine()">OPEN THE HIGH LINE ▶</button></div></section></div></div>';
   }
 
   function racePage(id, timestamp) {

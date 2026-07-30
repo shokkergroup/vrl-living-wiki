@@ -156,7 +156,7 @@ The Trust Audit Board exposes eight passing release gates:
 8. the complete internal route graph.
 
 The public-language gate scans 4,156 authored fields / 89,428 words. It rejects
-the original generic `Closing signal` pattern, the Trevor white-flag template,
+the original repeated Trevor white-flag headline template,
 research-state language, unresolved program values, malformed encoding,
 accidental repeated words, and duplicated authored blocks.
 
