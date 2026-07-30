@@ -1150,7 +1150,7 @@
       return match;
     }
     return '<section class="' + (context === "race" ? "race-longform-report" : "paper-longform-report") + '">' +
-      '<header><span>FULL RACE REPORT / SOURCE-REVIEWED</span><h2>THE NIGHT, RECONSTRUCTED WITHOUT FILLING THE OPEN CELLS</h2><p>Interpretation is authored. Results and competitive claims remain bounded by the accepted HLRN receipts.</p></header>' +
+      '<header><span>' + (context === "race" ? "CENTRAL REPORT / SOURCE-REVIEWED" : "THE RACE FILE / FOUR VERIFIED PILLARS") + '</span><h2>' + (context === "race" ? "THE NIGHT, RECONSTRUCTED WITHOUT FILLING THE OPEN CELLS" : "THE RECEIPTS BEHIND THE STORY") + '</h2><p>Interpretation is authored. Results and competitive claims remain bounded by the accepted HLRN receipts.</p></header>' +
       '<div class="longform-report-grid">' + sections.map(function (section, index) {
         var chapterMatch = reportChapter(section, index);
         var chapter = chapterMatch ? chapterMatch.chapter : null;
@@ -1163,6 +1163,18 @@
       }).join("") + '</div>' +
       (issue.whyItMatters ? '<aside class="why-it-matters"><span>WHY THIS RACE MATTERS</span><p>' + esc(issue.whyItMatters) + '</p></aside>' : '') +
       ((issue.openQuestions || []).length ? '<aside class="report-open-questions"><span>THE REPORTING STILL OPEN</span><ul>' + issue.openQuestions.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join("") + '</ul></aside>' : '') +
+      '</section>';
+  }
+
+  function mainStoryMarkup(issue) {
+    var paragraphs = issue.mainStory || [];
+    if (!paragraphs.length) return "";
+    return '<section class="paper-main-story">' +
+      '<header><div><span>THE STORY / LONG-FORM RACE REPORT</span><h2>FROM THE OPENING GREEN TO THE FINAL RECEIPT</h2></div><aside><b>' + Number(issue.wordCount || 0).toLocaleString() + ' EDITION WORDS</b><small>' + paragraphs.length + ' NARRATIVE PASSES</small></aside></header>' +
+      '<div class="paper-main-copy">' + paragraphs.map(function (paragraph, index) {
+        return '<p class="' + (index === 0 ? "story-dropcap" : "") + '">' + esc(paragraph) + '</p>';
+      }).join("") + '</div>' +
+      '<footer><span>REPORTING NOTE</span><p>The story follows the reviewed primary broadcast, accepted result receipts, and HLRN-produced companion coverage. Unknown classifications remain open.</p></footer>' +
       '</section>';
   }
 
@@ -1195,6 +1207,7 @@
       '<div class="wrap paper-grid"><main><section class="paper-headline"><span>' + esc(issue.coverLine) + '</span><h2>' + esc(issue.headline) + '</h2><p>' + esc(issue.deck) + '</p><div><b>BY HIGHLINE CENTRAL ARCHIVE DESK</b><small>Reviewed against HLRN race and companion tape</small></div></section>' +
       '<figure class="paper-hero"><img src="' + esc(image) + '" alt="HLRN source frame for ' + esc(issue.headline) + '"><button onclick="__play(\'' + esc((issue.image || {}).sourceId || source.id) + '\',' + Number((issue.image || {}).t || 0) + ',' + playArg(issue.headline) + ')">▶ PLAY THIS SOURCE FRAME</button><figcaption>' + esc((issue.image || {}).caption || source.name) + ' / HLRN SOURCE / ' + fmtTime((issue.image || {}).t || 0) + '</figcaption></figure>' +
       '<section class="paper-lead">' + issue.lead.map(function (paragraph, paragraphIndex) { return '<p class="' + (paragraphIndex === 0 ? "dropcap" : "") + '">' + esc(paragraph) + '</p>'; }).join("") + '</section>' +
+      mainStoryMarkup(issue) +
       raceReportMarkup(issue, "central") +
       '<section class="paper-three-act"><header><span>THE RACE IN THREE ACTS</span><h2>OPENING / PRESSURE / CLOSING</h2></header>' + phases.map(function (phase, phaseIndex) { var items = issue.moments.filter(function (moment) { return moment.phase === phase; }); return '<div class="paper-act"><b>0' + (phaseIndex + 1) + '</b><h3>' + ["THE BOARD IS SET", "THE RACE TURNS", "THE RESULT ARRIVES"][phaseIndex] + '</h3><div>' + items.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></div>'; }).join("") + '</section>' +
       '<section class="paper-notebook"><header><span>NOTEBOOK</span><h2>THREE THINGS TO CARRY FORWARD</h2></header><div>' + issue.notebook.map(function (note) { return '<article><span>' + esc(note.label) + '</span><h3>' + esc(note.headline) + '</h3><p>' + esc(note.body) + '</p></article>'; }).join("") + '</div></section>' +

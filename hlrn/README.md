@@ -27,7 +27,7 @@ The public, source-linked living archive of the
 - Reviewed opening greens and live-race closes for all 20 official races
 - 83 editor-reviewed Central / `The Show` receipts with 83 unique titles
 - 20 complete recovered podiums / 60 accepted position cells
-- 20 Highline Central editions / 12,148 public editorial words
+- 20 Highline Central editions / 24,183 public editorial words
 - 9 explainable Top 25 boards / all 1,585 board receipts publicly exposed and playable
 - 424 machine-surfaced research candidates quarantined from public editorial
 - 7 passing public trust gates: channel snapshot, results, primary race cuts,
@@ -53,12 +53,14 @@ restarts, stages, incidents, strategy, battles, booth calls, finishes, or
 results without removing the full race reel.
 
 Highline Central is a real newspaper layer, not a control-room index. Every
-official race receives a cover, three-paragraph lead, four-section long-form
-report, three-act reconstruction, complete podium narrative, notebook,
-limitations, and an After Hours column. Every long-form section now exposes
-two source rails: an exact window in the primary race and its related reviewed
-story receipt. All 83 story receipts have local caption windows: 81 resolve a
-tagged identity through the alias registry and two remain explicitly
+official race receives a cover, three-paragraph lead, a nine-paragraph
+newspaper-style main story, a four-pillar source file, three-act reconstruction,
+complete podium narrative, notebook, limitations, and an After Hours column.
+The twenty main stories were rewritten against the complete primary-broadcast
+chapter boards after a 180-story race-journalism research pass. Every source-file
+pillar exposes two rails: an exact window in the primary race and its related
+reviewed story receipt. All 83 story receipts have local caption windows: 81
+resolve a tagged identity through the alias registry and two remain explicitly
 visual-review windows.
 
 Driver files lead with evidence rather than transcript volume. Every dossier
@@ -111,7 +113,7 @@ The public compiler currently passes:
 - all-driver dossier, result-receipt, name-provenance, transcript-reproduction,
   and unique-image-hash audit;
 - all-board Top 25 formula and playable-receipt audit;
-- public-language audit over 4,156 authored fields / 89,428 words;
+- public-language audit over 4,336 authored fields / 101,663 words;
 - public-asset audit over 11 core assets, 123 decoded images, and 77 transcript
   chunks;
 - 66 desktop/mobile route and workflow scenarios, plus every driver, Central,

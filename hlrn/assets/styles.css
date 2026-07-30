@@ -4945,6 +4945,89 @@ body.highline-open::after {
   font: 900 68px/.72 Georgia, serif;
 }
 
+.paper-main-story {
+  margin: 0 0 58px;
+  padding: 34px 0 30px;
+  border-top: 8px solid #2d2921;
+  border-bottom: 4px double #2d2921;
+}
+
+.paper-main-story > header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #948c7d;
+}
+
+.paper-main-story > header span,
+.paper-main-story > header aside,
+.paper-main-story > footer span {
+  color: #b31f31;
+  font: 800 8px/1.4 var(--mono);
+  letter-spacing: .08em;
+}
+
+.paper-main-story > header h2 {
+  max-width: 650px;
+  margin: 7px 0 0;
+  font: 900 clamp(31px, 4.4vw, 55px)/.93 Georgia, serif;
+  letter-spacing: -.035em;
+}
+
+.paper-main-story > header aside {
+  display: grid;
+  min-width: 124px;
+  padding-left: 16px;
+  gap: 6px;
+  border-left: 1px solid #948c7d;
+  color: #2d2921;
+}
+
+.paper-main-story > header aside small {
+  color: #746d61;
+  font: 700 7px/1.35 var(--mono);
+}
+
+.paper-main-copy {
+  columns: 2;
+  column-gap: 42px;
+  column-rule: 1px solid rgba(45, 41, 33, .18);
+}
+
+.paper-main-copy p {
+  break-inside: avoid;
+  margin: 0 0 20px;
+  color: #25221d;
+  font: 16.5px/1.68 Georgia, serif;
+  text-wrap: pretty;
+}
+
+.paper-main-copy .story-dropcap::first-letter {
+  float: left;
+  margin: 7px 8px 0 0;
+  color: #b31f31;
+  font: 900 61px/.72 Georgia, serif;
+}
+
+.paper-main-story > footer {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #948c7d;
+}
+
+.paper-main-story > footer p {
+  max-width: 700px;
+  margin: 0;
+  color: #625b50;
+  font: italic 12px/1.6 Georgia, serif;
+}
+
 .paper-three-act,
 .paper-notebook,
 .paper-after-hours {
@@ -5766,6 +5849,10 @@ body.highline-open::after {
   .paper-headline > p { font-size: 19px; }
   .paper-headline > div { align-items: start; flex-direction: column; gap: 5px; }
   .paper-lead { columns: 1; }
+  .paper-main-story > header { align-items: start; flex-direction: column; }
+  .paper-main-story > header aside { padding: 10px 0 0; border-left: 0; border-top: 1px solid #948c7d; }
+  .paper-main-copy { columns: 1; column-rule: 0; }
+  .paper-main-story > footer { grid-template-columns: 1fr; gap: 8px; }
   .paper-act { grid-template-columns: 45px 1fr; }
   .paper-act > div { grid-column: 1 / -1; }
   .paper-notebook > div { grid-template-columns: 1fr; }

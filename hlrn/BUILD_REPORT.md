@@ -88,20 +88,21 @@ the main HLRN control room. Every official race has:
 - a front-page cover line, headline, and deck;
 - a three-paragraph lead;
 - a source-attributed cover frame;
-- a four-section long-form race report;
+- a nine-paragraph newspaper-style main story;
+- a four-section source-anchored race file;
 - a three-act opening/pressure/closing reconstruction;
 - a complete podium narrative and claim limitations;
 - three notebook items and three reporting-open questions;
 - an explicitly separate `The Show` After Hours column;
 - previous/next edition navigation.
 
-Each of the four long-form sections now carries a two-lane source rail:
+Each of the four source-file sections now carries a two-lane source rail:
 
 1. an exact primary-broadcast race window; and
 2. a playable reviewed story receipt.
 
 All 20 editions pass a separate editorial gate. The public publication contains
-12,148 words, with 554 words in the smallest issue.
+24,183 words, with 1,085 words in the smallest issue.
 
 ## Highline Live
 
