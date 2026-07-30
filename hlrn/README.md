@@ -28,7 +28,7 @@ The public, source-linked living archive of the
 - 83 editor-reviewed Central / `The Show` receipts with 83 unique titles
 - 20 complete recovered podiums / 60 accepted position cells
 - 20 Highline Central editions / 12,148 public editorial words
-- 9 explainable Top 25 boards / 1,585 playable board receipts
+- 9 explainable Top 25 boards / all 1,585 board receipts publicly exposed and playable
 - 424 machine-surfaced research candidates quarantined from public editorial
 - 7 passing public trust gates: channel snapshot, results, primary race cuts,
   Central, drivers, awards, and public language

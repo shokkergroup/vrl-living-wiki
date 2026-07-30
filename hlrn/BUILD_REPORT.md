@@ -131,7 +131,8 @@ Nine boards expose their eligibility rule, boundary, component weights, raw
 values, category maximums, weighted points, and playable source receipts.
 
 - 212 total board entries.
-- 1,585 playable receipts.
+- All 1,585 stored receipts are publicly exposed and playable; no per-entry
+  receipt list is truncated.
 - Every formula recomputes to exactly 100 weight.
 - Rankings are rechecked for order, ties, entry counts, driver IDs, source IDs,
   receipt windows, and component arithmetic.
@@ -183,7 +184,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - Caption-aligned bounded navigation chapters: 209.
 - Accepted podium cells: 60/60.
 - Driver dossiers / unique source frames: 226 / 100.
-- Top 25 boards / playable receipts: 9 / 1,585.
+- Top 25 boards / publicly exposed playable receipts: 9 / 1,585.
 - Official races with 15–20 primary chapters: 20/20.
 - Primary result receipts synchronized to chapters: 13/13.
 - Public source shelf match: 52/52.
