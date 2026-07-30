@@ -734,7 +734,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-15";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-16";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);
@@ -1420,9 +1420,9 @@
       {
         id: "00",
         label: "SOURCE SNAPSHOT",
-        passed: records.channelSnapshotAuditPassed && records.channelSnapshotAuditErrorCount === 0 && records.channelSnapshotCurrentCount === records.sourceCount && records.companionSnapshotAuditPassed && records.companionSnapshotAuditErrorCount === 0 && records.companionSnapshotCurrentCount === records.companionSnapshotExpectedCount,
-        headline: records.channelSnapshotCurrentCount + " + " + records.companionSnapshotCurrentCount + " VERIFIED SOURCE IDS",
-        detail: "52 / 52 livestream shelf IDs match in count, identity, and order · 20 / 20 official-race companion programs are currently reachable · latest file " + DATA.meta.latestOfficialId,
+        passed: records.channelSnapshotAuditPassed && records.channelSnapshotAuditErrorCount === 0 && records.channelSnapshotCurrentCount === records.sourceCount && records.companionSnapshotAuditPassed && records.companionSnapshotAuditErrorCount === 0 && records.companionSnapshotCurrentCount === records.companionSnapshotExpectedCount && records.auxiliarySnapshotAuditPassed && records.auxiliarySnapshotAuditErrorCount === 0 && records.auxiliarySnapshotCurrentCount === records.auxiliarySnapshotExpectedCount,
+        headline: records.channelSnapshotCurrentCount + " STREAMS + " + records.auxiliarySnapshotCurrentCount + " AUXILIARY FILES",
+        detail: "52 / 52 livestream shelf IDs match in count, identity, and order · 40 / 40 public auxiliary videos are currently reachable with saved durations intact · 20 / 20 are official-race companions · latest file " + DATA.meta.latestOfficialId,
         route: "#/sources",
       },
       {
@@ -1485,7 +1485,7 @@
   function sourcesPage() {
     var chronological = DATA.sources.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
     app.innerHTML = '<div class="sources-page">' + pageHead("SOURCE LEDGER / NOTHING SILENTLY DISAPPEARS", "EVERY FILE.<br><em>ONE STABLE ID.</em>", "The full livestream shelf, including official races, Highline Live, fragments, transcript coverage, and result state.", [
-      [DATA.sources.length, "SOURCE IDENTITIES"], [DATA.records.transcriptSources, "TIMED"], [DATA.records.channelSnapshotAuditPassed ? DATA.records.channelSnapshotCurrentCount + " / " + DATA.records.sourceCount : "REVIEW", "LIVE SHELF MATCH"], [DATA.records.companionSnapshotAuditPassed ? DATA.records.companionSnapshotCurrentCount + " / " + DATA.records.companionSnapshotExpectedCount : "REVIEW", "OFFICIAL COMPANIONS LIVE"],
+      [DATA.sources.length, "SOURCE IDENTITIES"], [DATA.records.transcriptSources, "TIMED"], [DATA.records.channelSnapshotAuditPassed ? DATA.records.channelSnapshotCurrentCount + " / " + DATA.records.sourceCount : "REVIEW", "LIVE SHELF MATCH"], [DATA.records.auxiliarySnapshotAuditPassed ? DATA.records.auxiliarySnapshotCurrentCount + " / " + DATA.records.auxiliarySnapshotExpectedCount : "REVIEW", "AUXILIARY VIDEOS LIVE"],
     ]) + '<div class="wrap"><div class="source-table"><header><span>DATE</span><span>LANE</span><span>SOURCE</span><span>TRACK</span><span>EVIDENCE</span><span>RESULTS</span></header>' +
       chronological.map(function (source) {
         return '<a href="#/race/' + source.id + '"><time>' + esc(source.date || "UNKNOWN") + "</time><span class=\"table-lane " + source.lane + '">' + esc(laneLabel(source.lane)) + "</span><b>" + esc(sourceTitle(source)) + "</b><span>" + esc(source.track) + "</span><span>" + esc(source.transcriptStatus) + " / " + (source.chapters || []).length + " race chapters / " + source.moments.length + " story receipts</span><span>" + esc(source.result.status) + "</span></a>";

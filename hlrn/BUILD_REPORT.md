@@ -186,6 +186,8 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - Official races with 15–20 primary chapters: 20/20.
 - Primary result receipts synchronized to chapters: 13/13.
 - Public source shelf match: 52/52.
+- Public auxiliary-video availability and duration match: 40/40.
+- Official-race companion subset: 20/20.
 - Public asset audit: 11 core assets, 123 decoded images, 77 transcript chunks.
 - Chapter, editorial, driver, result, awards, language, source, and asset audit
   errors: zero.

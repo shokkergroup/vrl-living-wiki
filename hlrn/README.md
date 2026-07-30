@@ -103,7 +103,8 @@ HLRN-authored companion.
 
 The public compiler currently passes:
 
-- channel-shelf identity/order and official-companion availability audits;
+- channel-shelf identity/order, all-auxiliary availability/duration, and
+  official-companion audits;
 - result-evidence audit;
 - primary-chapter chronology, source, uniqueness, and caption-alignment audit;
 - Highline Central editorial audit;
