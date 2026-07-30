@@ -120,6 +120,11 @@ Each bonus file retains original playback, stable ID, metadata, tape heat,
 driver discovery, and timed transcript search where available. Research
 moments stay backstage until reviewed.
 
+The three incomplete files remain a fourth, narrower lane: **Archive
+Fragments**. Their detail pages return to the Source Ledger, say partial tape is
+preserved rather than promoted, and cannot identify themselves as complete
+Highline Live races.
+
 ## Top 25 awards
 
 Nine boards expose their eligibility rule, boundary, component weights, raw
@@ -167,10 +172,11 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - HLRN route families: 40.
 - VRL reference route families: 36.
 - Explore tools: 26.
-- Desktop/mobile route and workflow scenarios: 64.
+- Desktop/mobile route and workflow scenarios: 66.
 - All-driver routes: 226/226.
 - All-Central routes: 20/20.
 - All-Highline-Live routes: 29/29.
+- All-archive-fragment routes: 3/3.
 - Full-broadcast chapters: 351.
 - Tape-reviewed navigation chapters: 117.
 - Caption-aligned bounded navigation chapters: 209.

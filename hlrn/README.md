@@ -73,6 +73,10 @@ remain explicitly barred from becoming inferred starts or results. The
 Visual Garage filters published frames by graphic-confirmed,
 live-call-matched, and source-context evidence.
 
+Open Records separately lists the 29 transcript-normalized spellings that still
+need an owner roster, lower third, or self-identification before the identity
+can be treated as closed canon.
+
 Award breadth is stricter than dossier discovery: a file contributes to a
 ranking only after two in-file identity signals or an accepted result. A
 single grid call keeps the dossier accurate but adds zero resume points.
@@ -109,8 +113,8 @@ The public compiler currently passes:
 - public-language audit over 4,156 authored fields / 89,428 words;
 - public-asset audit over 11 core assets, 123 decoded images, and 77 transcript
   chunks;
-- 64 desktop/mobile route and workflow scenarios, plus every driver, Central,
-  and Highline Live detail route.
+- 66 desktop/mobile route and workflow scenarios, plus every driver, Central,
+  Highline Live, and archive-fragment detail route.
 
 ## Local preview
 
