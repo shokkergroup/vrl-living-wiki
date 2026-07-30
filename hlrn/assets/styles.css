@@ -3513,6 +3513,11 @@ a.record-row {
     linear-gradient(145deg, rgba(13,35,52,.9), rgba(5,17,27,.96));
 }
 
+.audit-gate-grid article:last-child {
+  min-height: 215px;
+  grid-column: 1 / -1;
+}
+
 .audit-gate-grid article.pass {
   border-color: rgba(71,255,177,.34);
 }
@@ -3612,6 +3617,10 @@ a.record-row {
   .audit-gate-grid article:first-child {
     grid-row: auto;
     min-height: 300px;
+  }
+
+  .audit-gate-grid article:last-child {
+    grid-column: auto;
   }
 
   .audit-gate-grid article:first-child h2 {
