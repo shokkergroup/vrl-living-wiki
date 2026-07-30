@@ -734,7 +734,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-16";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-17";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);
@@ -1421,7 +1421,7 @@
         id: "00",
         label: "SOURCE SNAPSHOT",
         passed: records.channelSnapshotAuditPassed && records.channelSnapshotAuditErrorCount === 0 && records.channelSnapshotCurrentCount === records.sourceCount && records.companionSnapshotAuditPassed && records.companionSnapshotAuditErrorCount === 0 && records.companionSnapshotCurrentCount === records.companionSnapshotExpectedCount && records.auxiliarySnapshotAuditPassed && records.auxiliarySnapshotAuditErrorCount === 0 && records.auxiliarySnapshotCurrentCount === records.auxiliarySnapshotExpectedCount,
-        headline: records.channelSnapshotCurrentCount + " STREAMS + " + records.auxiliarySnapshotCurrentCount + " AUXILIARY FILES",
+        headline: records.channelSnapshotCurrentCount + " STREAMS / " + records.auxiliarySnapshotCurrentCount + " AUXILIARY",
         detail: "52 / 52 livestream shelf IDs match in count, identity, and order · 40 / 40 public auxiliary videos are currently reachable with saved durations intact · 20 / 20 are official-race companions · latest file " + DATA.meta.latestOfficialId,
         route: "#/sources",
       },
