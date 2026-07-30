@@ -28,7 +28,7 @@ The public, source-linked living archive of the
 - 83 editor-reviewed Central / `The Show` receipts with 83 unique titles
 - 20 complete recovered podiums / 60 accepted position cells
 - 20 Highline Central editions / 12,148 public editorial words
-- 9 explainable Top 25 boards / 1,581 playable board receipts
+- 9 explainable Top 25 boards / 1,585 playable board receipts
 - 424 machine-surfaced research candidates quarantined from public editorial
 - 7 passing public trust gates: channel snapshot, results, primary race cuts,
   Central, drivers, awards, and public language
@@ -72,6 +72,10 @@ source footprint now includes one-call grid entrants so a dossier never says
 remain explicitly barred from becoming inferred starts or results. The
 Visual Garage filters published frames by graphic-confirmed,
 live-call-matched, and source-context evidence.
+
+Award breadth is stricter than dossier discovery: a file contributes to a
+ranking only after two in-file identity signals or an accepted result. A
+single grid call keeps the dossier accurate but adds zero resume points.
 
 The expanded experience includes a **Results Room**, **Winner’s Garage**,
 **Visual Garage**, **Photo Desk**, **Driver Compare**, reviewed-only

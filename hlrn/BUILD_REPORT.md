@@ -126,10 +126,12 @@ Nine boards expose their eligibility rule, boundary, component weights, raw
 values, category maximums, weighted points, and playable source receipts.
 
 - 212 total board entries.
-- 1,581 playable receipts.
+- 1,585 playable receipts.
 - Every formula recomputes to exactly 100 weight.
 - Rankings are rechecked for order, ties, entry counts, driver IDs, source IDs,
   receipt windows, and component arithmetic.
+- File-breadth components require two in-file identity signals unless an
+  accepted result anchors the file; single-call grid appearances score zero.
 - Eight boards publish 25 files. Versatile Winners stops at the supported
   winner pool rather than padding the board with zero-result names.
 - Driver dossiers carry their complete cross-board award resume.
@@ -174,7 +176,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - Caption-aligned bounded navigation chapters: 209.
 - Accepted podium cells: 60/60.
 - Driver dossiers / unique source frames: 226 / 100.
-- Top 25 boards / playable receipts: 9 / 1,581.
+- Top 25 boards / playable receipts: 9 / 1,585.
 - Official races with 15–20 primary chapters: 20/20.
 - Primary result receipts synchronized to chapters: 13/13.
 - Public source shelf match: 52/52.
