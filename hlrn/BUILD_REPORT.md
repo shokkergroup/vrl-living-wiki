@@ -60,9 +60,12 @@ mismatches.
 - Trevor Haley retains the channel-supported Season 1 championship state and
   the finale DQ in the same file.
 - 226 identities resolve to full public dossiers.
-- The dossier corpus contains 44,013 words; the smallest file is 179 words.
+- The dossier corpus contains 44,286 words; the smallest file is 179 words.
 - Every dossier exposes at least one exact name-call receipt; the 439 published
   receipts all reproduce the underlying timestamped transcript line.
+- Single-call official grid entrants retain their source file in the public
+  footprint, while the dossier language explicitly refuses to turn that
+  appearance into a start, finish, points value, or performance claim.
 - Every dossier has three career paragraphs, five evidence cells, at least two
   open-record boundaries, a primary-tape reel where available, result form,
   Central clippings, awards resume, track fingerprint, and source index.
@@ -123,7 +126,7 @@ Nine boards expose their eligibility rule, boundary, component weights, raw
 values, category maximums, weighted points, and playable source receipts.
 
 - 212 total board entries.
-- 1,585 playable receipts.
+- 1,581 playable receipts.
 - Every formula recomputes to exactly 100 weight.
 - Rankings are rechecked for order, ties, entry counts, driver IDs, source IDs,
   receipt windows, and component arithmetic.
@@ -143,7 +146,7 @@ The Trust Audit Board exposes seven passing release gates:
 6. Top 25 awards;
 7. public language.
 
-The public-language gate scans 4,156 authored fields / 89,155 words. It rejects
+The public-language gate scans 4,156 authored fields / 89,428 words. It rejects
 the original generic `Closing signal` pattern, the Trevor white-flag template,
 research-state language, unresolved program values, malformed encoding,
 accidental repeated words, and duplicated authored blocks.
@@ -171,7 +174,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - Caption-aligned bounded navigation chapters: 209.
 - Accepted podium cells: 60/60.
 - Driver dossiers / unique source frames: 226 / 100.
-- Top 25 boards / playable receipts: 9 / 1,585.
+- Top 25 boards / playable receipts: 9 / 1,581.
 - Official races with 15–20 primary chapters: 20/20.
 - Primary result receipts synchronized to chapters: 13/13.
 - Public source shelf match: 52/52.

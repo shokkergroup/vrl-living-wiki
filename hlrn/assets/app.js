@@ -734,7 +734,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-9";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-10";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);

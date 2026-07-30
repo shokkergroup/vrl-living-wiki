@@ -15,7 +15,7 @@ The public, source-linked living archive of the
 - 20/20 HLRN-authored official-race companions mapped and independently
   rechecked for current reachability
 - 226 normalized, evidence-tiered driver dossiers
-- 44,013 public driver-dossier words, with a 179-word minimum file
+- 44,286 public driver-dossier words, with a 179-word minimum file
 - 439 exact, transcript-reproduced name-call receipts across all 226 dossiers
 - 100 unique 1280×720 source frames across driver dossiers; 126 honest
   monogram fallbacks
@@ -28,7 +28,7 @@ The public, source-linked living archive of the
 - 83 editor-reviewed Central / `The Show` receipts with 83 unique titles
 - 20 complete recovered podiums / 60 accepted position cells
 - 20 Highline Central editions / 12,148 public editorial words
-- 9 explainable Top 25 boards / 1,585 playable board receipts
+- 9 explainable Top 25 boards / 1,581 playable board receipts
 - 424 machine-surfaced research candidates quarantined from public editorial
 - 7 passing public trust gates: channel snapshot, results, primary race cuts,
   Central, drivers, awards, and public language
@@ -67,6 +67,9 @@ receipts, primary-tape reel, Central clippings, Top 25 resume, track
 fingerprint, and source index. Each file also publishes its earliest and, when
 available, latest indexed name call as an exact playable caption receipt; all
 439 receipts reproduce the underlying transcript at the cited second. The
+source footprint now includes one-call grid entrants so a dossier never says
+“0 official files” beside its own official playable receipt; those appearances
+remain explicitly barred from becoming inferred starts or results. The
 Visual Garage filters published frames by graphic-confirmed,
 live-call-matched, and source-context evidence.
 
@@ -99,7 +102,7 @@ The public compiler currently passes:
 - all-driver dossier, result-receipt, name-provenance, transcript-reproduction,
   and unique-image-hash audit;
 - all-board Top 25 formula and playable-receipt audit;
-- public-language audit over 4,156 authored fields / 89,155 words;
+- public-language audit over 4,156 authored fields / 89,428 words;
 - public-asset audit over 11 core assets, 123 decoded images, and 77 transcript
   chunks;
 - 64 desktop/mobile route and workflow scenarios, plus every driver, Central,
