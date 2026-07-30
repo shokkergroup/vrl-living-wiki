@@ -116,7 +116,9 @@ The public compiler currently passes:
   chunks;
 - 66 desktop/mobile route and workflow scenarios, plus every driver, Central,
   Highline Live, and archive-fragment detail route; every rendered form
-  control must expose an accessible name.
+  control must expose an accessible name;
+- a recursive internal-link graph of 1,064 reachable routes across all 40
+  route families, including 706 race and exact-time deep links.
 
 ## Local preview
 

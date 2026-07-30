@@ -1473,9 +1473,17 @@
         detail: Number(records.publicLanguageAuditedWordCount || 0).toLocaleString() + " audited words · zero rejected generic headlines, duplicate authored blocks, or malformed encoding",
         route: "#/methodology",
       },
+      {
+        id: "07",
+        label: "ROUTE GRAPH",
+        passed: records.routeGraphAuditPassed && records.routeGraphAuditErrorCount === 0 && records.routeGraphRouteCount >= 1000,
+        headline: Number(records.routeGraphRouteCount || 0).toLocaleString() + " REACHABLE ROUTES",
+        detail: records.routeGraphFamilyCount + " route families · every discovered in-wiki link resolved to a real HLRN view with zero duplicate DOM IDs or runtime errors",
+        route: "#/explore",
+      },
     ];
     var passed = gates.filter(function (gate) { return gate.passed; }).length;
-    app.innerHTML = '<div class="audit-board-page">' + pageHead("TRUST AUDIT BOARD / RELEASE EVIDENCE", "SEVEN GATES.<br><em>ZERO HAND WAVES.</em>", "The public compiler carries independent gates for the channel shelf, results, race playback, reporting, driver dossiers, rankings, and the language wrapped around every one of them.", [
+    app.innerHTML = '<div class="audit-board-page">' + pageHead("TRUST AUDIT BOARD / RELEASE EVIDENCE", "EIGHT GATES.<br><em>ZERO HAND WAVES.</em>", "The public compiler carries independent gates for the channel shelf, results, race playback, reporting, driver dossiers, rankings, public language, and the complete internal route graph.", [
       [passed + " / " + gates.length, "GATES PASSING"], [records.resultReceiptWindowCount, "RESULT WINDOWS"], [Number(records.awardPlayableReceiptCount || 0).toLocaleString(), "AWARD RECEIPTS"],
     ]) + '<div class="wrap"><section class="audit-gate-grid">' + gates.map(function (gate) {
       return '<article class="' + (gate.passed ? "pass" : "fail") + '"><header><b>' + gate.id + '</b><span>' + esc(gate.label) + '</span><strong>' + (gate.passed ? "PASS" : "REVIEW") + '</strong></header><h2>' + esc(gate.headline) + '</h2><p>' + esc(gate.detail) + '</p><a href="' + gate.route + '">INSPECT THE PUBLIC EVIDENCE →</a></article>';

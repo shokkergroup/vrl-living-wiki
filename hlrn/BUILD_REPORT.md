@@ -144,7 +144,7 @@ values, category maximums, weighted points, and playable source receipts.
 
 ## Public trust and language
 
-The Trust Audit Board exposes seven passing release gates:
+The Trust Audit Board exposes eight passing release gates:
 
 1. channel snapshot;
 2. result evidence;
@@ -153,6 +153,7 @@ The Trust Audit Board exposes seven passing release gates:
 5. driver dossiers;
 6. Top 25 awards;
 7. public language.
+8. the complete internal route graph.
 
 The public-language gate scans 4,156 authored fields / 89,428 words. It rejects
 the original generic `Closing signal` pattern, the Trevor white-flag template,
@@ -174,6 +175,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - VRL reference route families: 36.
 - Explore tools: 26.
 - Desktop/mobile route and workflow scenarios: 66.
+- Reachable internal route graph: 1,064 routes across 40 families.
 - All-driver routes: 226/226.
 - All-Central routes: 20/20.
 - All-Highline-Live routes: 29/29.
