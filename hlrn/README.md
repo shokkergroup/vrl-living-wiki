@@ -115,7 +115,8 @@ The public compiler currently passes:
 - public-asset audit over 11 core assets, 123 decoded images, and 77 transcript
   chunks;
 - 66 desktop/mobile route and workflow scenarios, plus every driver, Central,
-  Highline Live, and archive-fragment detail route.
+  Highline Live, and archive-fragment detail route; every rendered form
+  control must expose an accessible name.
 
 ## Local preview
 

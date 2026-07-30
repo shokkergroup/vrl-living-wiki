@@ -195,6 +195,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
   errors: zero.
 - Cross-source broadcast chapters: zero.
 - Browser errors and overflow failures: zero.
+- Unnamed buttons and form controls across audited routes: zero.
 - Machine candidates in public editorial: zero.
 - Unsupported complete results published: zero.
 
