@@ -7719,13 +7719,13 @@ body.highline-open::after {
 .unknown-board {
   display: grid;
   margin-top: 46px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
 .unknown-board article {
   display: flex;
-  min-height: 480px;
+  min-height: 390px;
   padding: 24px;
   border: 1px dashed rgba(255,200,87,.32);
   flex-direction: column;
