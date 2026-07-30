@@ -178,6 +178,7 @@ returns exact in-wiki race cuts instead of only caption snippets.
 - All-Highline-Live routes: 29/29.
 - All-archive-fragment routes: 3/3.
 - Full-broadcast chapters: 351.
+- Chapter playback windows: 28-167 seconds, 84.5-second average.
 - Tape-reviewed navigation chapters: 117.
 - Caption-aligned bounded navigation chapters: 209.
 - Accepted podium cells: 60/60.

@@ -734,7 +734,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-17";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-18";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);
@@ -1438,7 +1438,7 @@
         label: "PRIMARY RACE CUTS",
         passed: records.chapterQualityAuditPassed && records.chapterQualityErrorCount === 0 && records.chapterDuplicateSummaryCount === 0,
         headline: records.broadcastChapterCount + " PLAYABLE CHAPTERS",
-        detail: records.chapterReviewedOpeningGreenCount + " / 20 opening greens and " + records.chapterReviewedRaceCloseCount + " / 20 live-race closes reviewed · " + records.editorReviewedNavigationChapterCount + " chapter cues individually tape-corrected · " + records.transcriptAlignedNavigationChapterCount + " additional cues alias-aligned to local primary captions · " + records.postraceChapterCount + " recap cues labeled post-race · zero duplicated summaries",
+        detail: records.minimumChapterDurationSeconds + "–" + records.maximumChapterDurationSeconds + " second playback windows / " + records.averageChapterDurationSeconds + " second average · " + records.chapterReviewedOpeningGreenCount + " / 20 opening greens and " + records.chapterReviewedRaceCloseCount + " / 20 live-race closes reviewed · " + records.editorReviewedNavigationChapterCount + " chapter cues individually tape-corrected · " + records.transcriptAlignedNavigationChapterCount + " additional cues alias-aligned to local primary captions · " + records.postraceChapterCount + " recap cues labeled post-race · zero duplicated summaries",
         route: "#/watch",
       },
       {
