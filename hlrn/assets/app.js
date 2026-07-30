@@ -25,6 +25,9 @@
   var sourceMap = Object.fromEntries(DATA.sources.map(function (item) { return [item.id, item]; }));
   var driverMap = Object.fromEntries(DATA.drivers.map(function (item) { return [item.id, item]; }));
   var momentMap = Object.fromEntries(DATA.moments.map(function (item) { return [item.id, item]; }));
+  var chapterMap = Object.fromEntries(DATA.sources.flatMap(function (source) {
+    return (source.chapters || []).map(function (chapter) { return [chapter.id, chapter]; });
+  }));
   var seasonMap = Object.fromEntries(DATA.seasons.map(function (item) { return [String(item.number), item]; }));
   var publicationMap = Object.fromEntries((DATA.publications || []).map(function (item) { return [item.id, item]; }));
   var loadedTranscripts = {};
@@ -129,7 +132,11 @@
       '<p>' + esc(source.track) + " · " + esc(source.kind) + "</p>" +
       heatBar(source, true) +
       '<footer><span>' + Number(source.views || 0).toLocaleString() + ' views</span><span>' +
-      ((source.moments || []).length ? (source.moments || []).length + " reviewed cuts" : "source-first file") + "</span></footer></div></article>";
+      ((source.chapters || []).length
+        ? (source.chapters || []).length + " broadcast chapters"
+        : (source.moments || []).length
+        ? (source.moments || []).length + " reviewed receipts"
+        : "source-first file") + "</span></footer></div></article>";
   }
 
   function momentCard(moment, compactMode) {
@@ -145,6 +152,46 @@
       (driverLinks ? '<div class="driver-chips">' + driverLinks + "</div>" : "") +
       '<footer><div class="moment-actions"><a href="#/race/' + esc(moment.raceId || moment.sourceId) + '">OPEN RACE DEEP DIVE</a><button onclick="__queueMoment(\'' + esc(moment.id) + '\')">' +
       (state.replayIds.indexOf(moment.id) >= 0 ? "IN REPLAY" : "+ REPLAY") + '</button><button onclick="__shareMoment(\'' + esc(moment.id) + '\')">SHARE</button></div><span class="review-state editor-reviewed">EDITOR REVIEWED</span></footer></div></article>';
+  }
+
+  function broadcastChapterCard(source, chapter, index) {
+    var driverLinks = (chapter.drivers || []).slice(0, 4).map(function (id) {
+      var driver = driverMap[id];
+      return driver ? '<a href="#/driver/' + esc(id) + '">' + esc(driver.name) + "</a>" : "";
+    }).filter(Boolean).join("");
+    var duration = Math.max(0, Number(chapter.end || 0) - Number(chapter.t || 0));
+    return '<article class="broadcast-chapter ' + esc(chapter.category) + '" data-chapter-index="' + index + '">' +
+      '<button class="chapter-hit" onclick="__playRaceChapter(\'' + esc(source.id) + '\',' + index + ')">' +
+      '<header><b>' + String(chapter.order || index + 1).padStart(2, "0") + '</b><span>' + esc(String(chapter.category || "chapter").toUpperCase()) + '</span><time>' + fmtTime(chapter.t) + '</time></header>' +
+      '<div class="chapter-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>' +
+      '<h3>' + esc(chapter.title) + '</h3><p>' + esc(chapter.summary) + '</p>' +
+      '<footer><strong>PLAY PRIMARY BROADCAST</strong><span>' + fmtTime(chapter.t) + '–' + fmtTime(chapter.end) + ' / ' + fmtTime(duration) + ' CUT</span></footer></button>' +
+      (driverLinks ? '<div class="chapter-drivers"><span>ON THE CALL</span>' + driverLinks + '</div>' : '') +
+      '</article>';
+  }
+
+  function broadcastTheater(source, chapters, timestamp) {
+    if (!chapters.length) return "";
+    var start = Math.max(0, Number(timestamp) || 0);
+    var activeIndex = chapters.findIndex(function (chapter) {
+      return start >= chapter.t && start <= chapter.end;
+    });
+    var active = activeIndex >= 0 ? chapters[activeIndex] : null;
+    var label = active ? active.title : "Full race broadcast";
+    var youtube = "https://www.youtube.com/watch?v=" + encodeURIComponent(source.id) + "&t=" + Math.floor(start) + "s";
+    return '<section class="broadcast-theater" id="racePlayer" data-source-id="' + esc(source.id) + '" data-active-index="' + activeIndex + '">' +
+      '<header><div><span>HIGHLINE RACE CONTROL / PRIMARY BROADCAST</span><h2>CLICK A CHAPTER. THE RACE JUMPS THERE.</h2></div><aside><b>' + chapters.length + '</b><span>DIRECT RACE CUTS</span></aside></header>' +
+      '<div class="broadcast-screen"><iframe id="raceBroadcastFrame" src="https://www.youtube-nocookie.com/embed/' + esc(source.id) + '?rel=0&start=' + Math.floor(start) + '" title="' + esc(sourceTitle(source)) + '" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><div class="broadcast-bug"><span>NOW CUED / <b id="raceNowTime">' + fmtTime(start) + '</b></span><strong id="raceNowTitle">' + esc(label) + '</strong></div></div>' +
+      '<footer><div><span>EXACT SOURCE</span><b>' + esc(source.id) + ' / ' + esc(source.name) + '</b></div><div class="broadcast-controls"><button id="racePrevChapter" onclick="__stepRaceChapter(\'' + esc(source.id) + '\',-1)">PREV CUT</button><button id="raceNextChapter" onclick="__stepRaceChapter(\'' + esc(source.id) + '\',1)">NEXT CUT</button><a id="raceExactLink" href="' + youtube + '" target="_blank" rel="noopener">OPEN EXACT TIME ON YOUTUBE</a></div></footer>' +
+      '<div class="broadcast-progress"><i id="raceNowProgress" style="width:' + Math.min(100, start / Math.max(1, source.duration) * 100) + '%"></i></div></section>';
+  }
+
+  function broadcastChapterBoard(source, chapters) {
+    if (!chapters.length) return "";
+    return '<section class="broadcast-chapter-board"><div class="section-title"><div><span>THE FULL RACE / PRIMARY TAPE ONLY</span><h2>' + chapters.length + ' WAYS BACK INTO THIS BROADCAST</h2></div><p>Every card seeks the full HLRN race upload—not The Show, not a detached recap.</p></div>' +
+      '<div class="chapter-key"><span class="restart">GREEN / RESTART</span><span class="stage">STAGE</span><span class="incident">INCIDENT</span><span class="battle">BATTLE</span><span class="strategy">STRATEGY</span><span class="finish">FINISH</span><span class="interview">BOOTH</span></div>' +
+      '<div class="broadcast-chapter-grid">' + chapters.map(function (chapter, index) { return broadcastChapterCard(source, chapter, index); }).join("") + '</div>' +
+      '<aside class="chapter-boundary"><b>PRIMARY-SOURCE CONTRACT</b><p>All ' + chapters.length + ' chapter buttons use source <code>' + esc(source.id) + '</code>. The Central and The Show receipts remain below as a separate editorial layer.</p></aside></section>';
   }
 
   function driverCard(driver) {
@@ -436,6 +483,19 @@
         notebook: issue.notebook,
         limitations: issue.limitations,
       } : null,
+      broadcastChapters: (source.chapters || []).map(function (chapter) {
+        return {
+          id: chapter.id,
+          title: chapter.title,
+          summary: chapter.summary,
+          sourceId: chapter.sourceId,
+          start: chapter.t,
+          end: chapter.end,
+          category: chapter.category,
+          phase: chapter.phase,
+          reviewStatus: chapter.reviewStatus,
+        };
+      }),
       reviewedCuts: (source.moments || []).map(function (moment) {
         return {
           id: moment.id,
@@ -453,6 +513,50 @@
     };
     downloadText("hlrn-" + id + "-source-pack.json", JSON.stringify(pack, null, 2));
     toast("Race source pack prepared");
+  };
+
+  window.__cueRaceBroadcast = function (id, timestamp, title, end, index, shouldScroll) {
+    var source = sourceMap[id];
+    var theater = document.getElementById("racePlayer");
+    var frame = document.getElementById("raceBroadcastFrame");
+    if (!source || !theater || !frame) return window.__play(id, timestamp, title, end);
+    var start = Math.max(0, Number(timestamp) || 0);
+    var stop = Math.max(start + 1, Number(end) || 0);
+    var chapterIndex = Number.isFinite(Number(index)) ? Number(index) : -1;
+    var label = title || "Full race broadcast";
+    frame.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0&start=" + Math.floor(start) + (stop > start ? "&end=" + Math.floor(stop) : "");
+    var timeNode = document.getElementById("raceNowTime");
+    var titleNode = document.getElementById("raceNowTitle");
+    var link = document.getElementById("raceExactLink");
+    var progress = document.getElementById("raceNowProgress");
+    if (timeNode) timeNode.textContent = fmtTime(start);
+    if (titleNode) titleNode.textContent = label;
+    if (link) link.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(id) + "&t=" + Math.floor(start) + "s";
+    if (progress) progress.style.width = Math.min(100, start / Math.max(1, source.duration) * 100) + "%";
+    theater.dataset.activeIndex = chapterIndex;
+    document.querySelectorAll(".broadcast-chapter").forEach(function (card) {
+      card.classList.toggle("on", Number(card.dataset.chapterIndex) === chapterIndex);
+    });
+    history.replaceState(null, "", location.pathname + location.search + "#/race/" + id + "/t/" + Math.floor(start));
+    if (shouldScroll !== false) theater.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.__playRaceChapter = function (id, index) {
+    var source = sourceMap[id];
+    var chapter = source && (source.chapters || [])[Number(index)];
+    if (!source || !chapter) return;
+    window.__cueRaceBroadcast(id, chapter.t, chapter.title, chapter.end, Number(index), true);
+  };
+
+  window.__stepRaceChapter = function (id, direction) {
+    var source = sourceMap[id];
+    var chapters = source ? source.chapters || [] : [];
+    if (!chapters.length) return;
+    var theater = document.getElementById("racePlayer");
+    var current = Number(theater && theater.dataset.activeIndex);
+    if (!Number.isFinite(current) || current < 0) current = direction > 0 ? -1 : 0;
+    var next = (current + Number(direction) + chapters.length) % chapters.length;
+    window.__playRaceChapter(id, next);
   };
 
   window.__play = function (id, timestamp, title, end) {
@@ -484,7 +588,7 @@
     if (loadedTranscripts[id]) return loadedTranscripts[id];
     loadedTranscripts[id] = new Promise(function (resolve) {
       var script = document.createElement("script");
-      script.src = "assets/tr/" + id + ".js?v=hlrn-4";
+      script.src = "assets/tr/" + id + ".js?v=hlrn-5";
       script.onload = function () { resolve(window.HLRN_TR[id] || []); };
       script.onerror = function () { resolve([]); };
       document.head.appendChild(script);
@@ -909,7 +1013,7 @@
       [DATA.sources.length, "SOURCE IDENTITIES"], [DATA.records.transcriptSources, "TIMED"], [DATA.records.fragmentCount, "FRAGMENTS RETAINED"],
     ]) + '<div class="wrap"><div class="source-table"><header><span>DATE</span><span>LANE</span><span>SOURCE</span><span>TRACK</span><span>EVIDENCE</span><span>RESULTS</span></header>' +
       chronological.map(function (source) {
-        return '<a href="#/race/' + source.id + '"><time>' + esc(source.date || "UNKNOWN") + "</time><span class=\"table-lane " + source.lane + '">' + esc(laneLabel(source.lane)) + "</span><b>" + esc(sourceTitle(source)) + "</b><span>" + esc(source.track) + "</span><span>" + esc(source.transcriptStatus) + " / " + source.moments.length + " reviewed cuts</span><span>" + esc(source.result.status) + "</span></a>";
+        return '<a href="#/race/' + source.id + '"><time>' + esc(source.date || "UNKNOWN") + "</time><span class=\"table-lane " + source.lane + '">' + esc(laneLabel(source.lane)) + "</span><b>" + esc(sourceTitle(source)) + "</b><span>" + esc(source.track) + "</span><span>" + esc(source.transcriptStatus) + " / " + (source.chapters || []).length + " race chapters / " + source.moments.length + " story receipts</span><span>" + esc(source.result.status) + "</span></a>";
       }).join("") + "</div>" + evidenceNote("SOURCE AVAILABILITY IS PART OF THE RECORD.", "If a video is later removed, the stable source identity remains as a tombstone with its known metadata and prior receipts. Removed tape is never silently repointed to another upload.") + "</div></div>";
   }
 
@@ -1408,27 +1512,46 @@
     var source = sourceMap[id];
     if (!source) return home();
     var moments = source.moments || [];
+    var chapters = source.chapters || [];
     var result = source.result || {};
     var issue = publicationMap[id];
-    var driverIds = Array.from(new Set(moments.flatMap(function (item) { return item.drivers || []; })));
+    var driverIds = Array.from(new Set(
+      moments.concat(chapters).flatMap(function (item) { return item.drivers || []; })
+    ));
     var drivers = driverIds.map(function (driverId) { return driverMap[driverId]; }).filter(Boolean);
     var heroImage = issue && issue.image ? issue.image.file : source.thumb;
     var acts = ["opening", "middle", "closing"];
-    app.innerHTML = '<article class="race-page deep-dive"><section class="race-hero"><div class="race-hero-bg" style="background-image:url(\'' + esc(heroImage) + '\')"></div><div class="wrap"><div class="race-crumb"><a href="' + (source.lane === "official" ? "#/season/" + source.season : "#/highline-live") + '">' + esc(laneLabel(source.lane)) + "</a><span>/</span>" + esc(source.name) + "</div><div class=\"race-title\">" + laneBadge(source) + '<span class="race-file-label">' + (source.lane === "official" ? "OFFICIAL RACE DEEP DIVE" : "HIGHLINE LIVE SOURCE FILE") + '</span><h1>' + esc(issue ? issue.headline : source.name) + "</h1><p>" + esc(source.track) + " · " + esc(fmtDate(source.date)) + " · " + fmtDuration(source.duration) + '</p><div><button class="button hot" onclick="__play(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(sourceTitle(source)) + '\')">▶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH FROM START") + '</button><a class="button glass" href="' + esc(source.url) + '" target="_blank" rel="noopener">YOUTUBE SOURCE ↗</a>' + (issue ? '<a class="button glass" href="#/central/' + source.id + '">READ CENTRAL EDITION</a>' : '') + '<button class="button glass" onclick="__shareRace(\'' + source.id + '\')">SHARE FILE</button><button class="button glass" onclick="__downloadRacePack(\'' + source.id + '\')">SOURCE PACK ↓</button></div></div><aside>' + heatBar(source) + '<div><b>' + source.moments.length + "</b><span>REVIEWED CUTS</span></div><div><b>" + source.transcriptLines.toLocaleString() + "</b><span>TIMED SEGMENTS</span></div></aside></div></section>" +
+    var primaryPlay = source.lane === "official" && chapters.length
+      ? '<button class="button hot" onclick="__cueRaceBroadcast(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(timestamp ? "Exact race source" : "Full race broadcast") + '\',0,-1,true)">▶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH THE BROADCAST") + '</button>'
+      : '<button class="button hot" onclick="__play(\'' + source.id + '\',' + (timestamp || 0) + ',\'' + esc(sourceTitle(source)) + '\')">▶ ' + (timestamp ? "PLAY AT " + fmtTime(timestamp) : "WATCH FROM START") + '</button>';
+    app.innerHTML = '<article class="race-page deep-dive"><section class="race-hero"><div class="race-hero-bg" style="background-image:url(\'' + esc(heroImage) + '\')"></div><div class="wrap"><div class="race-crumb"><a href="' + (source.lane === "official" ? "#/season/" + source.season : "#/highline-live") + '">' + esc(laneLabel(source.lane)) + "</a><span>/</span>" + esc(source.name) + "</div><div class=\"race-title\">" + laneBadge(source) + '<span class="race-file-label">' + (source.lane === "official" ? "OFFICIAL RACE DEEP DIVE" : "HIGHLINE LIVE SOURCE FILE") + '</span><h1>' + esc(issue ? issue.headline : source.name) + "</h1><p>" + esc(source.track) + " · " + esc(fmtDate(source.date)) + " · " + fmtDuration(source.duration) + '</p><div>' + primaryPlay + '<a class="button glass" href="' + esc(source.url) + '" target="_blank" rel="noopener">YOUTUBE SOURCE ↗</a>' + (issue ? '<a class="button glass" href="#/central/' + source.id + '">READ CENTRAL EDITION</a>' : '') + '<button class="button glass" onclick="__shareRace(\'' + source.id + '\')">SHARE FILE</button><button class="button glass" onclick="__downloadRacePack(\'' + source.id + '\')">SOURCE PACK ↓</button></div></div><aside>' + heatBar(source) + '<div><b>' + chapters.length + "</b><span>RACE CHAPTERS</span></div><div><b>" + source.transcriptLines.toLocaleString() + "</b><span>TIMED SEGMENTS</span></div></aside></div></section>" +
       '<section class="race-facts"><div class="wrap"><div><span>LANE</span><b>' + esc(laneLabel(source.lane)) + "</b></div><div><span>TRACK</span><b>" + esc(source.track) + "</b></div><div><span>FILE</span><b>" + (source.lane === "official" ? "S" + source.season + " / R" + source.race : esc(source.kind)) + "</b></div><div><span>RESULT</span><b>" + esc(result.status || "unknown") + "</b></div><div><span>TRANSCRIPT</span><b>" + esc(source.transcriptStatus) + "</b></div></div></section>" +
-      '<section class="evidence-tower"><div class="wrap"><article class="done"><b>01</b><span>PRIMARY RACE TAPE</span><strong>' + source.transcriptLines.toLocaleString() + ' TIMED SEGMENTS</strong></article><article class="' + (source.companion ? "done" : "") + '"><b>02</b><span>HLRN COMPANION</span><strong>' + (source.companion ? "MATCHED" : "NOT FOUND") + '</strong></article><article class="' + (issue ? "done" : "") + '"><b>03</b><span>EDITORIAL REVIEW</span><strong>' + (issue ? moments.length + " BOUNDED CUTS" : source.candidateCount + " CANDIDATES QUARANTINED") + '</strong></article><article class="' + (result.status !== "unknown" ? "done" : "") + '"><b>04</b><span>RESULT RECEIPT</span><strong>' + esc(String(result.status || "unknown").toUpperCase()) + '</strong></article></div></section>' +
+      '<section class="evidence-tower"><div class="wrap"><article class="' + (chapters.length ? "done" : "") + '"><b>01</b><span>PRIMARY RACE TAPE</span><strong>' + (chapters.length ? chapters.length + " DIRECT CHAPTERS" : source.transcriptLines.toLocaleString() + " TIMED SEGMENTS") + '</strong></article><article class="' + (source.companion ? "done" : "") + '"><b>02</b><span>HLRN COMPANION</span><strong>' + (source.companion ? "MATCHED / SEPARATE" : "NOT FOUND") + '</strong></article><article class="' + (issue ? "done" : "") + '"><b>03</b><span>CENTRAL / THE SHOW</span><strong>' + (issue ? moments.length + " STORY RECEIPTS" : source.candidateCount + " CANDIDATES QUARANTINED") + '</strong></article><article class="' + (result.status !== "unknown" ? "done" : "") + '"><b>04</b><span>RESULT RECEIPT</span><strong>' + esc(String(result.status || "unknown").toUpperCase()) + '</strong></article></div></section>' +
       '<div class="wrap race-layout"><main>' +
+      broadcastTheater(source, chapters, timestamp) +
+      broadcastChapterBoard(source, chapters) +
       (issue ? '<section class="race-recap authored"><span>HIGHLINE CENTRAL RACE READ</span><h2>' + esc(issue.headline) + '</h2><p class="race-deck">' + esc(issue.deck) + '</p>' + issue.lead.map(function (paragraph) { return '<p>' + esc(paragraph) + '</p>'; }).join("") + '<a href="#/central/' + source.id + '">READ THE NEWSPAPER EDITION →</a></section>' : '<section class="race-recap"><span>HIGHLINE LIVE / SOURCE-FIRST FILE</span><h2>THE BONUS RACE REMAINS FULLY OPEN</h2><p>' + esc(source.recap) + '</p><p>' + source.candidateCount + ' automated transcript candidates were retained for research but are not published as highlights until a human review gives them unique titles, context, and boundaries.</p></section>') +
       (moments.length ? radarForSource(source) : '') +
-      (issue ? '<section class="race-three-act"><div class="section-title"><div><span>ORDERED RACE STORY</span><h2>THE NIGHT IN THREE ACTS</h2></div></div>' + acts.map(function (phase, actIndex) { var actMoments = moments.filter(function (moment) { return moment.phase === phase; }); return '<article><header><b>0' + (actIndex + 1) + '</b><div><span>' + ["OPENING", "PRESSURE", "CLOSING"][actIndex] + '</span><h3>' + ["THE BOARD IS SET", "THE RACE CHANGES SHAPE", "THE RESULT ARRIVES"][actIndex] + '</h3></div></header><div class="moment-grid">' + actMoments.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></article>'; }).join("") + '</section>' : '') +
-      '<section class="race-moments"><div class="section-title"><div><span>' + (moments.length ? "THE EDITOR'S CUT" : "SOURCE ACCESS") + '</span><h2>' + (moments.length ? "EVERY REVIEWED ENTRY POINT" : "FULL TAPE, NO FAKE HIGHLIGHTS") + '</h2></div></div>' + (moments.length ? '<div class="moment-grid">' + moments.map(function (item) { return momentCard(item, false); }).join("") + '</div>' : '<div class="empty-state">This bonus file remains playable and searchable. No machine-generated card is promoted as an editorial highlight.</div>') + "</section>" +
+      (issue ? '<section class="race-three-act"><div class="section-title"><div><span>THE SHOW / CENTRAL STORY RECEIPTS</span><h2>THE EDITORIAL COMPANION IN THREE ACTS</h2></div><p>This is the shorter HLRN-authored story layer. The full-broadcast chapter board above remains the primary race experience.</p></div>' + acts.map(function (phase, actIndex) { var actMoments = moments.filter(function (moment) { return moment.phase === phase; }); return '<article><header><b>0' + (actIndex + 1) + '</b><div><span>' + ["OPENING", "PRESSURE", "CLOSING"][actIndex] + '</span><h3>' + ["THE BOARD IS SET", "THE RACE CHANGES SHAPE", "THE RESULT ARRIVES"][actIndex] + '</h3></div></header><div class="moment-grid">' + actMoments.map(function (moment) { return momentCard(moment, false); }).join("") + '</div></article>'; }).join("") + '</section>' : '') +
+      (issue && moments.length ? '<aside class="companion-lane-note"><b>NO DUPLICATE CLIP GRID</b><p>These ' + moments.length + ' editorial receipts appear once. They may use The Show because that is where HLRN authored the race summary; the ' + chapters.length + ' race chapters above all use the primary broadcast.</p></aside>' : '') +
       '<section class="race-transcript"><div class="section-title"><div><span>DEEP TAPE SEARCH</span><h2>SCAN THIS BROADCAST</h2></div></div><div class="race-scan"><input id="raceScanInput" placeholder="Driver, phrase, incident, strategy…" onkeydown="if(event.key===\'Enter\')__scanRace(\'' + source.id + '\')"><button onclick="__scanRace(\'' + source.id + '\')">SCAN</button></div><div id="raceScanResults"><p>Search only this source and jump to the matching second.</p></div></section></main><aside>' +
       '<section class="result-bay"><span>RESULT BAY / ' + esc(String(result.status || "unknown").toUpperCase()) + "</span><h3>" + (result.winner ? esc(result.winner) : "WINNER OPEN") + "</h3><p>" + esc(result.note || "") + "</p>" + ((result.podium || []).length > 1 ? '<ol class="podium-list">' + result.podium.map(function (name, index) { return '<li><b>P' + (index + 1) + '</b><span>' + esc(name) + '</span></li>'; }).join("") + '</ol>' : '') + (result.raceStat ? '<small class="race-stat">' + esc(result.raceStat) + '</small>' : '') + (result.ruling ? '<small class="race-ruling">' + esc(result.ruling) + '</small>' : '') + (result.receipt ? '<button onclick="__play(\'' + (result.receipt.sourceId || source.id) + '\',' + result.receipt.t + ',\'Result receipt\')">▶ PLAY RESULT RECEIPT</button>' : "") + "</section>" +
       (source.companion ? '<section class="race-companion"><span>THE SHOW / CONNECTED SOURCE</span><img src="' + esc(source.companion.thumb) + '" alt=""><h3>' + esc(source.companion.title) + '</h3><p>HLRN-authored context and entertainment, separated from the primary scoring lane.</p><button onclick="__play(\'' + source.companion.id + '\',0,\'' + esc(source.companion.title) + '\')">▶ PLAY THE SHOW</button>' + (issue ? '<a href="#/central/' + source.id + '">READ CENTRAL EDITION →</a>' : '') + '</section>' : "") +
       (drivers.length ? '<section class="race-drivers"><span>DRIVERS IN REVIEWED STORY</span>' + drivers.slice(0, 18).map(function (driver) { return '<a href="#/driver/' + driver.id + '">' + esc(driver.name) + "</a>"; }).join("") + "</section>" : "") +
       '<section class="signal-components"><span>TAPE HEAT / DISCOVERY MODEL</span>' + Object.entries(source.heat.components || {}).map(function (entry) { return '<div><b>' + esc(entry[0].toUpperCase()) + '</b><i><em style="width:' + Math.min(100, entry[1] * 5) + '%"></em></i><strong>' + entry[1] + "</strong></div>"; }).join("") + '<p>This score ranks research usefulness. It does not decide the editorial story.</p></section>' +
-      '<section class="source-contract"><span>SOURCE CONTRACT</span><p>Stable ID <code>' + esc(source.id) + "</code></p><p>No race video is copied. Every cut opens HLRN's original upload or its matched companion.</p></section></aside></div></article>";
-    if (timestamp) setTimeout(function () { window.__play(source.id, timestamp, sourceTitle(source)); }, 100);
+      '<section class="source-contract"><span>SOURCE CONTRACT</span><p>Stable ID <code>' + esc(source.id) + "</code></p><p>No race video is copied. Broadcast chapters always seek this primary HLRN upload. The Show receipts are labeled and kept in their own editorial lane.</p></section></aside></div></article>";
+    if (timestamp && chapters.length) {
+      setTimeout(function () {
+        var activeIndex = chapters.findIndex(function (chapter) {
+          return timestamp >= chapter.t && timestamp <= chapter.end;
+        });
+        document.querySelectorAll(".broadcast-chapter").forEach(function (card) {
+          card.classList.toggle("on", Number(card.dataset.chapterIndex) === activeIndex);
+        });
+      }, 100);
+    } else if (timestamp) {
+      setTimeout(function () { window.__play(source.id, timestamp, sourceTitle(source)); }, 100);
+    }
   }
 
   window.__scanRace = async function (id) {

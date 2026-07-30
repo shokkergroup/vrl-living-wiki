@@ -1413,7 +1413,7 @@
         <div class="brand-mark" aria-hidden="true">SL</div>
         <div>
           <strong>SHOKKER LORE</strong>
-          <small>Interactive build wiki · v1.7</small>
+          <small>Interactive build wiki · v1.8</small>
         </div>
       </div>
 
@@ -2431,7 +2431,7 @@ product surfaces
 
         <div class="metric-row">
           <div class="metric"><strong>20/20</strong><span>official races with Central editions</span></div>
-          <div class="metric"><strong>83/83</strong><span>reviewed cuts with unique titles</span></div>
+          <div class="metric"><strong>357</strong><span>primary broadcast chapters</span></div>
           <div class="metric"><strong>424</strong><span>machine candidates kept backstage</span></div>
           <div class="metric"><strong>38</strong><span>HLRN route families after expansion</span></div>
         </div>
@@ -2516,6 +2516,12 @@ product surfaces
                 <td>Every race route must prove source, context, editorial review state, and result boundary independently.</td>
               </tr>
               <tr>
+                <td><strong>A companion receipt masqueraded as race coverage</strong></td>
+                <td>Season 2 Race 1 was a 3:05:05 primary broadcast, but its page exposed only four unique cuts from a 6:40 <em>The Show</em> companion and duplicated them into eight cards.</td>
+                <td>Separated primary <code>chapters[]</code> from editorial <code>moments[]</code>, embedded the full race, and authored 15-18 clickable primary-broadcast chapters for every official event.</td>
+                <td>Every official race must expose 15-20 uniquely titled chapters whose source ID equals the race ID; a click must seek that embedded primary broadcast.</td>
+              </tr>
+              <tr>
                 <td><strong>HLRN still trailed VRL’s interaction depth</strong></td>
                 <td>The correction initially repaired content but not the full exploratory surface.</td>
                 <td>Added Visual Garage, Photo Desk, Results Room, Compare, Battle Lines, Track Atlas, Timeline, Finish Vault, Story Paths, Race Night Mixer, Replay Builder, Lore Studio, Pulse, Evidence Ledger, Open Records, Corrections, and Result Intake.</td>
@@ -2556,7 +2562,7 @@ product surfaces
           </article>
           <article data-step="3">
             <h4>Rebuild all consumers</h4>
-            <p>Generate Highlights, Central, drivers, rankings, and race pages from the reviewed ledger instead of patching pages individually.</p>
+            <p>Generate Highlights, Central, drivers, rankings, and race pages from the reviewed ledger, while keeping dense primary-race chapters separate from companion and story receipts.</p>
           </article>
           <article data-step="4">
             <h4>Extract visual receipts</h4>
@@ -2673,9 +2679,10 @@ product surfaces
   editorial.json             # reviewed public race stories and beats
   source_frames.json         # image provenance
   audit_report.json          # contract counts and violations
+  broadcast_chapters.json    # 15-20 primary-tape cuts per official race
 
 public assets/
-  data-sources.js            # stable source and race files
+  data-sources.js            # stable sources, race files, primary chapters
   data-drivers.js            # normalized dossiers and image maps
   data-moments.js            # reviewed public cuts only
   data.js                    # seasons, rankings, Central, records
@@ -2849,7 +2856,8 @@ accepted owner result
           moment, but it does not get to write the public memory of a person,
           result, race, or season. Public memory is authored, bounded,
           source-linked, review-stated, correctable, and tested after
-          deployment.
+          deployment. A companion receipt can enrich that memory, but it can
+          never substitute for a dense chapter board from the primary race.
         </div>
       </section>
 
@@ -4154,6 +4162,14 @@ CROSS-CHECK
         </div>
 
         <div class="warning">
+          <strong>Changelog · v1.8 · July 29, 2026</strong><br>
+          Corrected the full-broadcast playback contract after Season 2 Race 1
+          exposed four unique companion-show cuts, duplicated into eight cards,
+          instead of meaningful access to its three-hour primary race. HLRN now
+          separates 357 primary-broadcast chapters from 83 editorial receipts,
+          gives every official race 15-18 direct chapters in an embedded
+          click-to-seek player, and rejects cross-source chapters or repeated
+          chapter titles in QA.<br><br>
           <strong>Changelog · v1.7 · July 29, 2026</strong><br>
           Added the complete HLRN correction case: the contaminated
           machine-to-public moment path, repeated Trevor Haley headline

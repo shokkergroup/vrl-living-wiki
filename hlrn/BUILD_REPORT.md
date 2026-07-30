@@ -1,112 +1,120 @@
-# HLRN Living Wiki — Initial Build Report
+# HLRN Living Wiki — Corrective Editorial Rebuild
 
 ## Outcome
 
-The HLRN Living Wiki is a standalone, static, evidence-first archive with the
-same durable source engine as the VRL Living Wiki and a deliberately different
-late-night broadcast-control-room identity.
+The HLRN wiki now uses the VRL Living Wiki's evidence depth rather than merely
+its navigation shape. Public highlights, driver signature reels, race stories,
+and Highline Central all come from a reviewed editorial layer.
 
 Public URL:
 https://shokkergroup.github.io/vrl-living-wiki/hlrn/
 
-GitHub Pages source:
-https://github.com/shokkergroup/vrl-living-wiki/tree/gh-pages/hlrn
-
 ## Canon compartments
 
-| Lane | Files | Competition use |
+| Lane | Files | Public treatment |
 | --- | ---: | --- |
-| HLRN Season 1 | 16 | Official |
-| HLRN Season 2 | 4 | Official; active at snapshot |
-| Highline Live | 29 | Fully covered bonus lane; excluded from official season math |
-| Fragments | 3 | Source-ledger preservation only |
+| Season 1 | 16 | Official race deep dives and Central editions |
+| Season 2 | 4 | Official race deep dives and Central editions |
+| Highline Live | 29 | Source-first bonus files; excluded from season math |
+| Fragments | 3 | Source-ledger preservation |
 
-Official canon was reconstructed from channel titles, descriptions, chronology,
-primary broadcasts, and the channel-authored `The Show` sequence. A source
-never enters a season merely because it was streamed by HLRN.
+## Corrected editorial layer
 
-## Recovered result layer
+- 20 authored Central editions.
+- 5,819 structured editorial words.
+- 357 full-broadcast chapters across the 20 official race tapes.
+- 15-18 primary-broadcast chapters on every official race.
+- 83 editor-reviewed Central / companion exact-source beats.
+- 83 unique beat titles.
+- 424 automated candidates quarantined from public editorial.
+- Zero machine-generated public highlight cards.
 
-- All 20 official winners have a position-specific broadcast or companion-show
-  receipt.
-- Ten race files include a recovered podium.
-- Season 1 champion Trevor Haley has a later HLRN channel receipt.
-- The Season 1 finale preserves the apparent Trevor Haley win, the
-  below-yellow-line post-race ruling, and David Applegate's declared victory as
-  distinct facts.
-- Full finishing orders, starts, points, and complete standings remain open
-  pending owner records.
-- Uncertain transcript spellings such as Joseph Yusnukas and Connor Papowell
-  are explicitly marked for owner confirmation.
+## Full-broadcast chapter layer
 
-## Core routes
+The race page now follows the VRL playback model instead of using a handful of
+companion excerpts as a substitute for the race:
 
-- `Watch` — mood deck, current signal, and Pack Finder
-- `Ask` — structured answers followed by lazy exact-transcript search
-- `Highlights` — exact moments, Last Lap Lottery, and Restart Stack
-- `Central` — official desk files paired with `The Show`
-- `Drivers` — normalized identity dossiers and source appearances
-- `Seasons` — official chronology, champion state, and race files
-- `Rankings` — seven explainable boards including tape-supported Winner Wire
-- `Explore` — the full HLRN interaction deck
+- the primary race video is embedded directly in the deep dive;
+- every official race has 15-18 chronological, uniquely titled chapter cards;
+- clicking a card seeks the embedded primary video to that exact timestamp;
+- each card exposes start, end, duration, phase, drivers, and a bounded call
+  excerpt from the primary transcript;
+- the URL retains the selected timestamp for sharing and recovery;
+- previous/next controls advance through the race without leaving the page;
+- Central and `The Show` receipts remain a separate editorial layer below the
+  broadcast chapters.
 
-Additional routes include Highline Live, High Line Radar, Highline Frequency,
-Records, Source Ledger, Methodology, individual race files, individual Central
-issues, driver dossiers, and season pages.
+The release contract rejects any official race with fewer than 15 or more than
+20 chapters, any repeated chapter title within a race, or any chapter whose
+source ID differs from that race's primary broadcast ID.
 
-## HLRN-only signatures
+## Results and driver depth
 
-- **Highline Central:** one race, one desk file, one connected companion source
-- **The Show shelf:** HLRN's own post-race editorial lane
-- **Race Radar:** exact moments distributed across the broadcast timeline
-- **Pack Finder:** races plotted by fight pressure and disruption pressure
-- **Highline Frequency:** recurring broadcast language with playable receipts
-- **Last Lap Lottery:** a random exact finish signal
-- **Highline Live:** the requested non-league potpourri, covered without leaking
-  into official statistics
-- **Press H:** opens a random high-line battle receipt
+- All 20 official winners retain position-specific receipts.
+- Recovered podiums are published only where the current tape supports them.
+- Trevor Haley retains the HLRN-supported Season 1 championship state.
+- 99 driver identities remain searchable.
+- 42 public dossiers currently have mapped HLRN source frames.
+- Driver pages now include career stories, result form, signature tape, Central
+  clippings, ranking resume, track fingerprint, evidence ledger, and full source
+  appearance index.
 
-## Evidence architecture
+## Highline Central
 
-- Stable YouTube source IDs
-- Original-video playback through `youtube-nocookie.com`
-- Exact-second recovery links to the HLRN upload
-- Lazy transcript shards so the initial page stays compact
-- Explicit `machine-surfaced`, `authored-receipt`, `editor-verified`, and
-  `creator-certified` evidence states
-- Unknown-safe result boundaries
-- Driver alias normalization without converting mentions into starts
-- Explainable ranking inputs; no hidden confidence points
-- A source ledger that retains partial or removed-file identities
+Central is now a newspaper-style publication with a visual identity distinct
+from both VRL and HLRN's main control-room shell. Every official race has:
 
-## Validation
+- an authored front-page headline and deck;
+- a three-paragraph lead;
+- a source-attributed hero frame;
+- an opening/pressure/closing story;
+- reviewed playback receipts;
+- a result ledger and claim limitations;
+- three notebook items;
+- a separated `The Show` After Hours column.
 
-The initial build was checked at 1440×1000 and 390×844 across 15 routes.
+## Update contract
 
-- JavaScript syntax checks passed.
-- All 20 official race files have timed primary tape and surfaced moments.
-- The complete public snapshot contains 424 exact-source moment routes and 99
-  normalized driver dossiers.
-- 15/15 route renders returned HTTP 200.
-- No route produced horizontal overflow.
-- The persistent result-receipt player opened correctly.
-- Ask returned the Season 1 champion receipt.
-- The public GitHub Pages origin rendered with no browser-console errors.
-- Public assets were republished losslessly after a live-origin check detected
-  and rejected a clipped first transfer.
+New official races must receive a Central edition before their machine
+candidates can enter Highlights or a driver signature reel. Highline Live
+sources may be added immediately as source-first files; editorial cuts remain
+optional and review-gated. Owner result sheets can fill standings, starts,
+points, and full classifications without changing stable race or driver routes.
 
-The automated report is stored at `pipeline/qa_report.json`.
+## Experience expansion
 
-## Updating the archive
+The current HLRN application is no longer limited to the corrected VRL-parity
+surface. It now includes 38 route families and 24 deep tools:
 
-1. Refresh the channel inventories.
-2. Recover captions or local ASR for new sources.
-3. Materialize timed transcript shards.
-4. Review canon changes and source overrides.
-5. Add position-specific results or owner records to `curation.json`.
-6. Mine moments and rebuild `assets/data.js`.
-7. Run the browser QA suite.
-8. Publish the verified public assets to the Pages branch.
+- Results Room, Winner’s Garage, Visual Garage, and Photo Desk;
+- Driver Compare, reviewed-only Battle Lines, Track Atlas, and Signal Timeline;
+- Finish Vault, authored Story Paths, and The Show companion universe;
+- Race Night Mixer and a persistent Replay Builder;
+- Highline Lore Studio with JSON/CSV clip-manifest export;
+- Highline Pulse as a browser-local source-delta return ritual;
+- Evidence Ledger, Open Records, Corrections Desk, and Owner Result Intake;
+- shareable exact receipts and downloadable race source packs.
 
-Owner-supplied result sheets can be added later without changing the source
-identities, routes, or editorial contract established by this build.
+These additions are HLRN-native. They use the network’s official/Highline Live
+lanes, Highline Central publication, companion-show relationship, high-line
+vocabulary, and reviewed race beats.
+
+## Verification snapshot
+
+- HLRN route families: 38.
+- VRL reference route families: 36.
+- Explore tools: 24.
+- HLRN desktop/mobile route and workflow scenarios: 47.
+- Full-broadcast chapters: 357.
+- Official races with 15-20 primary chapters: 20/20.
+- Cross-source broadcast chapters: zero.
+- Duplicate chapter titles within a race: zero.
+- Browser errors and overflow failures: zero.
+- Shokker Lore build-wiki chapters: 18.
+- Shokker Lore companion links checked: 12.
+- Machine candidates in public editorial: zero.
+- Unsupported complete results published: zero.
+
+The executable comparison and gate evidence are in
+`pipeline/feature_parity_report.json` and
+`pipeline/feature_parity_report.md`.
